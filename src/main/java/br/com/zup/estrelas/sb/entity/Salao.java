@@ -24,13 +24,7 @@ public class Salao extends Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSalao;
 
-    @Column(nullable = false)
-    private String login;
-
-    @Column(nullable = false)
-    private String senha;
-
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cnpj;
 
     @Column(nullable = false)

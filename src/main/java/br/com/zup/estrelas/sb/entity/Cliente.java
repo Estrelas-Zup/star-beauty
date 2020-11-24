@@ -1,5 +1,6 @@
 package br.com.zup.estrelas.sb.entity;
 
+import java.sql.Blob;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,11 +20,10 @@ public class Cliente extends Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCliente;
     
-    @Column(nullable = false)
-    private String cpf;
+    private Blob foto;
     
-    @Column(nullable = false)
-    private String genero;
+    @Column(nullable = false, unique = true)
+    private String cpf;
     
     @Column(name= "data_nascimento", nullable = false)
     private String dataNascimento; 
