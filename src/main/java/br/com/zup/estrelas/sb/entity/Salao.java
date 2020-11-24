@@ -1,6 +1,5 @@
 package br.com.zup.estrelas.sb.entity;
 
-import java.sql.Blob;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Salao extends Usuario {
-
-    private Blob foto;
-
+    
     @Id
     @Column(name = "id_salao")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +23,6 @@ public class Salao extends Usuario {
 
     @Column(nullable = false, unique = true)
     private String cnpj;
-
-    @Column(nullable = false)
-    private String nome;
 
     @Column(nullable = false, name = "nome_fantasia")
     private String nomeFantasia;

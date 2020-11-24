@@ -20,8 +20,6 @@ public class Cliente extends Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCliente;
     
-    private Blob foto;
-    
     @Column(nullable = false, unique = true)
     private String cpf;
     

@@ -21,8 +21,7 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idServico;
     
-    @Column(name = "id_funcionario", nullable = false)
-    private Funcionario funcionario;
+    private Funcionario funcionario; // chave estrangeira 
     
     @Column(name = "nome_servico", nullable = false)
     private String nomeServico;

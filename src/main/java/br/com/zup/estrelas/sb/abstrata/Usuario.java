@@ -1,11 +1,9 @@
 package br.com.zup.estrelas.sb.abstrata;
 
+import java.sql.Blob;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,16 +12,13 @@ import lombok.Setter;
 @Setter
 public abstract class Usuario {
 
-    @Id
-    @Column(name = "id_usuario")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
-
     @Column(nullable = false, unique = true)
     private String login;
 
     @Column(nullable = false)
     private String senha;
+    
+    private Blob foto;
 
     @Column(nullable = false)
     private String nome;

@@ -14,34 +14,33 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Funcionario {
-    
+
     @Id
     @Column(name = "id_funcionario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFuncionario;
-    
-    @Column(name = "id_salao", nullable = false)
-    private Salao salao;
-    
+
     @Column(nullable = false)
     private Blob foto;
-    
+
     @Column(nullable = false)
     private String nome;
-    
+
     @Column(nullable = false)
     private String cpf;
-    
+
     @Column(nullable = false)
     private String telefone;
-    
+
     @Column(name = "horario_almoco", nullable = false)
     private String horarioAlmoco;
-    
+
     private boolean ativo;
-    
+
+    private Salao salao; // chave Estrangeira
+
     private List<Servico> servico;
-    
+
     private List<Agendamento> agendamento;
-    
+
 }

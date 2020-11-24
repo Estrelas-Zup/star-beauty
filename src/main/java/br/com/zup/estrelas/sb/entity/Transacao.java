@@ -26,7 +26,7 @@ public class Transacao {
     @Column(name = "nome_cliente", nullable = false)
     private String nomeCliente;
 
-    @Column(name = "nome_funcionario", nullable = false)
-    private String nomeFuncionario;
+    @Column(name = "nome_salao", nullable = false)
+    private String nomeSalao;
 
 }
