@@ -31,6 +31,7 @@ public class Salao extends Usuario {
     private List<FormaPagamento> formaPagamento;
 
     // relação chave estrangeira
+    //OneToMany
     private List<Funcionario> funcionario;
 
 

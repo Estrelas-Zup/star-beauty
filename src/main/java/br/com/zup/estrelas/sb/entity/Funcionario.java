@@ -34,10 +34,13 @@ public class Funcionario {
 
     private boolean ativo;
 
+    //@ManyToOne
     private Salao salao; // chave Estrangeira
 
+    //OneToMany
     private List<Servico> servico;
 
+    //OneToMany
     private List<Agendamento> agendamento;
 
 }
