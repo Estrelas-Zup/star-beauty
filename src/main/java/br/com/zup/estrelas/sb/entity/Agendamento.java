@@ -8,12 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import br.com.zup.estrelas.sb.enums.FormaPagamento;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Getter
-@Setter
-@Entity
+@Data
+@EqualsAndHashCode
+//@Entity
 public class Agendamento {
 
     @Id
@@ -21,10 +21,13 @@ public class Agendamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAgendamento;
 
+    //ManyToOne
     private Funcionario funcionario; // chave estrangeira
 
+    //ManyToOne
     private Cliente cliente; // chave estrangeira
 
+    //ManyToOne
     private Servico servico; // chave estrangeiraS
 
     @Column(name = "nome_cliente", nullable = false)

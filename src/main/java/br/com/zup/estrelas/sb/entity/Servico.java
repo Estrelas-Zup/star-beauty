@@ -13,7 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class Servico {
     
     @Id
