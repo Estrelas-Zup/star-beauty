@@ -3,22 +3,25 @@ package br.com.zup.estrelas.sb.entity;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Data;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-//@Entity
+@Getter
+@Setter
+@Entity
 public class Funcionario {
 
     @Id
     @Column(name = "id_funcionario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFuncionario;
-
-//    @Column(nullable = false)
-//    private Blob foto;
 
     @Column(nullable = false)
     private String nome;
@@ -34,13 +37,14 @@ public class Funcionario {
 
     private boolean ativo;
 
-    //@ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "funcionarios_fk"))
     private Salao salao; // chave Estrangeira
 
-    //OneToMany
+    @OneToMany
     private List<Servico> servico;
 
-    //OneToMany
+    @OneToMany
     private List<Agendamento> agendamento;
 
 }

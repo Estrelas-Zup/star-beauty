@@ -2,12 +2,19 @@ package br.com.zup.estrelas.sb.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import br.com.zup.estrelas.sb.enums.FormaPagamento;
+import lombok.Getter;
+import lombok.Setter;
 
-//@Entity
+@Getter
+@Setter
+@Entity
 public class Transacao {
 
     @Id
@@ -15,7 +22,9 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTransacao;
 
-    private Agendamento agendamento; // chave estrangeira
+    @OneToOne
+    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "transacao_fk"))
+    private Agendamento agendamento;
 
     @Column(nullable = false)
     private Double valor;
