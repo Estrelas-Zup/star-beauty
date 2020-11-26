@@ -4,5 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import br.com.zup.estrelas.sb.entity.Funcionario;
 
 public interface FuncionarioRepository extends CrudRepository<Funcionario, Long>{
+    
+    boolean existsByCpf(String cpf);    
 
 }

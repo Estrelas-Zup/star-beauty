@@ -1,5 +1,6 @@
 package br.com.zup.estrelas.sb.dto;
 
+
 public class MensagemDTO {
     
     private String mensagem;
