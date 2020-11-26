@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +18,7 @@ import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.service.ServicoService;
 
 @RestController
-@RequestMapping("/servico")
+@RequestMapping("/servicos")
 public class ServicoController {
 
     @Autowired
@@ -37,17 +38,17 @@ public class ServicoController {
         
     }
     
-    @GetMapping(path = "/{idServico}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Servico consultaServico(@PathVariable Long idServico) {
+    @GetMapping (path = "/{idServico}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Optional<Servico> consultaServico(@PathVariable Long idServico) {
         return servicoService.buscaServico(idServico);
     }
     
-    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping (produces = { MediaType.APPLICATION_JSON_VALUE })
     public List<Servico> listarServicos() {
         return servicoService.listaServicos();
     }
     
-    @DeleteMapping(path = "/{idServico}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @DeleteMapping (path = "/{idServico}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public MensagemDTO removerServico(@PathVariable Long idServico) {
         return servicoService.removeServico(idServico);
     }
