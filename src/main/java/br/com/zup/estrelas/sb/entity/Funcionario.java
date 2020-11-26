@@ -13,8 +13,6 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 public class Funcionario {
 
@@ -46,5 +44,79 @@ public class Funcionario {
 
     @OneToMany
     private List<Agendamento> agendamento;
+
+
+    public Long getIdFuncionario() {
+        return idFuncionario;
+    }
+
+    public void setIdFuncionario(Long idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getHorarioAlmoco() {
+        return horarioAlmoco;
+    }
+
+    public void setHorarioAlmoco(String horarioAlmoco) {
+        this.horarioAlmoco = horarioAlmoco;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Salao getSalao() {
+        return salao;
+    }
+
+    public void setSalao(Salao salao) {
+        this.salao = salao;
+    }
+
+    public List<Servico> getServico() {
+        return servico;
+    }
+
+    public void setServico(List<Servico> servico) {
+        this.servico = servico;
+    }
+
+    public List<Agendamento> getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(List<Agendamento> agendamento) {
+        this.agendamento = agendamento;
+    }
+
 
 }
