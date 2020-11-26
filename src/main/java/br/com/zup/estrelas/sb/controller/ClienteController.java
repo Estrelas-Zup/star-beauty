@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.zup.estrelas.sb.dto.AlteraAtivoClienteDTO;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
@@ -31,11 +30,6 @@ public class ClienteController {
     @PutMapping (path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO alteraCliente (@PathVariable Long idUsuario, @RequestBody ClienteDTO clienteDTO) {
         return clienteService.alteraCliente(idUsuario, clienteDTO);
-    }
-    
-    @PutMapping (path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO alteraAtivoCliente (@PathVariable Long idUsuario, @RequestBody AlteraAtivoClienteDTO alteraAtivoClienteDTO) {
-        return clienteService.alteraAtivoCliente(idUsuario, alteraAtivoClienteDTO);
     }
     
     @GetMapping (path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})

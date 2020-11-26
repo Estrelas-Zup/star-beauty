@@ -1,8 +1,6 @@
 package br.com.zup.estrelas.sb.dto;
 
 import java.time.LocalDate;
-import java.util.List;
-import br.com.zup.estrelas.sb.entity.Agendamento;
 
 public class ClienteDTO {
     
@@ -29,8 +27,6 @@ public class ClienteDTO {
     private String cpf;
     
     private LocalDate dataNascimento;
-    
-    private List<Agendamento> agendamento;
 
     public String getLogin() {
         return login;
@@ -126,14 +122,6 @@ public class ClienteDTO {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
-    }
-
-    public List<Agendamento> getAgendamento() {
-        return agendamento;
-    }
-
-    public void setAgendamento(List<Agendamento> agendamento) {
-        this.agendamento = agendamento;
     }
 
 }
