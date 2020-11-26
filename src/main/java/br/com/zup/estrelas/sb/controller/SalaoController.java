@@ -24,12 +24,12 @@ public class SalaoController {
     @Autowired
     SalaoService salaoService;
 
-    @GetMapping(path = "/{idSalao}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{idSalao}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Salao buscaSalao(@PathVariable Long idSalao) {
         return salaoService.buscaSalao(idSalao);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Salao> listaSalao() {
         return salaoService.listaSalao();
     }
@@ -50,6 +50,7 @@ public class SalaoController {
         return salaoService.inativaSalao(idSalao, inativaSalaoDTO);
     }
 
+    //Pensamento ...
     @DeleteMapping(path = "/{idSalao}")
     public MensagemDTO removeSalao(@PathVariable Long idSalao) {
         return salaoService.removeSalao(idSalao);

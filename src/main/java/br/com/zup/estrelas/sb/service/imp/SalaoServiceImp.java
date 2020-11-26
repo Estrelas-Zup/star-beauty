@@ -35,31 +35,33 @@ public class SalaoServiceImp implements SalaoService {
             return new MensagemDTO("SALÂO JÁ CADASTRADO!");
         }
 
-        MensagemDTO adicionadoComSucesso = criaSalao(salaoDTO);
-
-        return adicionadoComSucesso;
+        return criaSalao(salaoDTO);
     }
 
     @Override
     public MensagemDTO alteraSalao(Long idSalao, SalaoDTO salaoDTO) {
         if (!salaoRepository.existsById(idSalao)) {
-            return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER ALTERADO!");
+            return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARA SER ALTERADO!");
         }
 
-        MensagemDTO alteradoComSucesso = this.alteraInformacoesSalao(idSalao, salaoDTO);
+        Salao salao = salaoRepository.findById(idSalao).get();
 
-        return alteradoComSucesso;
+        if (salao.getCnpj() == salaoDTO.getCnpj()) {
+            return new MensagemDTO("CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!");
+        }
+
+        return this.alteraInformacoesSalao(salao, salaoDTO);
     }
 
     @Override
     public MensagemDTO removeSalao(Long idSalao) {
+
         if (!salaoRepository.existsById(idSalao)) {
             return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER REMOVIDO!");
         }
 
-        MensagemDTO removidoComSucesso = finalizaRemocaoSalao(idSalao);
+        return finalizaRemocaoSalao(idSalao);
 
-        return removidoComSucesso;
     }
 
     @Override
@@ -68,9 +70,7 @@ public class SalaoServiceImp implements SalaoService {
             return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER INATIVADO!");
         }
 
-        MensagemDTO inativadoComSucesso = this.finalizaInativacaoSalao(idSalao, inativaSalaoDTO);
-
-        return inativadoComSucesso;
+        return this.finalizaInativacaoSalao(idSalao, inativaSalaoDTO);
     }
 
     private MensagemDTO criaSalao(SalaoDTO salaoDTO) {
@@ -86,22 +86,20 @@ public class SalaoServiceImp implements SalaoService {
         return new MensagemDTO("SALÃO CADASTRADO COM SUCESSO!");
     }
 
-    private MensagemDTO alteraInformacoesSalao(Long idSalao, SalaoDTO salaoDTO) {
-
-        Optional<Salao> salao = salaoRepository.findById(idSalao);
+    private MensagemDTO alteraInformacoesSalao(Salao salao, SalaoDTO salaoDTO) {
 
         BeanUtils.copyProperties(salaoDTO, salao);
 
-        salaoRepository.save(salao.get());
+        salaoRepository.save(salao);
 
         return new MensagemDTO("SALÃO ALERADO COM SUCESSO!");
     }
 
     private MensagemDTO finalizaRemocaoSalao(Long idSalao) {
 
-        Salao salao = salaoRepository.findById(idSalao).get();
+        Optional<Salao> salao = salaoRepository.findById(idSalao);
 
-        salaoRepository.delete(salao);
+        salaoRepository.delete(salao.get());
         return new MensagemDTO("SALÃO REMOVIDO COM SUCESSO!");
     }
 
@@ -110,6 +108,7 @@ public class SalaoServiceImp implements SalaoService {
         Optional<Salao> salao = salaoRepository.findById(idSalao);
 
         BeanUtils.copyProperties(inativaSalaoDTO, salao);
+        salao.get().setAtivo(inativaSalaoDTO.isAtivo());
 
         salaoRepository.save(salao.get());
 

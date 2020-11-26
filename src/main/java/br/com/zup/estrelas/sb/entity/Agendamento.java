@@ -11,10 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import br.com.zup.estrelas.sb.enums.FormaPagamento;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
 @Entity
 public class Agendamento {
 
