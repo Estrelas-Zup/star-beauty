@@ -75,9 +75,7 @@ public class ServicoServiceImp implements ServicoService {
         servicoRepository.save(servico);
 
         return new MensagemDTO(SERVICO_ALTERADO_COM_SUCESSO);
-
        
     }
-
 
 }
