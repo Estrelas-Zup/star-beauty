@@ -15,6 +15,7 @@ import br.com.zup.estrelas.sb.service.ClienteService;
 @Service
 public class ClienteServiceImp implements ClienteService {
 
+    private static final String ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE = "A alteração não é possível pois já existe outro cliente com o CPF informado.";
     private static final String CLIENTE_INATIVADO_COM_SUCESSO = "Cliente inativado com sucesso!";
     private static final String CLIENTE_JA_INATIVADO = "Esse cliente já está inativado.";
     private static final String INFORMACOES_ALTERADAS_COM_SUCESSO = "Informações alteradas com sucesso!";
@@ -43,17 +44,21 @@ public class ClienteServiceImp implements ClienteService {
 
     public MensagemDTO alteraCliente(Long idUsuario, ClienteDTO clienteDTO) {
 
-        Optional<Cliente> cliente = clienteRepository.findById(idUsuario);
+        Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
 
-        if (cliente.isEmpty()) {
+        if (clienteConsultado.isEmpty()) {
             return new MensagemDTO(CLIENTE_INEXISTENTE);
         }
+        
+        Cliente cliente = clienteConsultado.get();
+        
+        if (clienteDTO.getCpf() == cliente.getCpf()) {
+            return new MensagemDTO (ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
+        }
 
-        Cliente clienteComAlteracao = cliente.get();
+        BeanUtils.copyProperties(clienteDTO, cliente);
 
-        BeanUtils.copyProperties(clienteDTO, clienteComAlteracao);
-
-        clienteRepository.save(clienteComAlteracao);
+        clienteRepository.save(cliente);
 
         return new MensagemDTO(INFORMACOES_ALTERADAS_COM_SUCESSO);
     }
