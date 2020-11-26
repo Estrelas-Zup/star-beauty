@@ -1,13 +1,14 @@
 package br.com.zup.estrelas.sb.service;
 
 import java.util.List;
-import br.com.zup.estrelas.sb.dto.AlteraFuncionarioDTO;
+import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
+import br.com.zup.estrelas.sb.dto.InativaFuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Funcionario;
 
 public interface FuncionarioService {
     
-    public MensagemDTO adicionaFuncionario(Funcionario funcionario);
+    public MensagemDTO adicionaFuncionario(FuncionarioDTO funcionarioDTO);
     
     public Funcionario buscaFuncionario(Long idFuncionario);
     
@@ -15,7 +16,9 @@ public interface FuncionarioService {
     
     public MensagemDTO removeFuncionario(Long idFuncionario);
     
-    public MensagemDTO alteraFuncionario(Long idFuncionario,AlteraFuncionarioDTO alteraFuncionarioDTO);
+    public MensagemDTO alteraFuncionario(Long idFuncionario, FuncionarioDTO alteraFuncionarioDTO);
+    
+    public MensagemDTO inativaFuncionario (Long idFuncionario, InativaFuncionarioDTO inativaFuncionarioDTO);
     
 
 }
