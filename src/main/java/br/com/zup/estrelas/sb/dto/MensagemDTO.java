@@ -13,6 +13,14 @@ public class MensagemDTO {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((mensagem == null) ? 0 : mensagem.hashCode());
+        return result;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -28,7 +36,5 @@ public class MensagemDTO {
             return false;
         return true;
     }
-    
-    
 
 }
