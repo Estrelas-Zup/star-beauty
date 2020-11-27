@@ -1,6 +1,5 @@
 package br.com.zup.estrelas.sb.service.imp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -16,7 +15,7 @@ import br.com.zup.estrelas.sb.repository.AgendamentoRepository;
 import br.com.zup.estrelas.sb.service.AgendamentoService;
 
 @Service
-public class AgendamentoServiceImp implements AgendamentoService {
+public class AgendamentoServiceImpl implements AgendamentoService {
 
     private static final Long HORAS_MINIMAS_PARA_REAGENDAMENTO = 24L;
 
@@ -36,10 +35,8 @@ public class AgendamentoServiceImp implements AgendamentoService {
     @Override
     public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO) {
 
-        // Como capturar o idFuncionario sem o cliente preenche-lo?
-
-        if (agendamentoRepository.existsByFuncionarioIdFuncionarioAndHoraAgendamento(
-                agendamentoDTO.getIdFuncionario(), agendamentoDTO.getHora())) {
+        if (agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHora(
+                agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora())) {
             return new MensagemDTO("HORÁRIO DE AGENDAMENTO INDISPONÍVEL!");
         }
 
@@ -62,24 +59,18 @@ public class AgendamentoServiceImp implements AgendamentoService {
             return new MensagemDTO("AGENDAMENTO NÃO ENCONTRADO PARA ALTERAR!");
         }
 
-        if (agendamentoDTO.getData().isBefore(LocalDate.now())) {
+        if (agendamentoDTO.getDataHora().isBefore(LocalDateTime.now())) {
             return new MensagemDTO("NÃO É POSSÍVEL ALTERAR A DATA PARA UM DIA PASSADO!");
         }
 
         Agendamento agendamento = agendamentoRepository.findById(idAgendamento).get();
 
-        LocalDateTime dataAgendadaSemAlteracao =
-                LocalDateTime.of(agendamento.getData(), agendamento.getHora());
-
-        LocalDateTime dataAgendadaComAlteracao =
-                LocalDateTime.of(agendamentoDTO.getData(), agendamentoDTO.getHora());
-
         Long diferencaHoras =
-                ChronoUnit.HOURS.between(dataAgendadaSemAlteracao, dataAgendadaComAlteracao);
+                ChronoUnit.HOURS.between(agendamento.getDataHora(), agendamentoDTO.getDataHora());
 
         if (diferencaHoras < HORAS_MINIMAS_PARA_REAGENDAMENTO) {
             return new MensagemDTO(
-                    "NÃO É PISSÍVEL ALTERAR A DATA COM MENOS DE 24 HORAS DO AGENDAMENTO!");
+                    "NÃO É POSSÍVEL ALTERAR A DATA COM MENOS DE 24 HORAS DO AGENDAMENTO!");
         }
 
         return null;
@@ -88,7 +79,11 @@ public class AgendamentoServiceImp implements AgendamentoService {
     @Override
     public MensagemDTO finalizaAgendamento(Long idAgendamento,
             FinalizaAgendamentoDTO finalizaAgendamentoDTO) {
-        // TODO Auto-generated method stub
+
+
+
+        // Apos finalizar o metodo, chamar o metodo cria Transacai AQUI!
+        // Passar TransacaoDTO já populado AQUI!
         return null;
     }
 

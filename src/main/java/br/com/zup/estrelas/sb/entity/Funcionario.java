@@ -35,7 +35,7 @@ public class Funcionario {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "funcionarios_fk"))
-    private Salao salao; // chave Estrangeira
+    private Salao salao;
 
     @OneToMany
     private List<Servico> servico;

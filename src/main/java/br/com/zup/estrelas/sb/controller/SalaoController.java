@@ -3,7 +3,6 @@ package br.com.zup.estrelas.sb.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,7 @@ import br.com.zup.estrelas.sb.entity.Salao;
 import br.com.zup.estrelas.sb.service.SalaoService;
 
 @RestController
-@RequestMapping("/salao")
+@RequestMapping("/saloes")
 public class SalaoController {
 
     @Autowired
@@ -50,9 +49,4 @@ public class SalaoController {
         return salaoService.inativaSalao(idSalao, inativaSalaoDTO);
     }
 
-    //Pensamento ...
-    @DeleteMapping(path = "/{idSalao}")
-    public MensagemDTO removeSalao(@PathVariable Long idSalao) {
-        return salaoService.removeSalao(idSalao);
-    };
 }

@@ -13,10 +13,12 @@ import br.com.zup.estrelas.sb.repository.ClienteRepository;
 import br.com.zup.estrelas.sb.service.ClienteService;
 
 @Service
-public class ClienteServiceImp implements ClienteService {
+public class ClienteServiceImpl implements ClienteService {
 
-    private static final String ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE = "A alteração não é possível pois já existe outro cliente com o CPF informado.";
-    private static final String INFORMACOES_ALTERADAS_COM_SUCESSO = "Informações alteradas com sucesso!";
+    private static final String ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE =
+            "A alteração não é possível pois já existe outro cliente com o CPF informado.";
+    private static final String INFORMACOES_ALTERADAS_COM_SUCESSO =
+            "Informações alteradas com sucesso!";
     private static final String CLIENTE_INEXISTENTE = "Cliente inexistente!";
     private static final String CLIENTE_CADASTRADO_COM_SUCESSO = "Cliente cadastrado com sucesso!";
     private static final String CLIENTE_JA_CADASTRADO = "Cliente já cadastrado!";
@@ -26,19 +28,11 @@ public class ClienteServiceImp implements ClienteService {
 
     public MensagemDTO insereCliente(ClienteDTO clienteDTO) {
 
-        if (clienteRepository.existsByCPF(clienteDTO.getCpf())) {
+        if (clienteRepository.existsByCpf(clienteDTO.getCpf())) {
             return new MensagemDTO(CLIENTE_JA_CADASTRADO);
         }
 
-        Cliente cliente = new Cliente();
-
-        BeanUtils.copyProperties(clienteDTO, cliente);
-        cliente.setAgendamento(Collections.emptyList());
-        cliente.setAtivo(true);
-        
-        clienteRepository.save(cliente);
-
-        return new MensagemDTO(CLIENTE_CADASTRADO_COM_SUCESSO);
+        return this.adicionaCliente(clienteDTO);
     }
 
     public MensagemDTO alteraCliente(Long idUsuario, ClienteDTO clienteDTO) {
@@ -48,18 +42,14 @@ public class ClienteServiceImp implements ClienteService {
         if (clienteConsultado.isEmpty()) {
             return new MensagemDTO(CLIENTE_INEXISTENTE);
         }
-        
+
         Cliente cliente = clienteConsultado.get();
-        
+
         if (clienteDTO.getCpf() == cliente.getCpf()) {
-            return new MensagemDTO (ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
+            return new MensagemDTO(ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
         }
 
-        BeanUtils.copyProperties(clienteDTO, cliente);
-
-        clienteRepository.save(cliente);
-
-        return new MensagemDTO(INFORMACOES_ALTERADAS_COM_SUCESSO);
+        return this.alteraInformacoesCliente(cliente, clienteDTO);
     }
 
     public Cliente consultaCliente(Long idUsuario) {
@@ -68,6 +58,28 @@ public class ClienteServiceImp implements ClienteService {
 
     public List<Cliente> listaClientes() {
         return (List<Cliente>) clienteRepository.findAll();
+    }
+
+    private MensagemDTO alteraInformacoesCliente(Cliente cliente, ClienteDTO clienteDTO) {
+
+        BeanUtils.copyProperties(clienteDTO, cliente);
+
+        clienteRepository.save(cliente);
+
+        return new MensagemDTO(INFORMACOES_ALTERADAS_COM_SUCESSO);
+    }
+
+    private MensagemDTO adicionaCliente(ClienteDTO clienteDTO) {
+
+        Cliente cliente = new Cliente();
+
+        BeanUtils.copyProperties(clienteDTO, cliente);
+        cliente.setAgendamento(Collections.emptyList());
+        cliente.setAtivo(true);
+
+        clienteRepository.save(cliente);
+
+        return new MensagemDTO(CLIENTE_CADASTRADO_COM_SUCESSO);
     }
 
 }

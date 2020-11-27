@@ -16,8 +16,6 @@ public interface SalaoService {
 
     public MensagemDTO alteraSalao(Long idSalao, SalaoDTO salaoDTO);
 
-    public MensagemDTO removeSalao(Long idSalao);
-
     public MensagemDTO inativaSalao(Long idSalao, InativaSalaoDTO inativaSalaoDTO);
 
 }
