@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import br.com.zup.estrelas.sb.enums.FormaPagamento;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 public class Transacao {

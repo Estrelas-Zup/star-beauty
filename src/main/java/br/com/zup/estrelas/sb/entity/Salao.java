@@ -3,9 +3,9 @@ package br.com.zup.estrelas.sb.entity;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import br.com.zup.estrelas.sb.abstrata.Usuario;
-import br.com.zup.estrelas.sb.enums.FormaPagamento;
 
 @Entity
 public class Salao extends Usuario {
@@ -18,7 +18,8 @@ public class Salao extends Usuario {
 
     // confirmar com o joão relação.
     // enum formaPagamento é entidade?
-    @OneToMany
+
+    @ManyToMany
     private List<FormaPagamento> formasPagamentos;
 
     @OneToMany
@@ -40,20 +41,20 @@ public class Salao extends Usuario {
         this.nomeFantasia = nomeFantasia;
     }
 
-    public List<FormaPagamento> getFormasPagamentoss() {
+    public List<FormaPagamento> getFormaPagamento() {
         return formasPagamentos;
     }
 
-    public void setFormasPagamentos(List<FormaPagamento> formaPagamento) {
-        this.formasPagamentos = formaPagamento;
+    public void setFormaPagamento(List<FormaPagamento> formaPagamentos) {
+        this.formasPagamentos = formasPagamentos;
     }
 
-    public List<Funcionario> getFuncionarios() {
+    public List<Funcionario> getFuncionario() {
         return funcionarios;
     }
 
-    public void setFuncionarios(List<Funcionario> funcionario) {
-        this.funcionarios = funcionario;
+    public void setFuncionario(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
 
 }

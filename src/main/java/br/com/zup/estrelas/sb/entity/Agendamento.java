@@ -1,7 +1,7 @@
 package br.com.zup.estrelas.sb.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -42,7 +42,7 @@ public class Agendamento {
     private LocalDate data;
 
     @Column(nullable = false)
-    private LocalDateTime hora;
+    private LocalTime hora;
 
     @Column(name = "forma_pagamento", nullable = false)
     private FormaPagamento formaPagamento;
@@ -107,11 +107,11 @@ public class Agendamento {
         this.data = data;
     }
 
-    public LocalDateTime getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(LocalDateTime hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
