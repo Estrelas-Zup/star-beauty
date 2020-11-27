@@ -16,9 +16,6 @@ public class Salao extends Usuario {
     @Column(nullable = false, name = "nome_fantasia")
     private String nomeFantasia;
 
-    // confirmar com o joão relação.
-    // enum formaPagamento é entidade?
-
     @ManyToMany
     private List<FormaPagamento> formasPagamentos;
 
@@ -45,7 +42,7 @@ public class Salao extends Usuario {
         return formasPagamentos;
     }
 
-    public void setFormaPagamento(List<FormaPagamento> formaPagamentos) {
+    public void setFormaPagamento(List<FormaPagamento> formasPagamentos) {
         this.formasPagamentos = formasPagamentos;
     }
 

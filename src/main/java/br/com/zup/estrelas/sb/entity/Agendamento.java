@@ -1,7 +1,6 @@
 package br.com.zup.estrelas.sb.entity;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -10,7 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import br.com.zup.estrelas.sb.enums.FormaPagamento;
+import javax.persistence.OneToOne;
+import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 @Entity
 public class Agendamento {
@@ -21,15 +21,15 @@ public class Agendamento {
     private Long idAgendamento;
 
     @ManyToOne
-    @JoinColumn(name = "id_funcionario", foreignKey = @ForeignKey(name = "agendamentos_fk"))
+    @JoinColumn(name = "id_funcionario", foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
     private Funcionario funcionario;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "agendamentos_fk"))
+    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "agendamentos_cliente_fk"))
     private Cliente cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "id_servico", foreignKey = @ForeignKey(name = "agendamentos_fk"))
+    @OneToOne
+    @JoinColumn(name = "id_servico", foreignKey = @ForeignKey(name = "agendamentos_servico_fk"))
     private Servico servico;
 
     @Column(name = "nome_cliente", nullable = false)
@@ -38,14 +38,11 @@ public class Agendamento {
     @Column(name = "nome_servico", nullable = false)
     private String nomeServico;
 
-    @Column(nullable = false)
-    private LocalDate data;
-
-    @Column(nullable = false)
-    private LocalTime hora;
+    @Column(name = "data_hora", nullable = false)
+    private LocalDateTime dataHora;
 
     @Column(name = "forma_pagamento", nullable = false)
-    private FormaPagamento formaPagamento;
+    private TipoPagamento formaPagamento;
 
     private boolean realizado;
 
@@ -99,27 +96,19 @@ public class Agendamento {
         this.nomeServico = nomeServico;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDateTime getDataHora() {
+        return dataHora;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
     }
 
-    public LocalTime getHora() {
-        return hora;
-    }
-
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
-    }
-
-    public FormaPagamento getFormaPagamento() {
+    public TipoPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
+    public void setFormaPagamento(TipoPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 

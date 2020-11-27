@@ -1,7 +1,7 @@
 package br.com.zup.estrelas.sb.enums;
 
 
-public enum FormaPagamento {
+public enum TipoPagamento {
 
     DINHEIRO("dinheiro"), 
     PIX("pix"), 
@@ -15,7 +15,7 @@ public enum FormaPagamento {
 
     private String value;
 
-    FormaPagamento(String value) {
+    TipoPagamento(String value) {
         this.value = value;
     }
 

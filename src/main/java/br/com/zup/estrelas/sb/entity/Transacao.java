@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import br.com.zup.estrelas.sb.enums.FormaPagamento;
+import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 @Entity
 public class Transacao {
@@ -19,14 +19,14 @@ public class Transacao {
     private Long idTransacao;
 
     @OneToOne
-    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "transacao_fk"))
+    @JoinColumn(name = "id_agendamento", foreignKey = @ForeignKey(name = "transacao_fk"))
     private Agendamento agendamento;
 
     @Column(nullable = false)
     private Double valor;
 
     @Column(name = "forma_pagamento", nullable = false)
-    private FormaPagamento formaPagmento;
+    private TipoPagamento formaPagmento;
 
     @Column(name = "nome_cliente", nullable = false)
     private String nomeCliente;
@@ -58,11 +58,11 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public FormaPagamento getFormaPagmento() {
+    public TipoPagamento getFormaPagmento() {
         return formaPagmento;
     }
 
-    public void setFormaPagmento(FormaPagamento formaPagmento) {
+    public void setFormaPagmento(TipoPagamento formaPagmento) {
         this.formaPagmento = formaPagmento;
     }
 

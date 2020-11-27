@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 @Entity
 public class FormaPagamento {
@@ -18,7 +19,7 @@ public class FormaPagamento {
 
     @Column(name = "tipo_pagamento", nullable = false)
     @Enumerated(EnumType.STRING)
-    private FormaPagamento tipoPagamnto;
+    private TipoPagamento tipoPagamnto;
 
     public Long getIdFormaPagamento() {
         return idFormaPagamento;
@@ -28,11 +29,11 @@ public class FormaPagamento {
         this.idFormaPagamento = idFormaPagamento;
     }
 
-    public FormaPagamento getTipoPagamnto() {
+    public TipoPagamento getTipoPagamnto() {
         return tipoPagamnto;
     }
 
-    public void setTipoPagamnto(FormaPagamento tipoPagamnto) {
+    public void setTipoPagamnto(TipoPagamento tipoPagamnto) {
         this.tipoPagamnto = tipoPagamnto;
     }
 

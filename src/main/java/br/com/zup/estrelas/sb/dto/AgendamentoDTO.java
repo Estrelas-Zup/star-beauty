@@ -1,8 +1,7 @@
 package br.com.zup.estrelas.sb.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import br.com.zup.estrelas.sb.enums.FormaPagamento;
+import java.time.LocalDateTime;
+import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 public class AgendamentoDTO {
 
@@ -10,15 +9,11 @@ public class AgendamentoDTO {
 
     private String nomeCliente;
 
-    private String nomeFuncionario;
-
     private String nomeServico;
 
-    private LocalDate data;
+    private LocalDateTime dataHora;
 
-    private LocalTime horaAgendamento;
-
-    private FormaPagamento formaPagamento;
+    private TipoPagamento formaPagamento;
 
     public Long getIdFuncionario() {
         return idFuncionario;
@@ -44,35 +39,19 @@ public class AgendamentoDTO {
         this.nomeServico = nomeServico;
     }
 
-    public String getNomeFuncionario() {
-        return nomeFuncionario;
+    public LocalDateTime getDataHora() {
+        return dataHora;
     }
 
-    public void setNomeFuncionario(String nomeFuncionario) {
-        this.nomeFuncionario = nomeFuncionario;
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
     }
 
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
-
-    public LocalTime getHora() {
-        return horaAgendamento;
-    }
-
-    public void setHora(LocalTime hora) {
-        this.horaAgendamento = hora;
-    }
-
-    public FormaPagamento getFormaPagamento() {
+    public TipoPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
+    public void setFormaPagamento(TipoPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 

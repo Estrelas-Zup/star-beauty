@@ -2,7 +2,7 @@ package br.com.zup.estrelas.sb.dto;
 
 
 import br.com.zup.estrelas.sb.entity.Agendamento;
-import br.com.zup.estrelas.sb.enums.FormaPagamento;
+import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 public class TransacaoDTO {
     
@@ -12,7 +12,7 @@ public class TransacaoDTO {
 
     private Double valor;
 
-    private FormaPagamento formaPagmento;
+    private TipoPagamento formaPagmento;
 
     private String nomeCliente;
 
@@ -42,11 +42,11 @@ public class TransacaoDTO {
         this.valor = valor;
     }
 
-    public FormaPagamento getFormaPagmento() {
+    public TipoPagamento getFormaPagmento() {
         return formaPagmento;
     }
 
-    public void setFormaPagmento(FormaPagamento formaPagmento) {
+    public void setFormaPagmento(TipoPagamento formaPagmento) {
         this.formaPagmento = formaPagmento;
     }
 
