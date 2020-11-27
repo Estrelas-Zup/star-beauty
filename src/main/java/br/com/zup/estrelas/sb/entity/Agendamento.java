@@ -1,7 +1,7 @@
 package br.com.zup.estrelas.sb.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -11,11 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import br.com.zup.estrelas.sb.enums.FormaPagamento;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode
 @Entity
 public class Agendamento {
 
@@ -46,7 +42,7 @@ public class Agendamento {
     private LocalDate data;
 
     @Column(nullable = false)
-    private LocalDateTime hora;
+    private LocalTime hora;
 
     @Column(name = "forma_pagamento", nullable = false)
     private FormaPagamento formaPagamento;
@@ -54,5 +50,93 @@ public class Agendamento {
     private boolean realizado;
 
     private boolean cancelado;
+
+    public Long getIdAgendamento() {
+        return idAgendamento;
+    }
+
+    public void setIdAgendamento(Long idAgendamento) {
+        this.idAgendamento = idAgendamento;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Servico getServico() {
+        return servico;
+    }
+
+    public void setServico(Servico servico) {
+        this.servico = servico;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getNomeServico() {
+        return nomeServico;
+    }
+
+    public void setNomeServico(String nomeServico) {
+        this.nomeServico = nomeServico;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public boolean isRealizado() {
+        return realizado;
+    }
+
+    public void setRealizado(boolean realizado) {
+        this.realizado = realizado;
+    }
+
+    public boolean isCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(boolean cancelado) {
+        this.cancelado = cancelado;
+    }
 
 }

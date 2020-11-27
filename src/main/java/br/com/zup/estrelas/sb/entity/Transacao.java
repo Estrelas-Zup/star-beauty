@@ -9,11 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import br.com.zup.estrelas.sb.enums.FormaPagamento;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 public class Transacao {
 
@@ -37,5 +33,53 @@ public class Transacao {
 
     @Column(name = "nome_salao", nullable = false)
     private String nomeSalao;
+
+    public Long getIdTransacao() {
+        return idTransacao;
+    }
+
+    public void setIdTransacao(Long idTransacao) {
+        this.idTransacao = idTransacao;
+    }
+
+    public Agendamento getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(Agendamento agendamento) {
+        this.agendamento = agendamento;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public FormaPagamento getFormaPagmento() {
+        return formaPagmento;
+    }
+
+    public void setFormaPagmento(FormaPagamento formaPagmento) {
+        this.formaPagmento = formaPagmento;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getNomeSalao() {
+        return nomeSalao;
+    }
+
+    public void setNomeSalao(String nomeSalao) {
+        this.nomeSalao = nomeSalao;
+    }
 
 }
