@@ -10,8 +10,10 @@ import br.com.zup.estrelas.sb.enums.TipoServico;
 
 public class ServicoDTO {
 
+    private static final String APENAS_LETRAS_ALFABETO = "[a-zA-Z ]+";
+
     @NotBlank(message = "O nome do serviço não pode ser nulo")
-    @Pattern(regexp = "[a-zA-Z ]+")
+    @Pattern(regexp = APENAS_LETRAS_ALFABETO)
     private String nomeServico;
 
     @NotBlank(message = "A duração não pode ser nulo")
