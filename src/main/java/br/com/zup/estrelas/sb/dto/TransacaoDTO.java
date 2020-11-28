@@ -13,10 +13,6 @@ public class TransacaoDTO {
     private static final String APENAS_LETRAS_ALFABETO = "[a-zA-Z ]+";
     
     @NotBlank (message = "O campo login precisa ser preenchido.")
-    @NumberFormat(style = Style.NUMBER)
-    private Long idTransacao;
-    
-    @NotBlank (message = "O campo login precisa ser preenchido.")
     private Agendamento agendamento;
     
     @NotBlank (message = "O campo valor precisa ser preenchido.")
@@ -33,14 +29,6 @@ public class TransacaoDTO {
     @NotBlank (message = "O campo nome do salão precisa ser preenchido.")
     @Pattern(regexp = APENAS_LETRAS_ALFABETO)
     private String nomeSalao;
-
-    public Long getIdTransacao() {
-        return idTransacao;
-    }
-
-    public void setIdTransacao(Long idTransacao) {
-        this.idTransacao = idTransacao;
-    }
 
     public Agendamento getAgendamento() {
         return agendamento;
