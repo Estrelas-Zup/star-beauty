@@ -58,6 +58,11 @@ public class AgendamentoServiceImpl implements AgendamentoService {
             return new MensagemDTO("NÃO É POSSÍVEL ALTERAR A DATA PARA UM DIA PASSADO!");
         }
 
+        if (agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHora(
+                agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora())) {
+            return new MensagemDTO("HORÁRIO DE AGENDAMENTO INDISPONÍVEL!");
+        }
+
         Agendamento agendamento = agendamentoRepository.findById(idAgendamento).get();
 
         Long diferencaHoras =
