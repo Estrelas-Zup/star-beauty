@@ -1,10 +1,10 @@
 package br.com.zup.estrelas.sb.dto;
 
-import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotBlank;
 
 public class InativaSalaoDTO {
 
-    @AssertTrue
+    @NotBlank(message = "O campo ativo não deve ser nulo")
     private boolean ativo;
 
     public boolean isAtivo() {

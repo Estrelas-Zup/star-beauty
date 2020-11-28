@@ -1,19 +1,17 @@
 package br.com.zup.estrelas.sb.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
-import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.enums.TipoServico;
 
 
 public class ServicoDTO {
 
-    @NotBlank(message = "O funcionário não pode ser nulo")
-    private Funcionario funcionario;
-
     @NotBlank(message = "O nome do serviço não pode ser nulo")
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String nomeServico;
 
     @NotBlank(message = "A duração não pode ser nulo")
@@ -24,18 +22,11 @@ public class ServicoDTO {
     @NotBlank(message = "O valor do serviço não pode ser nulo")
     @Positive(message = "O valor do serviço tem que ser maior que zero")
     @NumberFormat(style = Style.NUMBER)
-    private Double valorServico; // double mesmo?
+    private Double valorServico; 
 
     @NotBlank(message = "O tipo de serviço não pode ser nulo")
     private TipoServico tipoServico;
 
-    public Funcionario getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
-    }
 
     public String getNomeServico() {
         return nomeServico;
