@@ -26,40 +26,33 @@ public class FuncionarioController {
 
     @PostMapping
     public MensagemDTO adicionaFuncionario(@RequestBody FuncionarioDTO funcionario) {
-
         return funcionarioService.adicionaFuncionario(funcionario);
     }
 
     @GetMapping(path = "/{idFuncionario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Funcionario buscaFuncionario(@PathVariable Long idFuncionario) {
-
         return funcionarioService.buscaFuncionario(idFuncionario);
-
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Funcionario> listaFuncionarios() {
-
         return funcionarioService.listaFuncionarios();
     }
 
     @DeleteMapping(path = "/{idFuncionario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO removeFuncionario(@PathVariable Long idFuncionario) {
-
         return funcionarioService.removeFuncionario(idFuncionario);
     }
 
     @PutMapping(path = "/{idFuncionario}")
     public MensagemDTO alteraFuncionario(@PathVariable Long idFuncionario,
             @RequestBody FuncionarioDTO alteraFuncionarioDTO) {
-
         return funcionarioService.alteraFuncionario(idFuncionario, alteraFuncionarioDTO);
     }
 
     @PutMapping(path = "/{idFuncionario}/inativa")
     public MensagemDTO inativaFuncionario(@PathVariable Long idFuncionario,
             @RequestBody InativaFuncionarioDTO inativaFuncionarioDTO) {
-
         return funcionarioService.inativaFuncionario(idFuncionario, inativaFuncionarioDTO);
     }
 

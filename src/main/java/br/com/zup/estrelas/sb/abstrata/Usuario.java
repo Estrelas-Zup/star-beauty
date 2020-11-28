@@ -26,31 +26,31 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String endereco;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String cep;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String estado;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String cidade;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String bairro;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String telefone;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private boolean ativo;
 
     @Column(name = "tipo_usuario")

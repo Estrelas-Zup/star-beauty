@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 public class Funcionario {
@@ -37,7 +35,7 @@ public class Funcionario {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "funcionarios_fk"))
-    private Salao salao; // chave Estrangeira
+    private Salao salao;
 
     @OneToMany
     private List<Servico> servico;

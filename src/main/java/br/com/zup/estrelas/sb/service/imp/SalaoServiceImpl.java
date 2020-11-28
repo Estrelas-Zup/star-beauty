@@ -14,7 +14,7 @@ import br.com.zup.estrelas.sb.repository.SalaoRepository;
 import br.com.zup.estrelas.sb.service.SalaoService;
 
 @Service
-public class SalaoServiceImp implements SalaoService {
+public class SalaoServiceImpl implements SalaoService {
 
     @Autowired
     SalaoRepository salaoRepository;
@@ -54,17 +54,6 @@ public class SalaoServiceImp implements SalaoService {
     }
 
     @Override
-    public MensagemDTO removeSalao(Long idSalao) {
-
-        if (!salaoRepository.existsById(idSalao)) {
-            return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER REMOVIDO!");
-        }
-
-        return finalizaRemocaoSalao(idSalao);
-
-    }
-
-    @Override
     public MensagemDTO inativaSalao(Long idSalao, InativaSalaoDTO inativaSalaoDTO) {
         if (!salaoRepository.existsById(idSalao)) {
             return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER INATIVADO!");
@@ -78,8 +67,8 @@ public class SalaoServiceImp implements SalaoService {
         Salao novoSalao = new Salao();
 
         BeanUtils.copyProperties(salaoDTO, novoSalao);
-        novoSalao.setFormasPagamentos(Collections.emptyList());
-        novoSalao.setFuncionarios(Collections.emptyList());
+        novoSalao.setFormaPagamento(Collections.emptyList());
+        novoSalao.setFuncionario(Collections.emptyList());
 
         salaoRepository.save(novoSalao);
 
@@ -95,20 +84,11 @@ public class SalaoServiceImp implements SalaoService {
         return new MensagemDTO("SALÃO ALERADO COM SUCESSO!");
     }
 
-    private MensagemDTO finalizaRemocaoSalao(Long idSalao) {
-
-        Optional<Salao> salao = salaoRepository.findById(idSalao);
-
-        salaoRepository.delete(salao.get());
-        return new MensagemDTO("SALÃO REMOVIDO COM SUCESSO!");
-    }
-
     private MensagemDTO finalizaInativacaoSalao(Long idSalao, InativaSalaoDTO inativaSalaoDTO) {
 
         Optional<Salao> salao = salaoRepository.findById(idSalao);
 
         BeanUtils.copyProperties(inativaSalaoDTO, salao);
-        salao.get().setAtivo(inativaSalaoDTO.isAtivo());
 
         salaoRepository.save(salao.get());
 

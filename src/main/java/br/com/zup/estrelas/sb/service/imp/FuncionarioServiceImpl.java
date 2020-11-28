@@ -14,7 +14,7 @@ import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
 import br.com.zup.estrelas.sb.service.FuncionarioService;
 
 @Service
-public class FuncionarioServiceImp implements FuncionarioService {
+public class FuncionarioServiceImpl implements FuncionarioService {
 
     private static final String CADASTRO_REALIZADO_COM_SUCESSO =
             "Cadastro de funcionário realizado com sucesso.";
@@ -34,7 +34,6 @@ public class FuncionarioServiceImp implements FuncionarioService {
     public MensagemDTO adicionaFuncionario(FuncionarioDTO funcionarioDTO) {
 
         if (funcionarioRepository.existsByCpf(funcionarioDTO.getCpf())) {
-
             return new MensagemDTO(FUNCIONARIO_JA_CADASTRADO);
         }
 
@@ -43,7 +42,6 @@ public class FuncionarioServiceImp implements FuncionarioService {
 
     @Override
     public Funcionario buscaFuncionario(Long idFuncionario) {
-
         return funcionarioRepository.findById(idFuncionario).orElse(null);
     }
 
@@ -57,10 +55,10 @@ public class FuncionarioServiceImp implements FuncionarioService {
 
         if (!funcionarioRepository.existsById(idFuncionario)) {
             return new MensagemDTO(FUNCIONARIO_INEXISTENTE);
-
         }
 
         funcionarioRepository.deleteById(idFuncionario);
+
         return new MensagemDTO(FUNCIONARIO_REMOVIDO_COM_SUCESSO);
     }
 
@@ -84,7 +82,6 @@ public class FuncionarioServiceImp implements FuncionarioService {
         Optional<Funcionario> funcionarioConsultado = funcionarioRepository.findById(idFuncionario);
 
         if (!funcionarioConsultado.isPresent()) {
-
             return new MensagemDTO(FUNCIONARIO_INEXISTENTE);
         }
 
@@ -99,6 +96,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
         BeanUtils.copyProperties(alteraFuncionarioDTO, funcionarioAlterado);
 
         funcionarioRepository.save(funcionarioAlterado);
+
         return new MensagemDTO(FUNCIONARIO_ALTERADO_COM_SUCESSO);
 
     }

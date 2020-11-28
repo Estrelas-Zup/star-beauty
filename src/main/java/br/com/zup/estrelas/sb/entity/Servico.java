@@ -4,15 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import br.com.zup.estrelas.sb.enums.TipoServico;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 public class Servico {
@@ -22,11 +17,7 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idServico;
 
-    @ManyToOne
-    @JoinColumn(name = "id_funcionario", foreignKey = @ForeignKey(name = "servicos_fk"))
-    private Funcionario funcionario;
-
-    @Column(name = "nome_servico", nullable = false)
+    @Column(name = "nome_servico", nullable = false, unique = true)
     private String nomeServico;
 
     @Column(nullable = false)
@@ -45,14 +36,6 @@ public class Servico {
 
     public void setIdServico(Long idServico) {
         this.idServico = idServico;
-    }
-
-    public Funcionario getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
     }
 
     public String getNomeServico() {

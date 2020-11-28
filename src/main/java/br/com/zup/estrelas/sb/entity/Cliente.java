@@ -10,7 +10,7 @@ import br.com.zup.estrelas.sb.abstrata.Usuario;
 @Entity
 public class Cliente extends Usuario {
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String cpf;
 
     @Column(name = "data_nascimento", nullable = false)
