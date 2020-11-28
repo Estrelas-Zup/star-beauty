@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class InativaFuncionarioDTO {
     
-    @NotBlank (message = "O campo nome precisa ser preenchido.")
+    @NotBlank (message = "O campo precisa ser preenchido.")
     private boolean ativo;
 
     public boolean isAtivo() {

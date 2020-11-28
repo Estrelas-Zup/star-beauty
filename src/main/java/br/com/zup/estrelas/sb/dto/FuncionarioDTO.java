@@ -2,12 +2,11 @@ package br.com.zup.estrelas.sb.dto;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 public class FuncionarioDTO {
 
     @NotBlank (message = "O campo nome precisa ser preenchido.")
-    @Size (min = 3, max = 255, message = "O nome não pode ter mais de 255 caracteres.")
+    @Max (value = 255, message = "O nome não pode ter mais de 255 caracteres.")
     private String nome;
     
     @NotBlank (message = "O campo CPF precisa ser preenchido.")

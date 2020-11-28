@@ -14,11 +14,11 @@ public class ClienteDTO {
     private String login;
     
     @NotBlank (message = "O campo senha precisa ser preenchido.")
-    @Size (min = 6, max = 16, message = "A senha precisa ter no mínimo 6 dígitos.")
+    @Size (min = 8, max = 16, message = "A senha precisa ter no mínimo 8 dígitos.")
     private String senha;
     
     @NotBlank (message = "O campo nome precisa ser preenchido.")
-    @Size (min = 3, max = 255, message = "O nome não pode ter mais de 255 caracteres.")
+    @Size (min = 3, max = 255, message = "O nome não pode ter menos de 3 ou mais de 255 caracteres.")
     private String nome;
     
     @NotBlank (message = "O campo endereço precisa ser preenchido.")
@@ -30,11 +30,11 @@ public class ClienteDTO {
     private String cep;
     
     @NotBlank (message = "O campo estado precisa ser preenchido.")
-    @Max (value = 18, message = "O estado não pode ter mais de 18 caracteres.")
+    @Max (value = 255, message = "O estado não pode ter mais de 255 caracteres.")
     private String estado;
     
     @NotBlank (message = "O campo cidade precisa ser preenchido.")
-    @Max (value = 28, message = "A cidade não pode ter mais de 28 caracteres.")
+    @Max (value = 255, message = "A cidade não pode ter mais de 255 caracteres.")
     private String cidade;
     
     @NotBlank (message = "O campo bairro precisa ser preenchido.")
