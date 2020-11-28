@@ -1,29 +1,57 @@
 package br.com.zup.estrelas.sb.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class SalaoDTO {
 
+    @NotBlank(message = "O email não pode ser nulo")
+    @Email(message = "E-mail inválido")
     private String login;
 
+    @NotBlank(message = "A senha não pode ser nulo")
+    @Size(min = 8,  max = 255, message = "A senha deve conter no mínimo 8 caracteres")
     private String senha;
 
+    @NotBlank(message = "O nome não pode ser nulo")
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String nome;
 
+    @NotBlank(message = "O endereço não pode ser nulo")
     private String endereco;
 
+    @NotBlank(message = "O CEP não pode ser nulo")
+    @Max(value = 8, message = "O CEP deve conter no máximo 8 dígitos")
+    @Pattern(regexp = "^\\d{5}-\\d{3}$")
     private String cep;
 
+    @NotBlank(message = "O Estado não pode ser nulo")
+    @Pattern(regexp = "\"[a-zA-Z ]+")
     private String estado;
 
+    @NotBlank(message = "A cidade não pode ser nulo")
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String cidade;
 
+    @NotBlank(message = "O bairro não pode ser nulo")
     private String bairro;
 
+    @NotBlank(message = "O telefone não pode ser nulo")
+    @Pattern(regexp = "^[1-9][0-9]-(9)[1-9][0-9]{3}-[0-9]{4}$")
     private String telefone;
-
+    
+    @NotBlank(message = "O email não pode ser nulo")
+    @Email(message = "O email tem que ser válido")
     private String email;
 
+    @NotBlank(message = "O CNPJ não pode ser nulo")
+    @Pattern(regexp = "^\\d{3}.?\\d{3}.?\\d{3}/?\\d{3}-?\\d{2}$")
     private String cnpj;
 
+    @NotBlank(message = "O Nome Fantasia não pode ser nulo")
     private String nomeFantasia;
 
     public String getLogin() {
