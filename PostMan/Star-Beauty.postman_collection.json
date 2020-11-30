@@ -27,7 +27,7 @@
 							"variable": [
 								{
 									"key": "idCliente",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -58,67 +58,9 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/clientes",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"clientes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "alteraCliente",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Salao",
-			"item": [
-				{
-					"name": "buscaSalao",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "listaSalao",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "insereSalao",
-					"request": {
-						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"login\": \"grazi@mail.com\",\r\n\"senha\": \"1234abcd!@#$\",\r\n\"nome\": \"Grazi\",\r\n\"endereco\": \"rua dos xpto, 525\",\r\n\"cep\": \"36000-000\",\r\n\"estado\": \"Minas Gerais\",\r\n\"cidade\": \"Uberlândia\",\r\n\"bairro\": \"Santa Mônica\",\r\n\"telefone\": \"34954789325\",\r\n\"email\": \"grazi@mail.com\",\r\n\"tipoUsuario\": \"CLIENTE\",\r\n\"cnpf\": \"12398765452\",\r\n\"dataNascimento\": \"1984-10-21\"\r\n}",
+							"raw": "{\r\n    \"login\": \"elias.lima.com\",\r\n    \"senha\": \"shua1243!@#$\",\r\n    \"nome\": \"Elias\",\r\n    \"endereco\": \"rua dos etc, 02\",\r\n    \"cep\": \"14000-000\",\r\n    \"estado\": \"Campinas\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"bairro\": \"Campo Grande\",\r\n    \"telefone\": \"19983792017\",\r\n    \"email\": \"elias.lima@mail.com\",\r\n    \"cpf\": \"40015789635\",\r\n    \"dataNascimento\": \"1999-01-05\",\r\n    \"tipoUsuario\": \"CLIENTE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -140,12 +82,157 @@
 					"response": []
 				},
 				{
+					"name": "alteraCliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"grazi@mail.com\",\r\n    \"senha\": \"12345678\",\r\n    \"nome\": \"graziela\",\r\n    \"endereco\": \"ruadosxpto\",\r\n    \"cep\": \"38000-000\",\r\n    \"estado\": \"minasgerais\",\r\n    \"cidade\": \"uberlandia\",\r\n    \"bairro\": \"santamonica\",\r\n    \"telefone\": \"34954789325\",\r\n    \"email\": \"grazi@mail.com\",\r\n    \"tipoUsuario\": \"CLIENTE\",\r\n    \"cpf\": \"123.456.789-10\",\r\n    \"dataNascimento\": \"1984-10-21\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/:idCliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								":idCliente"
+							],
+							"variable": [
+								{
+									"key": "idCliente",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Salao",
+			"item": [
+				{
+					"name": "buscaSalao",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes/:idSalao",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaSalao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/saloes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereSalao",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"login\": \"elias.p.lima@mail.com\",\r\n\"senha\": \"154987341sff\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"rua dos xpto, 021\",\r\n\"cep\": \"13000-000\",\r\n\"estado\": \"Campinas\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"Campo Grande\",\r\n\"telefone\": \"1932569741\",\r\n\"email\": \"graziela@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"12654789632587\",\r\n\"nomeFantasia\": \"STAR-BEAUTY_DATE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "alteraSalao",
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"login\": \"elias.p.lima@mail.com\",\r\n\"senha\": \"154987341sff\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"rua dos etc, 021\",\r\n\"cep\": \"13000-000\",\r\n\"estado\": \"Campinas\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"Campo Grande\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"graziela@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"12654789632588\",\r\n\"nomeFantasia\": \"STAR-BEAUTY_DATE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/saloes/:idSalao",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "9"
+								}
+							]
 						}
 					},
 					"response": []
@@ -155,8 +242,33 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/saloes/:idSalao/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "3"
+								}
+							]
 						}
 					},
 					"response": []
@@ -173,7 +285,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/autonomos/:idAutonomo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "9"
+								}
+							]
 						}
 					},
 					"response": []
@@ -184,7 +311,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/autonomos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos"
+							]
 						}
 					},
 					"response": []
@@ -194,8 +329,25 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"login\": \"cris@mail.com\",\r\n\"senha\": \"83754123\",\r\n\"nome\": \"Cris\",\r\n\"endereco\": \"rua dos etc, 853\",\r\n\"cep\": \"11000-000\",\r\n\"estado\": \"São Paulo\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"Guarulhos\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"cris@mail.com\",\r\n\"cpfCnpj\": \"40015789635\",\r\n\"dataNascimento\": \"1979-02-08\",\r\n\"tipoUsuario\": \"AUTONOMO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/autonomos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos"
+							]
 						}
 					},
 					"response": []
@@ -205,8 +357,32 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"login\": \"cris@mail.com\",\r\n\"senha\": \"83754123\",\r\n\"nome\": \"Cris\",\r\n\"endereco\": \"rua dos etc, 853\",\r\n\"cep\": \"12000-000\",\r\n\"estado\": \"São Paulo\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"cotia\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"cristiano@mail.com\",\r\n\"cpfCnpj\": \"40015789635\",\r\n\"dataNascimento\": \"1979-02-08\",\r\n\"tipoUsuario\": \"AUTONOMO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/autonomos/:idAutonomo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "10"
+								}
+							]
 						}
 					},
 					"response": []
@@ -216,8 +392,33 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/autonomos/:idAutonomo/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "10"
+								}
+							]
 						}
 					},
 					"response": []
@@ -234,7 +435,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "4"
+								}
+							]
 						}
 					},
 					"response": []
@@ -245,7 +461,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/funcionarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios"
+							]
 						}
 					},
 					"response": []
@@ -255,8 +479,25 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"nome\": \"Dayana\",\r\n\"telefone\": \"11234659789\",\r\n\"cpf\": \"14563254784\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idSalao\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/funcionarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios"
+							]
 						}
 					},
 					"response": []
@@ -266,8 +507,32 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"nome\": \"Dayana\",\r\n\"telefone\": \"1123465779\",\r\n\"cpf\": \"39951234578\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idSalao\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "4"
+								}
+							]
 						}
 					},
 					"response": []
@@ -277,8 +542,33 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "1"
+								}
+							]
 						}
 					},
 					"response": []
@@ -289,7 +579,22 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "2"
+								}
+							]
 						}
 					},
 					"response": []
@@ -306,7 +611,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -317,7 +637,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/agendamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos"
+							]
 						}
 					},
 					"response": []
@@ -327,8 +655,25 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idFuncionario\": \"1\",\r\n    \"nomeCliente\": \"DAYANA\",\r\n    \"nomeServico\": \"Escova\",\r\n    \"dataHora\": \"2020-01-12T15:00:00\",\r\n    \"formaPagamento\": \"DINHEIRO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/agendamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos"
+							]
 						}
 					},
 					"response": []
@@ -339,7 +684,22 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -350,7 +710,22 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -361,7 +736,22 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -378,7 +768,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/servicos/:idServico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos",
+								":idServico"
+							],
+							"variable": [
+								{
+									"key": "idServico",
+									"value": "1"
+								}
+							]
 						}
 					},
 					"response": []
@@ -389,7 +794,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos"
+							]
 						}
 					},
 					"response": []
@@ -399,8 +812,25 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos"
+							]
 						}
 					},
 					"response": []
@@ -410,8 +840,32 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeServico\": \"Escova\",\r\n    \"duracao\": \"60\",\r\n    \"valorServico\": 80.00,\r\n    \"tipoServico\": \"CABELEIREIRO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/servicos/:idServico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos",
+								":idServico"
+							],
+							"variable": [
+								{
+									"key": "idServico",
+									"value": "2"
+								}
+							]
 						}
 					},
 					"response": []
@@ -422,7 +876,22 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/servicos/:idServico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos",
+								":idServico"
+							],
+							"variable": [
+								{
+									"key": "idServico",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -439,7 +908,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/transacoes/:idTransacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes",
+								":idTransacoes"
+							],
+							"variable": [
+								{
+									"key": "idTransacoes",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -450,7 +934,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes"
+							]
 						}
 					},
 					"response": []
@@ -461,7 +953,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes"
+							]
 						}
 					},
 					"response": []
@@ -471,8 +971,32 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idAgendamento\": \"\",\r\n    \"valor\": \"\",\r\n    \"formaPagamento\": \"\",\r\n    \"nomeCliente\": \"\",\r\n    \"nomeSalao\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/transacoes/:idTransacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes",
+								":idTransacoes"
+							],
+							"variable": [
+								{
+									"key": "idTransacoes",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -483,7 +1007,22 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/transacoes/:idTransacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes",
+								":idTransacoes"
+							],
+							"variable": [
+								{
+									"key": "idTransacoes",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -500,7 +1039,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/pagamentos/:idFormaPagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos",
+								":idFormaPagamento"
+							],
+							"variable": [
+								{
+									"key": "idFormaPagamento",
+									"value": "12"
+								}
+							]
 						}
 					},
 					"response": []
@@ -511,7 +1065,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos"
+							]
 						}
 					},
 					"response": []
@@ -521,8 +1083,25 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoPagamento\": \"PIX\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos"
+							]
 						}
 					},
 					"response": []
@@ -533,7 +1112,22 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/pagamentos/:idFormaPagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos",
+								":idFormaPagamento"
+							],
+							"variable": [
+								{
+									"key": "idFormaPagamento",
+									"value": ""
+								}
+							]
 						}
 					},
 					"response": []
@@ -544,7 +1138,22 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/pagamentos/:idFormaPagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos",
+								":idFormaPagamento"
+							],
+							"variable": [
+								{
+									"key": "idFormaPagamento",
+									"value": "12"
+								}
+							]
 						}
 					},
 					"response": []
