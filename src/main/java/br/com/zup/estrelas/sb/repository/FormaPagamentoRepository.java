@@ -6,9 +6,9 @@ import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 @Repository
-public interface FormaPagamentoRepository extends CrudRepository<FormaPagamento, String> {
+public interface FormaPagamentoRepository extends CrudRepository<FormaPagamento, Long> {
 
-    boolean existsById(TipoPagamento tipoPagamento);
+    boolean existsByTipoPagamento(TipoPagamento tipoPagamento);
 
 }
 
