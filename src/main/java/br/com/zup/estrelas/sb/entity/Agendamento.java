@@ -25,11 +25,11 @@ public class Agendamento {
     private Funcionario funcionario;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "agendamentos_cliente_fk"))
+    @JoinColumn(name = "id_usuario_cliente", foreignKey = @ForeignKey(name = "agendamentos_cliente_fk"))
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
+    @JoinColumn(name = "id_usuario_autonomo", foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
     private ProfissionalAutonomo autonomo;
 
     @OneToOne

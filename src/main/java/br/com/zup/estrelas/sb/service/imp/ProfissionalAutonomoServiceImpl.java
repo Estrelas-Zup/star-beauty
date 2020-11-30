@@ -31,7 +31,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     @Override
     public MensagemDTO adicionaProfissionalAutonomo(
             ProfissionalAutonomoDTO profissionalAutonomoDTO) {
-        if (profissionalAutonomoRepository.existisByCpfCnpj(profissionalAutonomoDTO.getCpfCnpj())) {
+        if (profissionalAutonomoRepository.existsByCpfCnpj(profissionalAutonomoDTO.getCpfCnpj())) {
             return new MensagemDTO("ESTE PROFISSIONAL JÁ ESTÁ CADASTRADO!");
         }
 
