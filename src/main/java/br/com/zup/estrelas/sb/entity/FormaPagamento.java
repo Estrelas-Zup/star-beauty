@@ -19,7 +19,7 @@ public class FormaPagamento {
 
     @Column(name = "tipo_pagamento", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TipoPagamento tipoPagamnto;
+    private TipoPagamento tipoPagamento;
 
     public Long getIdFormaPagamento() {
         return idFormaPagamento;
@@ -29,12 +29,12 @@ public class FormaPagamento {
         this.idFormaPagamento = idFormaPagamento;
     }
 
-    public TipoPagamento getTipoPagamnto() {
-        return tipoPagamnto;
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
     }
 
-    public void setTipoPagamnto(TipoPagamento tipoPagamnto) {
-        this.tipoPagamnto = tipoPagamnto;
+    public void setTipoPagamento(TipoPagamento tipoPagamnto) {
+        this.tipoPagamento = tipoPagamnto;
     }
 
 }
