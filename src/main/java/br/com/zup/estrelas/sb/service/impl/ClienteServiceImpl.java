@@ -45,7 +45,8 @@ public class ClienteServiceImpl implements ClienteService {
 
         Cliente cliente = clienteConsultado.get();
 
-        if (clienteDTO.getCpf() == cliente.getCpf()) {
+        if (clienteDTO.getCpf() == cliente.getCpf()
+                && clienteRepository.existsByCpf(clienteDTO.getCpf())) {
             return new MensagemDTO(ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
         }
 

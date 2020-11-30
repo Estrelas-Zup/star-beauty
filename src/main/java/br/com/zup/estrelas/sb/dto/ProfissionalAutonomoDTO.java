@@ -78,6 +78,22 @@ public class ProfissionalAutonomoDTO {
     @NotBlank(message = "O campo tipo de usuario precisa ser preenchido.")
     private TipoUsuario tipoUsuario;
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public String getNome() {
         return nome;
     }

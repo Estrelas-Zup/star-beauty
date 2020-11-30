@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import br.com.zup.estrelas.sb.abstrata.Usuario;
 
 @Entity
@@ -19,6 +20,7 @@ public class Salao extends Usuario {
     @ManyToMany
     private List<FormaPagamento> formasPagamentos;
 
+    @JsonIdentityReference
     @OneToMany
     private List<Funcionario> funcionarios;
 

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Funcionario {
@@ -33,6 +34,7 @@ public class Funcionario {
 
     private boolean ativo;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "funcionarios_fk"))
     private Salao salao;

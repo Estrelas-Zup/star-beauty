@@ -46,7 +46,9 @@ public class SalaoServiceImpl implements SalaoService {
 
         Salao salao = salaoRepository.findById(idSalao).get();
 
-        if (salao.getCnpj() == salaoDTO.getCnpj()) {
+        // por que a condição de alteração não funciona se comparar a diferenca entre cnpj's?
+        if (salaoDTO.getCnpj() == salao.getCnpj()
+                && salaoRepository.existsByCnpj(salaoDTO.getCnpj())) {
             return new MensagemDTO("CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!");
         }
 
@@ -82,7 +84,7 @@ public class SalaoServiceImpl implements SalaoService {
 
         salaoRepository.save(salao);
 
-        return new MensagemDTO("SALÃO ALERADO COM SUCESSO!");
+        return new MensagemDTO("SALÃO ALTERADO COM SUCESSO!");
     }
 
     private MensagemDTO finalizaInativacaoSalao(Long idSalao, InativaSalaoDTO inativaSalaoDTO) {

@@ -25,7 +25,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private static final String FUNCIONARIO_ALTERADO_COM_SUCESSO =
             "Funcionário alterado com sucesso.";
     private static final String FUNCIONARIO_INATIVO = "Funcionário inativo com sucesso";
-
+    private static final String CPF_JÁ_EXISTE = "Cpf já existe no Banco de Dados!";
 
     @Autowired
     FuncionarioRepository funcionarioRepository;
@@ -69,7 +69,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         if (!funcionarioConsultado.isPresent()) {
             return new MensagemDTO(FUNCIONARIO_INEXISTENTE);
+        }
 
+        if (funcionarioConsultado.get().getCpf() == alteraFuncionarioDTO.getCpf()
+                && funcionarioRepository.existsByCpf(alteraFuncionarioDTO.getCpf())) {
+            return new MensagemDTO(CPF_JÁ_EXISTE);
         }
 
         return this.alteraInformacaoFuncionario(funcionarioConsultado, alteraFuncionarioDTO);
@@ -120,6 +124,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         BeanUtils.copyProperties(funcionarioDTO, funcionario);
         funcionario.setAgendamento(Collections.emptyList());
         funcionario.setServico(Collections.emptyList());
+        funcionario.setAtivo(true);
 
         funcionarioRepository.save(funcionario);
 
