@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import br.com.zup.estrelas.sb.abstrata.Usuario;
 
@@ -12,7 +11,7 @@ import br.com.zup.estrelas.sb.abstrata.Usuario;
 public class ProfissionalAutonomo extends Usuario {
 
     @Column(nullable = false, unique = false)
-    private String cpf;
+    private String cpfCnpj;
 
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
@@ -23,15 +22,15 @@ public class ProfissionalAutonomo extends Usuario {
     @OneToMany
     private List<Agendamento> agendamento;
 
-    @ManyToMany
+    @OneToMany
     private List<FormaPagamento> formasPagamentos;
 
-    public String getCpf() {
-        return cpf;
+    public String getCpfCnpj() {
+        return cpfCnpj;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpfCnpj(String cpfCnpj) {
+        this.cpfCnpj = cpfCnpj;
     }
 
     public LocalDate getDataNascimento() {

@@ -17,7 +17,7 @@ import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
 import br.com.zup.estrelas.sb.service.ProfissionalAutonomoService;
 
 @RestController
-@RequestMapping("autonomos")
+@RequestMapping("/autonomos")
 public class ProfissionalAutonomoController {
 
     @Autowired

@@ -11,11 +11,12 @@ import br.com.zup.estrelas.sb.enums.TipoUsuario;
 
 public class ProfissionalAutonomoDTO {
 
-    private static final String PADRAO_CPF = "[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}";
+    // private static final String PADRAO_CPF = "[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}";
     private static final String PADRAO_DATA = "(1|2)[0-9]{3}-(0[1-9]|1[0-2])-[0-9][0-9]";
     private static final String PADRAO_TELEFONE_CELULAR = "^[1-9][0-9]-(9)[1-9][0-9]{3}-[0-9]{4}$";
     private static final String PADRAO_CEP = "^\\d{5}-\\d{3}$";
-    private static final String PADRAO_SENHA = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+    private static final String PADRAO_SENHA =
+            "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
     private static final String APENAS_LETRAS_ALFABETO = "[a-zA-Z ]+";
 
     @NotBlank(message = "O campo login precisa ser preenchido.")
@@ -33,9 +34,9 @@ public class ProfissionalAutonomoDTO {
     private String nome;
 
     @NotBlank(message = "O campo CPF precisa ser preenchido.")
-    @Max(value = 11, message = "O campo CPF não pode ter mais de 11 dígitos")
-    @Pattern(regexp = PADRAO_CPF)
-    private String cpf;
+    // @Max(value = 11 ou 14, message = "O campo CPF não pode ter mais de 11 dígitos")
+    // Como validar cpf ou cnpj no mesmo
+    private String cpfCnpj;
 
     @NotBlank(message = "O campo data de nascimento precisa ser preenchido.")
     @Past(message = "A data de nascimento precisa ser anterior ao dia de hoje.")
@@ -74,6 +75,7 @@ public class ProfissionalAutonomoDTO {
     @Email(message = "O e-mail informado precisa ser válido.")
     private String email;
 
+    @NotBlank(message = "O campo tipo de usuario precisa ser preenchido.")
     private TipoUsuario tipoUsuario;
 
     public String getNome() {
@@ -84,12 +86,12 @@ public class ProfissionalAutonomoDTO {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCpfCnpj() {
+        return cpfCnpj;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpfCnpj(String cpfCnpj) {
+        this.cpfCnpj = cpfCnpj;
     }
 
     public LocalDate getDataNascimento() {

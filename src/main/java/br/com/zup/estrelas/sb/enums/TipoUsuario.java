@@ -3,7 +3,8 @@ package br.com.zup.estrelas.sb.enums;
 public enum TipoUsuario {
 
     SALAO("salao"), 
-    CLIENTE("cliente");
+    CLIENTE("cliente"),
+    AUTONOMO("Profissional Autonomo");
 
     private String value;
 

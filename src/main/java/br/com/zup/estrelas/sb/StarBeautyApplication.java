@@ -8,6 +8,8 @@ public class StarBeautyApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(StarBeautyApplication.class, args);
+        
+        System.out.println("dnjsh");
     }
 
 }
