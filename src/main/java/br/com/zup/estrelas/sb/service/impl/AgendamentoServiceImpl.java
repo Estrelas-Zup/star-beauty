@@ -1,4 +1,4 @@
-package br.com.zup.estrelas.sb.service.imp;
+package br.com.zup.estrelas.sb.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
