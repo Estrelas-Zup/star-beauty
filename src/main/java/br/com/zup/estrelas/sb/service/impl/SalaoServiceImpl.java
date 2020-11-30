@@ -69,6 +69,7 @@ public class SalaoServiceImpl implements SalaoService {
         BeanUtils.copyProperties(salaoDTO, novoSalao);
         novoSalao.setFormaPagamento(Collections.emptyList());
         novoSalao.setFuncionario(Collections.emptyList());
+        novoSalao.setAtivo(true);
 
         salaoRepository.save(novoSalao);
 
@@ -88,7 +89,7 @@ public class SalaoServiceImpl implements SalaoService {
 
         Optional<Salao> salao = salaoRepository.findById(idSalao);
 
-        BeanUtils.copyProperties(inativaSalaoDTO, salao);
+        salao.get().setAtivo(inativaSalaoDTO.isAtivo());
 
         salaoRepository.save(salao.get());
 

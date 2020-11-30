@@ -1,6 +1,5 @@
 package br.com.zup.estrelas.sb.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.FormaPagamento;
-import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.repository.FormaPagamentoRepository;
 import br.com.zup.estrelas.sb.service.FormaPagamentoService;
 

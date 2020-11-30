@@ -53,7 +53,7 @@ public class Usuario {
     @Column(nullable = false)
     private boolean ativo;
 
-    @Column(name = "tipo_usuario")
+    @Column(name = "tipo_usuario", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 

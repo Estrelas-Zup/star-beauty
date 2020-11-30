@@ -76,6 +76,7 @@ public class ClienteServiceImpl implements ClienteService {
         BeanUtils.copyProperties(clienteDTO, cliente);
         cliente.setAgendamento(Collections.emptyList());
         cliente.setAtivo(true);
+        cliente.setTipoUsuario(clienteDTO.getTipoUsuario());
 
         clienteRepository.save(cliente);
 
