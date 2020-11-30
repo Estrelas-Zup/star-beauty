@@ -19,12 +19,12 @@ public class ServicoDTO {
     @NotBlank(message = "A duração não pode ser nulo")
     @Positive(message = "A duração tem que ser maior que zero")
     @NumberFormat(style = Style.NUMBER)
-    private Double duracao;
+    private String duracao;
 
     @NotBlank(message = "O valor do serviço não pode ser nulo")
     @Positive(message = "O valor do serviço tem que ser maior que zero")
     @NumberFormat(style = Style.NUMBER)
-    private Double valorServico; 
+    private Double valorServico;
 
     @NotBlank(message = "O tipo de serviço não pode ser nulo")
     private TipoServico tipoServico;
@@ -38,11 +38,11 @@ public class ServicoDTO {
         this.nomeServico = nomeServico;
     }
 
-    public Double getDuracao() {
+    public String getDuracao() {
         return duracao;
     }
 
-    public void setDuracao(Double duracao) {
+    public void setDuracao(String duracao) {
         this.duracao = duracao;
     }
 

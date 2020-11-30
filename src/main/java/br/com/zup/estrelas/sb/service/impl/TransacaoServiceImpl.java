@@ -8,6 +8,7 @@ import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.TransacaoDTO;
 import br.com.zup.estrelas.sb.entity.Agendamento;
 import br.com.zup.estrelas.sb.entity.Transacao;
+import br.com.zup.estrelas.sb.repository.AgendamentoRepository;
 import br.com.zup.estrelas.sb.repository.TransacaoRepository;
 import br.com.zup.estrelas.sb.service.TransacaoService;
 
@@ -23,9 +24,15 @@ public class TransacaoServiceImpl implements TransacaoService {
     @Autowired
     TransacaoRepository transacaoRepository;
 
+    @Autowired
+    AgendamentoRepository agendamentoRepository;
+
     public void criaTransacao(TransacaoDTO transacaoDTO) {
 
-        Agendamento agendamento = transacaoDTO.getAgendamento();
+
+
+        Agendamento agendamento =
+                agendamentoRepository.findById(transacaoDTO.getIdAgendamento()).get();
 
         if (!agendamento.isRealizado()) {
             return;
@@ -59,7 +66,7 @@ public class TransacaoServiceImpl implements TransacaoService {
             return new MensagemDTO(TRANSACAO_INEXISTENTE);
         }
 
-        return this.alteraInformacoesTransacao(transacaoDTO);
+        return this.alteraInformacoesTransacao(idTransacao, transacaoDTO);
     }
 
     private void adicionaTransacao(TransacaoDTO transacaoDTO) {
@@ -71,9 +78,9 @@ public class TransacaoServiceImpl implements TransacaoService {
         transacaoRepository.save(transacao);
     }
 
-    private MensagemDTO alteraInformacoesTransacao(TransacaoDTO transacaoDTO) {
+    private MensagemDTO alteraInformacoesTransacao(Long idTransacao, TransacaoDTO transacaoDTO) {
 
-        Transacao transacao = new Transacao();
+        Transacao transacao = transacaoRepository.findById(idTransacao).get();
 
         BeanUtils.copyProperties(transacaoDTO, transacao);
 

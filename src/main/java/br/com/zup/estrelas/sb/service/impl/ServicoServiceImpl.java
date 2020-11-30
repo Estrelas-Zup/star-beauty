@@ -54,16 +54,16 @@ public class ServicoServiceImpl implements ServicoService {
 
     public MensagemDTO alteraServico(Long idServico, ServicoDTO servicoDTO) {
 
-        if (!servicoRepository.existsByNomeServico(servicoDTO.getNomeServico())) {
+        if (!servicoRepository.existsById(idServico)) {
             return new MensagemDTO(SERVICO_INEXISTENTE);
         }
 
-        return this.alteraInformacoesServico(servicoDTO);
+        return this.alteraInformacoesServico(idServico, servicoDTO);
     }
 
-    private MensagemDTO alteraInformacoesServico(ServicoDTO servicoDTO) {
+    private MensagemDTO alteraInformacoesServico(Long idServico, ServicoDTO servicoDTO) {
 
-        Servico servico = new Servico();
+        Servico servico = servicoRepository.findById(idServico).get();
 
         BeanUtils.copyProperties(servicoDTO, servico);
 
@@ -77,6 +77,7 @@ public class ServicoServiceImpl implements ServicoService {
         Servico servico = new Servico();
 
         BeanUtils.copyProperties(servicoDTO, servico);
+
         servicoRepository.save(servico);
 
         return new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);

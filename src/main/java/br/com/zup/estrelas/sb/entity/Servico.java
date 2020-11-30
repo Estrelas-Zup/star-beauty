@@ -21,7 +21,7 @@ public class Servico {
     private String nomeServico;
 
     @Column(nullable = false)
-    private Double duracao;
+    private String duracao;
 
     @Column(name = "valor_servico")
     private Double valorServico;
@@ -46,11 +46,11 @@ public class Servico {
         this.nomeServico = nomeServico;
     }
 
-    public Double getDuracao() {
+    public String getDuracao() {
         return duracao;
     }
 
-    public void setDuracao(Double duracao) {
+    public void setDuracao(String duracao) {
         this.duracao = duracao;
     }
 

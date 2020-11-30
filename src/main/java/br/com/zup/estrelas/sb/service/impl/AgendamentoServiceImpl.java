@@ -7,9 +7,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.AgendamentoDTO;
-import br.com.zup.estrelas.sb.dto.CancelaAgendamentoDTO;
 import br.com.zup.estrelas.sb.dto.FinalizaAgendamentoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
+import br.com.zup.estrelas.sb.dto.TransacaoDTO;
 import br.com.zup.estrelas.sb.entity.Agendamento;
 import br.com.zup.estrelas.sb.repository.AgendamentoRepository;
 import br.com.zup.estrelas.sb.service.AgendamentoService;
@@ -43,13 +43,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         // verificar a disponibilidade na agenda para o tempo de execução do servico, se não
         // inflinge outro agendamento!
 
-        Agendamento agendamento = new Agendamento();
-
-        BeanUtils.copyProperties(agendamentoDTO, agendamento);
-
-        agendamentoRepository.save(agendamento);
-
-        return new MensagemDTO("AGENDAMENTO REALIZADO COM SUCESSO!");
+        return this.criaAgendamdentoComSucesso(agendamentoDTO);
     }
 
     @Override
@@ -73,25 +67,79 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                     "NÃO É POSSÍVEL ALTERAR A DATA COM MENOS DE 24 HORAS DO AGENDAMENTO!");
         }
 
-        return null;
+        return this.alteraInformacoesAgendamento(agendamento, agendamentoDTO);
     }
 
     @Override
     public MensagemDTO finalizaAgendamento(Long idAgendamento,
             FinalizaAgendamentoDTO finalizaAgendamentoDTO) {
 
+        if (!agendamentoRepository.existsById(idAgendamento)) {
+            return new MensagemDTO("AGENDAMENTO NÃO ENCONTRADO PARA FINALIZAR!");
+        }
 
-
-        // Apos finalizar o metodo, chamar o metodo cria Transacai AQUI!
-        // Passar TransacaoDTO já populado AQUI!
-        return null;
+        return this.finalizaAgendamentoComSucesso(idAgendamento, finalizaAgendamentoDTO);
     }
 
     @Override
-    public MensagemDTO cancelaAgendamento(Long idAgendamento,
-            CancelaAgendamentoDTO cancelaAgendamentoDTO) {
-        // TODO Auto-generated method stub
-        return null;
+    public MensagemDTO cancelaAgendamento(Long idAgendamento) {
+
+        if (!agendamentoRepository.existsById(idAgendamento)) {
+            return new MensagemDTO("AGENDAMENTO NÃO ENCONTRADO PARA CANCELAR!");
+        }
+
+        agendamentoRepository.deleteById(idAgendamento);
+
+        return new MensagemDTO("AGENDAMENTO CANCELADO E EXCLUÍDO COM SUCESSO!");
     }
 
+    private MensagemDTO criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO) {
+
+        Agendamento agendamento = new Agendamento();
+
+        BeanUtils.copyProperties(agendamentoDTO, agendamento);
+
+        agendamentoRepository.save(agendamento);
+
+        return new MensagemDTO("AGENDAMENTO REALIZADO COM SUCESSO!");
+    }
+
+    private MensagemDTO alteraInformacoesAgendamento(Agendamento agendamento,
+            AgendamentoDTO agendamentoDTO) {
+
+        BeanUtils.copyProperties(agendamentoDTO, agendamento);
+
+        agendamentoRepository.save(agendamento);
+
+        return new MensagemDTO("AGENDAMENTO ALTERADO COM SUCESSO!");
+    }
+
+    private MensagemDTO finalizaAgendamentoComSucesso(Long idAgendamento,
+            FinalizaAgendamentoDTO finalizaAgendamentoDTO) {
+
+        Agendamento agendamento = agendamentoRepository.findById(idAgendamento).get();
+
+        agendamento.setRealizado(finalizaAgendamentoDTO.isRealizado());
+
+        this.criaTransacao(idAgendamento, agendamento);
+
+        agendamentoRepository.save(agendamento);
+
+        return new MensagemDTO("AGENDAMENTO FINALIZADO COM SUCESSO!");
+    }
+
+    private void criaTransacao(Long idAgendamento, Agendamento agendamento) {
+
+        TransacaoServiceImpl transacaoServiceImpl = new TransacaoServiceImpl();
+
+        TransacaoDTO transacaoDTO = new TransacaoDTO();
+
+        transacaoDTO.setIdAgendamento(idAgendamento);
+        transacaoDTO.setNomeCliente(agendamento.getNomeCliente());
+        transacaoDTO.setNomeSalao(agendamento.getFuncionario().getSalao().getNomeFantasia());
+        transacaoDTO.setValor(agendamento.getServico().getValorServico());
+        transacaoDTO.setFormaPagmento(agendamento.getFormaPagamento());
+
+        transacaoServiceImpl.criaTransacao(transacaoDTO);
+    }
 }

@@ -2,7 +2,6 @@ package br.com.zup.estrelas.sb.service;
 
 import java.util.List;
 import br.com.zup.estrelas.sb.dto.AgendamentoDTO;
-import br.com.zup.estrelas.sb.dto.CancelaAgendamentoDTO;
 import br.com.zup.estrelas.sb.dto.FinalizaAgendamentoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Agendamento;
@@ -20,6 +19,6 @@ public interface AgendamentoService {
     public MensagemDTO finalizaAgendamento(Long idAgendamento,
             FinalizaAgendamentoDTO finalizaAgendamentoDTO);
 
-    public MensagemDTO cancelaAgendamento(Long idAgendamento,
-            CancelaAgendamentoDTO cancelaAgendamentoDTO);
+    public MensagemDTO cancelaAgendamento(Long idAgendamento);
+
 }
