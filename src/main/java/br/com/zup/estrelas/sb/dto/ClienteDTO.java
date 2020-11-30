@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CPF;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 
 public class ClienteDTO {
@@ -67,15 +69,16 @@ public class ClienteDTO {
 
     @NotBlank(message = "O campo CPF precisa ser preenchido.")
     @Max(value = 11, message = "O campo CPF não pode ter mais de 11 dígitos")
-    @Pattern(regexp = PADRAO_CPF)
+    @CPF
+    //Existe um validador pra cpf, @CPF
     private String cpf;
 
-    @NotBlank(message = "O campo data de nascimento precisa ser preenchido.")
+    @NotNull(message = "O campo data de nascimento precisa ser preenchido.")
     @Past(message = "A data de nascimento precisa ser anterior ao dia de hoje.")
-    @Pattern(regexp = PADRAO_DATA)
     private LocalDate dataNascimento;
 
-    @NotBlank(message = "O campo tipo de usuario precisa ser preenchido.")
+    //Not blank só funciona pra strings.
+    @NotNull(message = "O campo tipo de usuario precisa ser preenchido.")
     private TipoUsuario tipoUsuario;
 
     public String getLogin() {
