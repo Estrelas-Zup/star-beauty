@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Funcionario {
@@ -39,17 +41,18 @@ public class Funcionario {
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "funcionarios_fk"))
     private Salao salao;
 
-    @OneToMany
-    private List<Servico> servico;
+    @ManyToMany
+    private List<Servico> servicos;
 
-    @OneToMany
-    private List<Agendamento> agendamento;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "funcionario")
+    private List<Agendamento> agendamentos;
 
-    public Long getIdFuncionario() {
+    public Long getIdFuncionarios() {
         return idFuncionario;
     }
 
-    public void setIdFuncionario(Long idFuncionario) {
+    public void setIdFuncionarios(Long idFuncionario) {
         this.idFuncionario = idFuncionario;
     }
 
@@ -101,20 +104,20 @@ public class Funcionario {
         this.salao = salao;
     }
 
-    public List<Servico> getServico() {
-        return servico;
+    public List<Servico> getServicos() {
+        return servicos;
     }
 
-    public void setServico(List<Servico> servico) {
-        this.servico = servico;
+    public void setServicos(List<Servico> servicos) {
+        this.servicos = servicos;
     }
 
-    public List<Agendamento> getAgendamento() {
-        return agendamento;
+    public List<Agendamento> getAgendamentos() {
+        return agendamentos;
     }
 
-    public void setAgendamento(List<Agendamento> agendamento) {
-        this.agendamento = agendamento;
+    public void setAgendamentos(List<Agendamento> agendamentos) {
+        this.agendamentos = agendamentos;
     }
 
 }

@@ -45,7 +45,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         Cliente cliente = clienteConsultado.get();
 
-        if (clienteDTO.getCpf() == cliente.getCpf()
+        if (!clienteDTO.getCpf().equals(cliente.getCpf())
                 && clienteRepository.existsByCpf(clienteDTO.getCpf())) {
             return new MensagemDTO(ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
         }
@@ -75,7 +75,7 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente cliente = new Cliente();
 
         BeanUtils.copyProperties(clienteDTO, cliente);
-        cliente.setAgendamento(Collections.emptyList());
+        cliente.setAgendamentos(Collections.emptyList());
         cliente.setAtivo(true);
         cliente.setTipoUsuario(clienteDTO.getTipoUsuario());
 

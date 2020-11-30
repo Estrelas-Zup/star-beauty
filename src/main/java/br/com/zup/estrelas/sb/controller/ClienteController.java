@@ -29,8 +29,8 @@ public class ClienteController {
     }
 
     @PutMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO alteraCliente(@Valid @PathVariable Long idUsuario,
-            @RequestBody ClienteDTO clienteDTO) {
+    public MensagemDTO alteraCliente(@PathVariable Long idUsuario,
+            @Valid @RequestBody ClienteDTO clienteDTO) {
         return clienteService.alteraCliente(idUsuario, clienteDTO);
     }
 

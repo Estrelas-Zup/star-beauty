@@ -7,11 +7,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 
 public class ProfissionalAutonomoDTO {
 
-    // private static final String PADRAO_CPF = "[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}";
     private static final String PADRAO_DATA = "(1|2)[0-9]{3}-(0[1-9]|1[0-2])-[0-9][0-9]";
     private static final String PADRAO_TELEFONE_CELULAR = "^[1-9][0-9]-(9)[1-9][0-9]{3}-[0-9]{4}$";
     private static final String PADRAO_CEP = "^\\d{5}-\\d{3}$";
@@ -33,9 +34,10 @@ public class ProfissionalAutonomoDTO {
     @Pattern(regexp = APENAS_LETRAS_ALFABETO)
     private String nome;
 
+    // Funciona?
     @NotBlank(message = "O campo CPF precisa ser preenchido.")
-    // @Max(value = 11 ou 14, message = "O campo CPF não pode ter mais de 11 dígitos")
-    // Como validar cpf ou cnpj no mesmo
+    @CPF
+    @CNPJ
     private String cpfCnpj;
 
     @NotBlank(message = "O campo data de nascimento precisa ser preenchido.")

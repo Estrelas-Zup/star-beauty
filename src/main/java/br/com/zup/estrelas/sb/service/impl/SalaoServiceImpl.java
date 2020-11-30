@@ -47,7 +47,7 @@ public class SalaoServiceImpl implements SalaoService {
         Salao salao = salaoRepository.findById(idSalao).get();
 
         // por que a condição de alteração não funciona se comparar a diferenca entre cnpj's?
-        if (salaoDTO.getCnpj() == salao.getCnpj()
+        if (!salaoDTO.getCnpj().equals(salao.getCnpj())
                 && salaoRepository.existsByCnpj(salaoDTO.getCnpj())) {
             return new MensagemDTO("CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!");
         }
@@ -70,7 +70,7 @@ public class SalaoServiceImpl implements SalaoService {
 
         BeanUtils.copyProperties(salaoDTO, novoSalao);
         novoSalao.setFormaPagamento(Collections.emptyList());
-        novoSalao.setFuncionario(Collections.emptyList());
+        novoSalao.setFuncionarios(Collections.emptyList());
         novoSalao.setAtivo(true);
 
         salaoRepository.save(novoSalao);

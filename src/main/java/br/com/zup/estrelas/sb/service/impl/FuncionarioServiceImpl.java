@@ -122,8 +122,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         Funcionario funcionario = new Funcionario();
 
         BeanUtils.copyProperties(funcionarioDTO, funcionario);
-        funcionario.setAgendamento(Collections.emptyList());
-        funcionario.setServico(Collections.emptyList());
+        funcionario.setAgendamentos(Collections.emptyList());
+        funcionario.setServicos(Collections.emptyList());
         funcionario.setAtivo(true);
 
         funcionarioRepository.save(funcionario);

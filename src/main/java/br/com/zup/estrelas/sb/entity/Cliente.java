@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import br.com.zup.estrelas.sb.abstrata.Usuario;
 
 @Entity
@@ -16,8 +17,9 @@ public class Cliente extends Usuario {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @OneToMany
-    private List<Agendamento> agendamento;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "cliente")
+    private List<Agendamento> agendamentos;
 
     public String getCpf() {
         return cpf;
@@ -35,12 +37,12 @@ public class Cliente extends Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-    public List<Agendamento> getAgendamento() {
-        return agendamento;
+    public List<Agendamento> getAgendamentos() {
+        return agendamentos;
     }
 
-    public void setAgendamento(List<Agendamento> agendamento) {
-        this.agendamento = agendamento;
+    public void setAgendamentos(List<Agendamento> agendamentos) {
+        this.agendamentos = agendamentos;
     }
 
 }

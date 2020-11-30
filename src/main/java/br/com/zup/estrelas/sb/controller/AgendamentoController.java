@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,19 +36,19 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public MensagemDTO criaAgendamento(@RequestBody AgendamentoDTO agendamentoDTO) {
+    public MensagemDTO criaAgendamento(@Valid @RequestBody AgendamentoDTO agendamentoDTO) {
         return agendamentoService.criaAgendamento(agendamentoDTO);
     }
 
     @PutMapping(path = "/{idAgendamento}")
     public MensagemDTO alteraAgendamento(@PathVariable Long idAgendamento,
-            @RequestBody AgendamentoDTO agendamentoDTO) {
+            @Valid @RequestBody AgendamentoDTO agendamentoDTO) {
         return agendamentoService.alteraAgendamento(idAgendamento, agendamentoDTO);
     }
 
     @PutMapping(path = "/{idAgendamento}/finaliza")
     public MensagemDTO finalizaAgendamento(@PathVariable Long idAgendamento,
-            @RequestBody FinalizaAgendamentoDTO finalizaAgendamentoDTO) {
+            @Valid @RequestBody FinalizaAgendamentoDTO finalizaAgendamentoDTO) {
         return agendamentoService.finalizaAgendamento(idAgendamento, finalizaAgendamentoDTO);
     }
 

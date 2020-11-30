@@ -13,12 +13,12 @@ import br.com.zup.estrelas.sb.enums.TipoUsuario;
 
 public class ClienteDTO {
 
-    private static final String PADRAO_CPF = "[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}";
-    private static final String PADRAO_DATA = "(1|2)[0-9]{3}-(0[1-9]|1[0-2])-[0-9][0-9]";
+    private static final String PADRAO_DATA =
+            "^(1|2)[0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$";
     private static final String PADRAO_TELEFONE_CELULAR = "^[1-9][0-9]-(9)[1-9][0-9]{3}-[0-9]{4}$";
     private static final String PADRAO_CEP = "^\\d{5}-\\d{3}$";
     private static final String PADRAO_SENHA =
-            "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
     private static final String APENAS_LETRAS_ALFABETO = "[a-zA-Z ]+";
 
     @NotBlank(message = "O campo login precisa ser preenchido.")
@@ -70,14 +70,13 @@ public class ClienteDTO {
     @NotBlank(message = "O campo CPF precisa ser preenchido.")
     @Max(value = 11, message = "O campo CPF não pode ter mais de 11 dígitos")
     @CPF
-    //Existe um validador pra cpf, @CPF
     private String cpf;
 
     @NotNull(message = "O campo data de nascimento precisa ser preenchido.")
     @Past(message = "A data de nascimento precisa ser anterior ao dia de hoje.")
+    // @Pattern(regexp = PADRAO_DATA)
     private LocalDate dataNascimento;
 
-    //Not blank só funciona pra strings.
     @NotNull(message = "O campo tipo de usuario precisa ser preenchido.")
     private TipoUsuario tipoUsuario;
 

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 @Entity
@@ -20,14 +21,17 @@ public class Agendamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAgendamento;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_funcionario",foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
     private Funcionario funcionario;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_usuario_cliente", foreignKey = @ForeignKey(name = "agendamentos_cliente_fk"))
     private Cliente cliente;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_usuario_autonomo", foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
     private ProfissionalAutonomo autonomo;

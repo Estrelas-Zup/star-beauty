@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,9 +24,9 @@ public class FormaPagamentoController {
     @Autowired
     FormaPagamentoService formaPagamentoService;
 
-    // deve ir pra um DAO o método adiciona?
     @PostMapping
-    public MensagemDTO adicionaFormaPagamento(@RequestBody FormaPagamentoDTO formaPagamentoDTO) {
+    public MensagemDTO adicionaFormaPagamento(
+            @Valid @RequestBody FormaPagamentoDTO formaPagamentoDTO) {
         return formaPagamentoService.adicionaFormaPagamento(formaPagamentoDTO);
     }
 
@@ -47,7 +48,7 @@ public class FormaPagamentoController {
 
     @PutMapping(path = "/{idFormaPagamento}")
     public MensagemDTO alteraFormaPagamento(@PathVariable Long idFormaPagamento,
-            @RequestBody FormaPagamentoDTO alteraFormaPagamentoDTO) {
+            @Valid @RequestBody FormaPagamentoDTO alteraFormaPagamentoDTO) {
         return formaPagamentoService.alteraFormaPagamento(idFormaPagamento,
                 alteraFormaPagamentoDTO);
     }

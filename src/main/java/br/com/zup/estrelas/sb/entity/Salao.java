@@ -5,7 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import br.com.zup.estrelas.sb.abstrata.Usuario;
 
 @Entity
@@ -20,8 +20,8 @@ public class Salao extends Usuario {
     @ManyToMany
     private List<FormaPagamento> formasPagamentos;
 
-    @JsonIdentityReference
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(mappedBy = "salao")
     private List<Funcionario> funcionarios;
 
     public String getCnpj() {
@@ -48,11 +48,11 @@ public class Salao extends Usuario {
         this.formasPagamentos = formasPagamentos;
     }
 
-    public List<Funcionario> getFuncionario() {
+    public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }
 
-    public void setFuncionario(List<Funcionario> funcionarios) {
+    public void setFuncionarios(List<Funcionario> funcionarios) {
         this.funcionarios = funcionarios;
     }
 

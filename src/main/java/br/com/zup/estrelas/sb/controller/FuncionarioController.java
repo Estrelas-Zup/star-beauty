@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +26,7 @@ public class FuncionarioController {
     FuncionarioService funcionarioService;
 
     @PostMapping
-    public MensagemDTO adicionaFuncionario(@RequestBody FuncionarioDTO funcionario) {
+    public MensagemDTO adicionaFuncionario(@Valid @RequestBody FuncionarioDTO funcionario) {
         return funcionarioService.adicionaFuncionario(funcionario);
     }
 
@@ -46,13 +47,13 @@ public class FuncionarioController {
 
     @PutMapping(path = "/{idFuncionario}")
     public MensagemDTO alteraFuncionario(@PathVariable Long idFuncionario,
-            @RequestBody FuncionarioDTO alteraFuncionarioDTO) {
+            @Valid @RequestBody FuncionarioDTO alteraFuncionarioDTO) {
         return funcionarioService.alteraFuncionario(idFuncionario, alteraFuncionarioDTO);
     }
 
     @PutMapping(path = "/{idFuncionario}/inativa")
     public MensagemDTO inativaFuncionario(@PathVariable Long idFuncionario,
-            @RequestBody InativaFuncionarioDTO inativaFuncionarioDTO) {
+            @Valid @RequestBody InativaFuncionarioDTO inativaFuncionarioDTO) {
         return funcionarioService.inativaFuncionario(idFuncionario, inativaFuncionarioDTO);
     }
 

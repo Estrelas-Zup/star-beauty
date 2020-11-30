@@ -51,7 +51,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         boolean verificaCpfCnpjAutonomo = profissionalAutonomoRepository
                 .existsByCpfCnpj(profissionalAutonomoDTO.getCpfCnpj());
 
-        if (profissionalAutonomoDTO.getCpfCnpj() == profissionalAutonomo.getCpfCnpj()
+        if (profissionalAutonomoDTO.getCpfCnpj().equals(profissionalAutonomo.getCpfCnpj())
                 && verificaCpfCnpjAutonomo) {
             return new MensagemDTO("CPF JÁ CADASTRADO NO BANCO DE DADOS!");
         }
@@ -74,9 +74,9 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         ProfissionalAutonomo profissionalAutonomo = new ProfissionalAutonomo();
 
         BeanUtils.copyProperties(profissionalAutonomoDTO, profissionalAutonomo);
-        profissionalAutonomo.setAgendamento(Collections.emptyList());
+        profissionalAutonomo.setAgendamentos(Collections.emptyList());
         profissionalAutonomo.setFormasPagamentos(Collections.emptyList());
-        profissionalAutonomo.setServico(Collections.emptyList());
+        profissionalAutonomo.setServicos(Collections.emptyList());
         profissionalAutonomo.setAtivo(true);
 
         profissionalAutonomoRepository.save(profissionalAutonomo);

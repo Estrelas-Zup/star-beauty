@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,14 +23,9 @@ public class TransacaoController {
     @Autowired
     TransacaoService transacaoService;
 
-//    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public MensagemDTO criaTransacao(@RequestBody TransacaoDTO transacaoDTO) {
-//        return transacaoService.criaTransacao(transacaoDTO);
-//    }
-
     @PutMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO alteraTransacao(@PathVariable Long idTransacao,
-            @RequestBody TransacaoDTO transacaoDTO) {
+            @Valid @RequestBody TransacaoDTO transacaoDTO) {
         return transacaoService.alteraTransacao(idTransacao, transacaoDTO);
     }
 

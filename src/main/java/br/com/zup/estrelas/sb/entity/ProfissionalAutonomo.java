@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import br.com.zup.estrelas.sb.abstrata.Usuario;
 
 @Entity
@@ -16,13 +18,14 @@ public class ProfissionalAutonomo extends Usuario {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @OneToMany
-    private List<Servico> servico;
+    @ManyToMany
+    private List<Servico> servicos;
 
-    @OneToMany
-    private List<Agendamento> agendamento;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "autonomo")
+    private List<Agendamento> agendamentos;
 
-    @OneToMany
+    @ManyToMany
     private List<FormaPagamento> formasPagamentos;
 
     public String getCpfCnpj() {
@@ -41,20 +44,20 @@ public class ProfissionalAutonomo extends Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-    public List<Servico> getServico() {
-        return servico;
+    public List<Servico> getServicos() {
+        return servicos;
     }
 
-    public void setServico(List<Servico> servico) {
-        this.servico = servico;
+    public void setServicos(List<Servico> servicos) {
+        this.servicos = servicos;
     }
 
-    public List<Agendamento> getAgendamento() {
-        return agendamento;
+    public List<Agendamento> getAgendamentos() {
+        return agendamentos;
     }
 
-    public void setAgendamento(List<Agendamento> agendamento) {
-        this.agendamento = agendamento;
+    public void setAgendamentos(List<Agendamento> agendamentos) {
+        this.agendamentos = agendamentos;
     }
 
     public List<FormaPagamento> getFormasPagamentos() {

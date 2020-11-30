@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,18 +35,19 @@ public class SalaoController {
     }
 
     @PostMapping
-    public MensagemDTO adicionaSalao(@RequestBody SalaoDTO salaoDTO) {
+    public MensagemDTO adicionaSalao(@Valid @RequestBody SalaoDTO salaoDTO) {
         return salaoService.adicionaSalao(salaoDTO);
     }
 
     @PutMapping(path = "/{idSalao}")
-    public MensagemDTO alteraSalao(@PathVariable Long idSalao, @RequestBody SalaoDTO salaoDTO) {
+    public MensagemDTO alteraSalao(@PathVariable Long idSalao,
+            @Valid @RequestBody SalaoDTO salaoDTO) {
         return salaoService.alteraSalao(idSalao, salaoDTO);
     }
 
     @PutMapping(path = "/{idSalao}/inativa")
     public MensagemDTO inativaSalao(@PathVariable Long idSalao,
-            @RequestBody InativaSalaoDTO inativaSalaoDTO) {
+            @Valid @RequestBody InativaSalaoDTO inativaSalaoDTO) {
         return salaoService.inativaSalao(idSalao, inativaSalaoDTO);
     }
 

@@ -10,27 +10,34 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
 
 public class AgendamentoDTO {
-    
+
     private static final String APENAS_LETRAS_ALFABETO = "[a-zA-Z ]+";
 
-    @NotBlank(message = "O campo de id do funcionário deve ser preenchido.")
     @NumberFormat(style = Style.NUMBER)
     private Long idFuncionario;
+
+    @NumberFormat(style = Style.NUMBER)
+    private Long idProfissionalAutonomo;
+
+    @NotBlank(message = "O campo nome precisa ser preenchido.")
+    @Max(value = 255, message = "O nome não pode ter menos de 3 ou mais de 255 caracteres.")
+    @NumberFormat(style = Style.NUMBER)
+    private Long idCliente;
+
+    @NotBlank(message = "O campo nome do serviço precisa ser preenchido.")
+    private Long IdSevico;
     
-    @NotBlank (message = "O campo nome precisa ser preenchido.")
-    @Max (value = 255, message = "O nome não pode ter menos de 3 ou mais de 255 caracteres.")
     @Pattern(regexp = APENAS_LETRAS_ALFABETO)
     private String nomeCliente;
     
-    @NotBlank (message = "O campo nome do serviço precisa ser preenchido.")
     @Pattern(regexp = APENAS_LETRAS_ALFABETO)
     private String nomeServico;
-    
-    @NotBlank (message = "O data e hora do agendamento precisa ser preenchido.")
-    @Future (message = "A data do agendamento não pode ser anterior a hoje.")
+
+    @NotBlank(message = "O data e hora do agendamento precisa ser preenchido.")
+    @Future(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHora;
-    
-    @NotBlank (message = "O a forma de pagamento precisa ser preenchido.")
+
+    @NotBlank(message = "O a forma de pagamento precisa ser preenchido.")
     private TipoPagamento formaPagamento;
 
     public Long getIdFuncionario() {
@@ -39,6 +46,30 @@ public class AgendamentoDTO {
 
     public void setIdFuncionario(Long idFuncionario) {
         this.idFuncionario = idFuncionario;
+    }
+
+    public Long getIdProfissionalAutonomo() {
+        return idProfissionalAutonomo;
+    }
+
+    public void setIdProfissionalAutonomo(Long idProfissionalAutonomo) {
+        this.idProfissionalAutonomo = idProfissionalAutonomo;
+    }
+
+    public Long getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public Long getIdSevico() {
+        return IdSevico;
+    }
+
+    public void setIdSevico(Long idSevico) {
+        IdSevico = idSevico;
     }
 
     public String getNomeCliente() {

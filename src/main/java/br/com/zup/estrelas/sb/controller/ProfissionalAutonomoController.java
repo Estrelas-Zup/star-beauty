@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,20 +36,20 @@ public class ProfissionalAutonomoController {
 
     @PostMapping
     public MensagemDTO adicionaProfissionaisAutonomos(
-            @RequestBody ProfissionalAutonomoDTO profissionalAutonomoDTO) {
+            @Valid @RequestBody ProfissionalAutonomoDTO profissionalAutonomoDTO) {
         return profissionalAutonomoService.adicionaProfissionalAutonomo(profissionalAutonomoDTO);
     }
 
     @PutMapping("/{idUsuario}")
     public MensagemDTO alteraProfissionalAutonomo(@PathVariable Long idUsuario,
-            @RequestBody ProfissionalAutonomoDTO profissionaoAutonomoDTO) {
+            @Valid @RequestBody ProfissionalAutonomoDTO profissionaoAutonomoDTO) {
         return profissionalAutonomoService.alteraProfissionalAutonomo(idUsuario,
                 profissionaoAutonomoDTO);
     }
 
     @PutMapping("/{idUsuario}/inativa")
     public MensagemDTO inativaProfissionalAutonomo(@PathVariable Long idUsuario,
-            @RequestBody InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) {
+            @Valid @RequestBody InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) {
         return profissionalAutonomoService.inativaProfissionalAutonomo(idUsuario,
                 inativaProfissionalAutonomoDTO);
     }
