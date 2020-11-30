@@ -21,12 +21,16 @@ public class Agendamento {
     private Long idAgendamento;
 
     @ManyToOne
-    @JoinColumn(name = "id_funcionario", foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
+    @JoinColumn(name = "id_funcionario",foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
     private Funcionario funcionario;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "agendamentos_cliente_fk"))
     private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
+    private ProfissionalAutonomo autonomo;
 
     @OneToOne
     @JoinColumn(name = "id_servico", foreignKey = @ForeignKey(name = "agendamentos_servico_fk"))
