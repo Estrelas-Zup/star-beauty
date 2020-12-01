@@ -1,9 +1,11 @@
 package br.com.zup.estrelas.sb.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.com.zup.estrelas.sb.dto.InativaServicoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ServicoDTO;
 import br.com.zup.estrelas.sb.entity.Servico;
@@ -13,8 +15,8 @@ import br.com.zup.estrelas.sb.service.ServicoService;
 @Service
 public class ServicoServiceImpl implements ServicoService {
 
+    private static final String SERVICO_INATIVADO_COM_SUCESSO = "Servico inativado com sucesso.";
     private static final String SERVICO_ALTERADO_COM_SUCESSO = "Serviço alterado com sucesso.";
-    private static final String SERVICO_REMOVIDO_COM_SUCESSO = "Serviço removido com sucesso!";
     private static final String SERVICO_JA_CADASTRADO =
             "O cadastro não ocorreu, Serviço já está cadastrado";
     private static final String CADASTRO_REALIZADO_COM_SUCESSO = "Cadastro realizado com sucesso.";
@@ -41,17 +43,6 @@ public class ServicoServiceImpl implements ServicoService {
         return (List<Servico>) servicoRepository.findAll();
     }
 
-    public MensagemDTO removeServico(Long idServico) {
-
-        if (!servicoRepository.existsById(idServico)) {
-            return new MensagemDTO(SERVICO_INEXISTENTE);
-        }
-
-        servicoRepository.deleteById(idServico);
-
-        return new MensagemDTO(SERVICO_REMOVIDO_COM_SUCESSO);
-    }
-
     public MensagemDTO alteraServico(Long idServico, ServicoDTO servicoDTO) {
 
         if (!servicoRepository.existsById(idServico)) {
@@ -60,6 +51,18 @@ public class ServicoServiceImpl implements ServicoService {
 
         return this.alteraInformacoesServico(idServico, servicoDTO);
     }
+    
+    public MensagemDTO inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO) {
+        
+        Optional<Servico> servicoConsultado = servicoRepository.findById(idServico);
+        
+        if (servicoConsultado.isEmpty()) {
+            return new MensagemDTO (SERVICO_INEXISTENTE);
+        }
+        
+        return inativaServicoComSucesso(servicoConsultado, inativaServicoDTO);
+    }
+
 
     private MensagemDTO alteraInformacoesServico(Long idServico, ServicoDTO servicoDTO) {
 
@@ -77,10 +80,22 @@ public class ServicoServiceImpl implements ServicoService {
         Servico servico = new Servico();
 
         BeanUtils.copyProperties(servicoDTO, servico);
+        servico.setAtivo(true);
 
         servicoRepository.save(servico);
 
         return new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
+    }
+    
+    private MensagemDTO inativaServicoComSucesso(Optional<Servico> servicoConsultado, InativaServicoDTO inativaServicoDTO) {
+        
+        Servico servico = servicoConsultado.get();
+        
+        BeanUtils.copyProperties(inativaServicoDTO, servico);
+        
+        servicoRepository.save(servico);
+        
+        return new MensagemDTO (SERVICO_INATIVADO_COM_SUCESSO);
     }
 
 }

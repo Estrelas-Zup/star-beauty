@@ -31,7 +31,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     @Override
     public MensagemDTO adicionaProfissionalAutonomo(
             ProfissionalAutonomoDTO profissionalAutonomoDTO) {
-        if (profissionalAutonomoRepository.existsByCpfCnpj(profissionalAutonomoDTO.getCpfCnpj())) {
+        if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf()) || profissionalAutonomoRepository.existsByCnpj(profissionalAutonomoDTO.getCnpj())) {
             return new MensagemDTO("ESTE PROFISSIONAL JÁ ESTÁ CADASTRADO!");
         }
 
@@ -48,11 +48,15 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         ProfissionalAutonomo profissionalAutonomo =
                 profissionalAutonomoRepository.findById(idUsuario).get();
 
-        boolean verificaCpfCnpjAutonomo = profissionalAutonomoRepository
-                .existsByCpfCnpj(profissionalAutonomoDTO.getCpfCnpj());
+        boolean verificaCpfAutonomo = profissionalAutonomoRepository
+                .existsByCpf(profissionalAutonomoDTO.getCpf());
+        
+        boolean verificaCnpjAutonomo = profissionalAutonomoRepository
+                .existsByCnpj(profissionalAutonomoDTO.getCnpj());
 
-        if (profissionalAutonomoDTO.getCpfCnpj().equals(profissionalAutonomo.getCpfCnpj())
-                && verificaCpfCnpjAutonomo) {
+        if (profissionalAutonomoDTO.getCpf().equals(profissionalAutonomo.getCpf() )
+                && verificaCpfAutonomo || profissionalAutonomoDTO.getCnpj().equals(profissionalAutonomo.getCnpj() )
+                && verificaCnpjAutonomo) {
             return new MensagemDTO("CPF JÁ CADASTRADO NO BANCO DE DADOS!");
         }
 

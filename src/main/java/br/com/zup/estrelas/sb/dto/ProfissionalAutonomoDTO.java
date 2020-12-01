@@ -2,7 +2,6 @@ package br.com.zup.estrelas.sb.dto;
 
 import java.time.LocalDate;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -22,41 +21,41 @@ public class ProfissionalAutonomoDTO {
     private String senha;
 
     @NotBlank(message = "O campo nome precisa ser preenchido.")
-    @Max(value = 255, message = "O nome não pode ter de 255 caracteres.")
+    @Size (max = 255, message = "O nome não pode ter de 255 caracteres.")
     private String nome;
 
-    // Funciona?
-    @NotBlank(message = "O campo CPF precisa ser preenchido.")
-    @CPF
     @CNPJ
-    private String cpfCnpj;
+    private String cnpj;
+    
+    @CPF
+    private String cpf;
 
     @NotNull(message = "O campo data de nascimento precisa ser preenchido.")
     @Past(message = "A data de nascimento precisa ser anterior ao dia de hoje.")
     private LocalDate dataNascimento;
 
     @NotBlank(message = "O campo endereço precisa ser preenchido.")
-    @Max(value = 255, message = "O endereço não pode ter mais de 255 caracteres.")
+    @Size (max = 255, message = "O endereço não pode ter mais de 255 caracteres.")
     private String endereco;
 
     @NotBlank(message = "O campo CEP precisa ser preenchido.")
-    @Max(value = 8, message = "O CEP pode ter no máximo 8 dígitos.")
+    @Size (max = 9, message = "O CEP pode ter no máximo 9 caracteres.")
     private String cep;
 
     @NotBlank(message = "O campo cidade precisa ser preenchido.")
-    @Max(value = 255, message = "A cidade não pode ter mais de 255 caracteres.")
+    @Size (max = 255, message = "A cidade não pode ter mais de 255 caracteres.")
     private String cidade;
 
     @NotBlank(message = "O campo estado precisa ser preenchido.")
-    @Max(value = 255, message = "O estado não pode ter mais de 255 caracteres.")
+    @Size (max = 255, message = "O estado não pode ter mais de 255 caracteres.")
     private String estado;
 
     @NotBlank(message = "O campo bairro precisa ser preenchido.")
-    @Max(value = 255, message = "O bairro não pode ter mais de 255 caracteres.")
+    @Size (max = 255, message = "O bairro não pode ter mais de 255 caracteres.")
     private String bairro;
 
     @NotBlank(message = "O campo telefone precisa ser preenchido.")
-    @Max(value = 11, message = "O telefone pode ter no máximo 11 dígitos.")
+    @Size (max = 11, message = "O telefone pode ter no máximo 11 dígitos.")
     private String telefone;
 
     @NotBlank(message = "O campo email precisa ser preenchido.")
@@ -87,14 +86,6 @@ public class ProfissionalAutonomoDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getCpfCnpj() {
-        return cpfCnpj;
-    }
-
-    public void setCpfCnpj(String cpfCnpj) {
-        this.cpfCnpj = cpfCnpj;
     }
 
     public LocalDate getDataNascimento() {
@@ -168,5 +159,23 @@ public class ProfissionalAutonomoDTO {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+    
+    
 
 }

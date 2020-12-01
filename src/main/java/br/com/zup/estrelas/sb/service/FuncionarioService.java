@@ -14,8 +14,6 @@ public interface FuncionarioService {
     
     public List<Funcionario> listaFuncionarios();
     
-    public MensagemDTO removeFuncionario(Long idFuncionario);
-    
     public MensagemDTO alteraFuncionario(Long idFuncionario, FuncionarioDTO alteraFuncionarioDTO);
     
     public MensagemDTO inativaFuncionario (Long idFuncionario, InativaFuncionarioDTO inativaFuncionarioDTO);
