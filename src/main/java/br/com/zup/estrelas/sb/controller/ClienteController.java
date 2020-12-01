@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
+import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
 import br.com.zup.estrelas.sb.service.ClienteService;
@@ -43,5 +44,10 @@ public class ClienteController {
     public List<Cliente> listaClientes() {
         return clienteService.listaClientes();
     }
-
+    
+    @PutMapping (path = "/{idUsuario/inativa}")
+    public MensagemDTO inativaCliente(@PathVariable Long idUsuario, @Valid @RequestBody InativaClienteDTO inativaClienteDTO) {
+        return clienteService.inativaCliente(idUsuario, inativaClienteDTO);
+    }
+    
 }

@@ -2,6 +2,7 @@ package br.com.zup.estrelas.sb.service;
 
 import java.util.List;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
+import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
 
@@ -14,5 +15,7 @@ public interface ClienteService {
     public Cliente consultaCliente (Long idUsuario);
     
     public List<Cliente> listaClientes();
+    
+    public MensagemDTO inativaCliente (Long idUsuario, InativaClienteDTO inativaClienteDTO);
 
 } 
