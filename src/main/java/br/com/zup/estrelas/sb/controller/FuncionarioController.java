@@ -4,7 +4,6 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,11 +37,6 @@ public class FuncionarioController {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Funcionario> listaFuncionarios() {
         return funcionarioService.listaFuncionarios();
-    }
-
-    @DeleteMapping(path = "/{idFuncionario}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO removeFuncionario(@PathVariable Long idFuncionario) {
-        return funcionarioService.removeFuncionario(idFuncionario);
     }
 
     @PutMapping(path = "/{idFuncionario}")

@@ -19,8 +19,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private static final String CADASTRO_REALIZADO_COM_SUCESSO =
             "Cadastro de funcionário realizado com sucesso.";
     private static final String FUNCIONARIO_JA_CADASTRADO = "Funcionário já cadastrado.";
-    private static final String FUNCIONARIO_REMOVIDO_COM_SUCESSO =
-            "Funcionário removido com sucesso.";
     private static final String FUNCIONARIO_INEXISTENTE = "Funcionário inexistente.";
     private static final String FUNCIONARIO_ALTERADO_COM_SUCESSO =
             "Funcionário alterado com sucesso.";
@@ -48,18 +46,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public List<Funcionario> listaFuncionarios() {
         return (List<Funcionario>) funcionarioRepository.findAll();
-    }
-
-    @Override
-    public MensagemDTO removeFuncionario(Long idFuncionario) {
-
-        if (!funcionarioRepository.existsById(idFuncionario)) {
-            return new MensagemDTO(FUNCIONARIO_INEXISTENTE);
-        }
-
-        funcionarioRepository.deleteById(idFuncionario);
-
-        return new MensagemDTO(FUNCIONARIO_REMOVIDO_COM_SUCESSO);
     }
 
     @Override
