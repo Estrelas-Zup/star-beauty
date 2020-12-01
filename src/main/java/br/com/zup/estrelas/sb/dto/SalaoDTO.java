@@ -3,6 +3,7 @@ package br.com.zup.estrelas.sb.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CNPJ;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 
 public class SalaoDTO {
@@ -42,6 +43,10 @@ public class SalaoDTO {
     private String email;
 
     @NotBlank(message = "O CNPJ não pode ser nulo")
+    @Size(max = 18,
+            message = "O campo CPF não pode ter mais de 18 dígitos contando com pontos e traço.")
+
+    @CNPJ
     private String cnpj;
 
     @NotBlank(message = "O Nome Fantasia não pode ser nulo")

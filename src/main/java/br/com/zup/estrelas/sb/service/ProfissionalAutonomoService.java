@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.service;
 
 import java.util.List;
+import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
@@ -20,5 +21,8 @@ public interface ProfissionalAutonomoService {
 
     public MensagemDTO inativaProfissionalAutonomo(Long idUsuario,
             InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO);
+
+    public MensagemDTO adicionaServicoProfissionalAutonomo(Long idUsuario,
+            AdicionaServicoDTO adicionaServicoDTO);
 
 }

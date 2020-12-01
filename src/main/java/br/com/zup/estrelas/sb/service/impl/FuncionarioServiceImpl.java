@@ -6,11 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.InativaFuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Funcionario;
+import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
+import br.com.zup.estrelas.sb.repository.ServicoRepository;
 import br.com.zup.estrelas.sb.service.FuncionarioService;
 
 @Service
@@ -27,6 +30,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Autowired
     FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    ServicoRepository servicoRepository;
 
     @Override
     public MensagemDTO adicionaFuncionario(FuncionarioDTO funcionarioDTO) {
@@ -78,6 +84,22 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return inativaFuncionarioComSucesso(funcionarioConsultado, inativaFuncionarioDTO);
     }
 
+    @Override
+    public MensagemDTO adicionaServicoFuncionario(Long idFuncionario,
+            AdicionaServicoDTO adicionaServicoDTO) {
+
+        if (!funcionarioRepository.existsById(idFuncionario)) {
+            return new MensagemDTO("FUNCIONARIO INEXISTENTE!");
+        }
+
+        if (!servicoRepository.existsById(adicionaServicoDTO.getIdSevico())) {
+            return new MensagemDTO("SERVIÇO INEXISTENTE!");
+        }
+
+        return this.adicionaServico(idFuncionario, adicionaServicoDTO);
+    }
+
+
     private MensagemDTO alteraInformacaoFuncionario(Optional<Funcionario> funcionarioConsultado,
             FuncionarioDTO alteraFuncionarioDTO) {
 
@@ -115,6 +137,27 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         funcionarioRepository.save(funcionario);
 
         return new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
+    }
+
+    private MensagemDTO adicionaServico(Long idFuncionario, AdicionaServicoDTO adicionaServicoDTO) {
+
+        Funcionario funcionario = funcionarioRepository.findById(idFuncionario).get();
+
+        Servico servico = servicoRepository.findById(adicionaServicoDTO.getIdSevico()).get();
+
+        List<Servico> servicos = funcionario.getServicos();
+
+        for (Servico servicoFuncionario : servicos) {
+            if (servicos.contains(servicoFuncionario)) {
+                return new MensagemDTO("SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONARIO!");
+            }
+        }
+
+        servicos.add(servico);
+
+        funcionario.setServicos(servicos);
+
+        return new MensagemDTO("SERVICO ADICIONADO COM SUCESSO!");
     }
 
 }

@@ -35,8 +35,15 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     @Override
     public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO) {
 
-        if (agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHora(
-                agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora())) {
+        boolean verificaDisponibilidadeFuncionario =
+                agendamentoRepository.existsByIdFuncionarioAndDataHora(
+                        agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora());
+
+        boolean verificaDisponibilidadeAutonomo =
+                agendamentoRepository.existsByIdUsuarioAndDataHora(
+                        agendamentoDTO.getIdProfissionalAutonomo(), agendamentoDTO.getDataHora());
+
+        if (verificaDisponibilidadeFuncionario || verificaDisponibilidadeAutonomo) {
             return new MensagemDTO("HORÁRIO DE AGENDAMENTO INDISPONÍVEL!");
         }
 
@@ -60,7 +67,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         Agendamento agendamento = agendamentoRepository.findById(idAgendamento).get();
 
         Long diferencaHoras =
-                ChronoUnit.HOURS.between(agendamento.getDataHora(), agendamentoDTO.getDataHora());
+                ChronoUnit.HOURS.between(LocalDateTime.now(), agendamento.getDataHora());
 
         if (diferencaHoras < HORAS_MINIMAS_PARA_REAGENDAMENTO) {
             return new MensagemDTO(
@@ -79,6 +86,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         }
 
         return this.finalizaAgendamentoComSucesso(idAgendamento, finalizaAgendamentoDTO);
+
     }
 
     @Override
@@ -125,7 +133,8 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         agendamentoRepository.save(agendamento);
 
-        return new MensagemDTO("AGENDAMENTO FINALIZADO COM SUCESSO!");
+        return this.deletaAgendamentoFinalizado(idAgendamento);
+
     }
 
     private void criaTransacao(Long idAgendamento, Agendamento agendamento) {
@@ -142,4 +151,19 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         transacaoServiceImpl.criaTransacao(transacaoDTO);
     }
+
+    private MensagemDTO deletaAgendamentoFinalizado(Long idAgendamento) {
+
+        Agendamento agendameto = agendamentoRepository.findById(idAgendamento).get();
+
+        if (!agendameto.isRealizado()) {
+            return new MensagemDTO(
+                    "O AGENDAMENTO PRECISA ESTAR MARCADO COMO FINALIZADO PARA COMPLETAR ESTA AÇÃO!");
+        }
+
+        agendamentoRepository.deleteById(idAgendamento);
+
+        return new MensagemDTO("AGENDAMENTO FINALIZADO COM SUCESSO!");
+    }
+
 }

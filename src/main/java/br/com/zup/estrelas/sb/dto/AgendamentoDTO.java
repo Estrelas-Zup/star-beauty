@@ -2,8 +2,8 @@ package br.com.zup.estrelas.sb.dto;
 
 import java.time.LocalDateTime;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
@@ -18,20 +18,27 @@ public class AgendamentoDTO {
     private Long idProfissionalAutonomo;
 
     @NotNull(message = "O campo nome precisa ser preenchido.")
-    @Max(value = 255, message = "O nome não pode ter menos de 3 ou mais de 255 caracteres.")
+    @Size(max = 255, message = "O nome não pode ter menos de 3 ou mais de 255 caracteres.")
     @NumberFormat(style = Style.NUMBER)
     private Long idCliente;
 
-    @NotNull(message = "O campo nome do serviço precisa ser preenchido.")
+    @NotNull(message = "O campo id do serviço precisa ser preenchido.")
     private Long IdSevico;
 
+    @NotNull(message = "O campo nome do cliente precisa ser preenchido.")
     private String nomeCliente;
 
+    @NotNull(message = "O campo nome do serviço precisa ser preenchido.")
     private String nomeServico;
 
     @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
     @Future(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHora;
+
+    @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
+    @Future(message = "A data do agendamento não pode ser anterior a hoje.")
+    private LocalDateTime dataHoraFim;
+
 
     private TipoPagamento formaPagamento;
 

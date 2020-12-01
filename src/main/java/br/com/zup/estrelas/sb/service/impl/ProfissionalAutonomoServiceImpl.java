@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
+import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.repository.ProfissionalAutonomoRepository;
+import br.com.zup.estrelas.sb.repository.ServicoRepository;
 import br.com.zup.estrelas.sb.service.ProfissionalAutonomoService;
 
 @Service
@@ -17,6 +20,9 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
     @Autowired
     ProfissionalAutonomoRepository profissionalAutonomoRepository;
+
+    @Autowired
+    ServicoRepository servicoRepository;
 
     @Override
     public ProfissionalAutonomo buscaProfissionalAutonomo(Long idUsuario) {
@@ -31,7 +37,8 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     @Override
     public MensagemDTO adicionaProfissionalAutonomo(
             ProfissionalAutonomoDTO profissionalAutonomoDTO) {
-        if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf()) || profissionalAutonomoRepository.existsByCnpj(profissionalAutonomoDTO.getCnpj())) {
+        if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf())
+                || profissionalAutonomoRepository.existsByCnpj(profissionalAutonomoDTO.getCnpj())) {
             return new MensagemDTO("ESTE PROFISSIONAL JÁ ESTÁ CADASTRADO!");
         }
 
@@ -48,15 +55,16 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         ProfissionalAutonomo profissionalAutonomo =
                 profissionalAutonomoRepository.findById(idUsuario).get();
 
-        boolean verificaCpfAutonomo = profissionalAutonomoRepository
-                .existsByCpf(profissionalAutonomoDTO.getCpf());
-        
-        boolean verificaCnpjAutonomo = profissionalAutonomoRepository
-                .existsByCnpj(profissionalAutonomoDTO.getCnpj());
+        boolean verificaCpfAutonomo =
+                profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf());
 
-        if (profissionalAutonomoDTO.getCpf().equals(profissionalAutonomo.getCpf() )
-                && verificaCpfAutonomo || profissionalAutonomoDTO.getCnpj().equals(profissionalAutonomo.getCnpj() )
-                && verificaCnpjAutonomo) {
+        boolean verificaCnpjAutonomo =
+                profissionalAutonomoRepository.existsByCnpj(profissionalAutonomoDTO.getCnpj());
+
+        if (profissionalAutonomoDTO.getCpf().equals(profissionalAutonomo.getCpf())
+                && verificaCpfAutonomo
+                || profissionalAutonomoDTO.getCnpj().equals(profissionalAutonomo.getCnpj())
+                        && verificaCnpjAutonomo) {
             return new MensagemDTO("CPF JÁ CADASTRADO NO BANCO DE DADOS!");
         }
 
@@ -71,6 +79,21 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         }
 
         return this.inativaAutonomo(idUsuario, inativaProfissionalAutonomoDTO);
+    }
+
+    @Override
+    public MensagemDTO adicionaServicoProfissionalAutonomo(Long idUsuario,
+            AdicionaServicoDTO adicionaServicoDTO) {
+
+        if (!profissionalAutonomoRepository.existsById(idUsuario)) {
+            return new MensagemDTO("PROFISSIONAL AUTONOMOS INEXISTENTE!");
+        }
+
+        if (!servicoRepository.existsById(adicionaServicoDTO.getIdSevico())) {
+            return new MensagemDTO("SERVIÇO INEXISTENTE!");
+        }
+
+        return this.adicionaServico(idUsuario, adicionaServicoDTO);
     }
 
     private MensagemDTO adicionaAutonomo(ProfissionalAutonomoDTO profissionalAutonomoDTO) {
@@ -111,4 +134,24 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         return new MensagemDTO("INATIVADO COM SUCESSO!");
     }
 
+    private MensagemDTO adicionaServico(Long idUsuario, AdicionaServicoDTO adicionaServicoDTO) {
+
+        ProfissionalAutonomo autonomo = profissionalAutonomoRepository.findById(idUsuario).get();
+
+        Servico servico = servicoRepository.findById(adicionaServicoDTO.getIdSevico()).get();
+
+        List<Servico> servicos = autonomo.getServicos();
+
+        for (Servico servicoFuncionario : servicos) {
+            if (servicos.contains(servicoFuncionario)) {
+                return new MensagemDTO("SERVIÇO JÁ EXISTENTE NO PERFIL DO PROFISSIONAL AUTONOMO!");
+            }
+        }
+
+        servicos.add(servico);
+
+        autonomo.setServicos(servicos);
+
+        return new MensagemDTO("SERVICO ADICIONADO COM SUCESSO!");
+    }
 }

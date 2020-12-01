@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
@@ -52,6 +53,11 @@ public class ProfissionalAutonomoController {
             @Valid @RequestBody InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) {
         return profissionalAutonomoService.inativaProfissionalAutonomo(idUsuario,
                 inativaProfissionalAutonomoDTO);
+    }
+    
+    @PutMapping("/{idUsuario}/servicos")
+    public MensagemDTO adicionaServicoProfissionalAutonomo(@PathVariable Long idUsuario, @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) {
+        return adicionaServicoProfissionalAutonomo(idUsuario, adicionaServicoDTO);
     }
 
 }

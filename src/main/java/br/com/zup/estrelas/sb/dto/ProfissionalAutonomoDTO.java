@@ -21,12 +21,16 @@ public class ProfissionalAutonomoDTO {
     private String senha;
 
     @NotBlank(message = "O campo nome precisa ser preenchido.")
-    @Size (max = 255, message = "O nome não pode ter de 255 caracteres.")
+    @Size(max = 255, message = "O nome não pode ter de 255 caracteres.")
     private String nome;
 
+    @Size(max = 18,
+            message = "O campo CPF não pode ter mais de 18 dígitos contando com pontos e barra.")
     @CNPJ
     private String cnpj;
-    
+
+    @Size(max = 14,
+            message = "O campo CPF não pode ter mais de 14 dígitos contando com pontos e traço.")
     @CPF
     private String cpf;
 
@@ -35,27 +39,27 @@ public class ProfissionalAutonomoDTO {
     private LocalDate dataNascimento;
 
     @NotBlank(message = "O campo endereço precisa ser preenchido.")
-    @Size (max = 255, message = "O endereço não pode ter mais de 255 caracteres.")
+    @Size(max = 255, message = "O endereço não pode ter mais de 255 caracteres.")
     private String endereco;
 
     @NotBlank(message = "O campo CEP precisa ser preenchido.")
-    @Size (max = 9, message = "O CEP pode ter no máximo 9 caracteres.")
+    @Size(max = 9, message = "O CEP pode ter no máximo 9 caracteres.")
     private String cep;
 
     @NotBlank(message = "O campo cidade precisa ser preenchido.")
-    @Size (max = 255, message = "A cidade não pode ter mais de 255 caracteres.")
+    @Size(max = 255, message = "A cidade não pode ter mais de 255 caracteres.")
     private String cidade;
 
     @NotBlank(message = "O campo estado precisa ser preenchido.")
-    @Size (max = 255, message = "O estado não pode ter mais de 255 caracteres.")
+    @Size(max = 255, message = "O estado não pode ter mais de 255 caracteres.")
     private String estado;
 
     @NotBlank(message = "O campo bairro precisa ser preenchido.")
-    @Size (max = 255, message = "O bairro não pode ter mais de 255 caracteres.")
+    @Size(max = 255, message = "O bairro não pode ter mais de 255 caracteres.")
     private String bairro;
 
     @NotBlank(message = "O campo telefone precisa ser preenchido.")
-    @Size (max = 11, message = "O telefone pode ter no máximo 11 dígitos.")
+    @Size(max = 11, message = "O telefone pode ter no máximo 11 dígitos.")
     private String telefone;
 
     @NotBlank(message = "O campo email precisa ser preenchido.")
@@ -175,7 +179,7 @@ public class ProfissionalAutonomoDTO {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    
-    
+
+
 
 }

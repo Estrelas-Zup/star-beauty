@@ -8,7 +8,8 @@ import br.com.zup.estrelas.sb.entity.Agendamento;
 @Repository
 public interface AgendamentoRepository extends CrudRepository<Agendamento, Long> {
 
-    boolean existsByFuncionarioIdFuncionarioAndDataHora(Long idFuncionario,
-            LocalDateTime dataHoraAgendamento);
+    boolean existsByIdFuncionarioAndDataHora(Long idFuncionario, LocalDateTime dataHoraAgendamento);
+
+    boolean existsByIdUsuarioAndDataHora(Long idUsuario, LocalDateTime dataHora);
 
 }

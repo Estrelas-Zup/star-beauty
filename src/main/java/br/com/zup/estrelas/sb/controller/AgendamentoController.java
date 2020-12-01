@@ -56,5 +56,4 @@ public class AgendamentoController {
     public MensagemDTO cancelaAgendamento(@PathVariable Long idAgendamento) {
         return agendamentoService.cancelaAgendamento(idAgendamento);
     }
-
 }

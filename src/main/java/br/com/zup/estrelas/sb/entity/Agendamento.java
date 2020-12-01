@@ -23,17 +23,20 @@ public class Agendamento {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_funcionario",foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
+    @JoinColumn(name = "id_funcionario",
+            foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
     private Funcionario funcionario;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_usuario_cliente", foreignKey = @ForeignKey(name = "agendamentos_cliente_fk"))
+    @JoinColumn(name = "id_usuario_cliente",
+            foreignKey = @ForeignKey(name = "agendamentos_cliente_fk"))
     private Cliente cliente;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_usuario_autonomo", foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
+    @JoinColumn(name = "id_usuario_autonomo",
+            foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
     private ProfissionalAutonomo autonomo;
 
     @OneToOne
@@ -48,6 +51,9 @@ public class Agendamento {
 
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
+
+    @Column(name = "data_hora_fim", nullable = false)
+    private LocalDateTime dataHoraFim;
 
     @Column(name = "forma_pagamento", nullable = false)
     private TipoPagamento formaPagamento;
@@ -134,6 +140,22 @@ public class Agendamento {
 
     public void setCancelado(boolean cancelado) {
         this.cancelado = cancelado;
+    }
+
+    public ProfissionalAutonomo getAutonomo() {
+        return autonomo;
+    }
+
+    public void setAutonomo(ProfissionalAutonomo autonomo) {
+        this.autonomo = autonomo;
+    }
+
+    public LocalDateTime getDataHoraFim() {
+        return dataHoraFim;
+    }
+
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
     }
 
 }

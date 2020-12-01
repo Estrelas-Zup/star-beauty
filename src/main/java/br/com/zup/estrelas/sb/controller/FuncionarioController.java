@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.InativaFuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
@@ -49,6 +50,12 @@ public class FuncionarioController {
     public MensagemDTO inativaFuncionario(@PathVariable Long idFuncionario,
             @Valid @RequestBody InativaFuncionarioDTO inativaFuncionarioDTO) {
         return funcionarioService.inativaFuncionario(idFuncionario, inativaFuncionarioDTO);
+    }
+
+    @PutMapping("/{idFuncionario}/servicos")
+    public MensagemDTO adicionaServicoFuncionario(@PathVariable Long idFuncionario,
+            @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) {
+        return adicionaServicoFuncionario(idFuncionario, adicionaServicoDTO);
     }
 
 }
