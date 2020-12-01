@@ -1,10 +1,10 @@
 package br.com.zup.estrelas.sb.dto;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.AssertFalse;
 
 public class InativaFuncionarioDTO {
     
-    @NotBlank (message = "O campo precisa ser preenchido.")
+    @AssertFalse
     private boolean ativo;
 
     public boolean isAtivo() {

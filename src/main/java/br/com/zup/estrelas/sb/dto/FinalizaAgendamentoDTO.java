@@ -1,10 +1,10 @@
 package br.com.zup.estrelas.sb.dto;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.AssertTrue;
 
 public class FinalizaAgendamentoDTO {
-    
-    @NotBlank(message = "Esse campo não deve ser nulo.")
+
+    @AssertTrue
     private boolean realizado;
 
     public boolean isRealizado() {
