@@ -1,7 +1,6 @@
 package br.com.zup.estrelas.sb.dto;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
@@ -23,7 +22,7 @@ public class SalaoDTO {
     private String endereco;
 
     @NotBlank(message = "O CEP não pode ser nulo")
-    @Max(value = 8, message = "O CEP deve conter no máximo 8 dígitos")
+    @Size(min = 9, message = "O CEP deve conter no máximo 9 caracteres.")
     private String cep;
 
     @NotBlank(message = "O Estado não pode ser nulo")

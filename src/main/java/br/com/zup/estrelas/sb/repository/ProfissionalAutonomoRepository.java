@@ -7,8 +7,12 @@ import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
 @Repository
 public interface ProfissionalAutonomoRepository extends CrudRepository<ProfissionalAutonomo, Long> {
 
-    boolean existsByCpfCnpj(String cpfCnpj);
+    boolean existsByCnpj(String cnpj);
+    
+    boolean existsByCpf(String cpf);
 
-    ProfissionalAutonomo findByCpfCnpj(String cpfCnpj);
+    ProfissionalAutonomo findByCnpj(String Cnpj);
+    
+    ProfissionalAutonomo findByCpf(String cpf);
 
 }

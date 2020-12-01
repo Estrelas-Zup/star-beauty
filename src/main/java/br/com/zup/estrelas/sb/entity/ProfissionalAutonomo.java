@@ -12,8 +12,11 @@ import br.com.zup.estrelas.sb.abstrata.Usuario;
 @Entity
 public class ProfissionalAutonomo extends Usuario {
 
-    @Column(nullable = false, unique = true)
-    private String cpfCnpj;
+    @Column(unique = true)
+    private String cpf;
+    
+    @Column(unique = true)
+    private String cnpj;
 
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
@@ -28,12 +31,20 @@ public class ProfissionalAutonomo extends Usuario {
     @ManyToMany
     private List<FormaPagamento> formasPagamentos;
 
-    public String getCpfCnpj() {
-        return cpfCnpj;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCpfCnpj(String cpfCnpj) {
-        this.cpfCnpj = cpfCnpj;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public LocalDate getDataNascimento() {
