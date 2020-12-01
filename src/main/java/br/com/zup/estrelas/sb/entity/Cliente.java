@@ -19,6 +19,7 @@ public class Cliente extends Usuario {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
+    // Mesmo ponto do funcionário.
     private List<Agendamento> agendamentos;
 
     public String getCpf() {

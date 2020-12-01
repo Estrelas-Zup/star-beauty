@@ -18,10 +18,14 @@ public class Salao extends Usuario {
     private String nomeFantasia;
 
     @ManyToMany
+    // Teremos vários salões em nosso sistema e todso esses
+    // salões terão várias formas de pagamento.
     private List<FormaPagamento> formasPagamentos;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "salao")
+    // Um funcionário existe em função de um salão, um funcionário
+    // nunca vai se relacionar com mais um de salão (meio abusivo, não?)
     private List<Funcionario> funcionarios;
 
     public String getCnpj() {

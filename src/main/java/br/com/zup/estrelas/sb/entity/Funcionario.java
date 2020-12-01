@@ -42,10 +42,15 @@ public class Funcionario {
     private Salao salao;
 
     @ManyToMany
+    // Existirão vários serviços prestados por vários funcionários
+    // em nosso sitema.
     private List<Servico> servicos;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "funcionario")
+    // Um agendamento nunca estará ligado à mais 
+    // de um funcionário, ele existem em função 
+    // do funcionário e do cliente.
     private List<Agendamento> agendamentos;
 
     public Long getIdFuncionarios() {

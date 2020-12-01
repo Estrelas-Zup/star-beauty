@@ -43,6 +43,8 @@ public class Agendamento {
     @Column(name = "nome_cliente", nullable = false)
     private String nomeCliente;
 
+    // Se já tem essa coluna aqui pq ela está presente
+    // de novo na entidade Transacao?
     @Column(name = "nome_servico", nullable = false)
     private String nomeServico;
 
