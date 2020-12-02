@@ -1,4 +1,4 @@
-package br.com.zup.estrelas.sb.abstrata;
+package br.com.zup.estrelas.sb.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
