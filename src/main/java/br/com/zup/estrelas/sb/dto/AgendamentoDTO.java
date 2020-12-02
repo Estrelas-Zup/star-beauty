@@ -1,8 +1,8 @@
 package br.com.zup.estrelas.sb.dto;
 
 import java.time.LocalDateTime;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
@@ -31,15 +31,15 @@ public class AgendamentoDTO {
     private String nomeServico;
 
     @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
-    @PastOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
+    @FutureOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHora;
 
     @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
-    @PastOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
+    @FutureOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHoraFim;
 
 
-    private TipoPagamento formaPagamento;
+    private TipoPagamento tipoPagamento;
 
     public Long getIdFuncionario() {
         return idFuncionario;
@@ -105,12 +105,12 @@ public class AgendamentoDTO {
         this.dataHoraFim = dataHoraFim;
     }
 
-    public TipoPagamento getFormaPagamento() {
-        return formaPagamento;
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
     }
 
-    public void setFormaPagamento(TipoPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
     }
 
 }

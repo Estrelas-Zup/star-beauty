@@ -19,6 +19,6 @@ public interface AgendamentoService {
     public MensagemDTO finalizaAgendamento(Long idAgendamento,
             FinalizaAgendamentoDTO finalizaAgendamentoDTO);
 
-    public MensagemDTO cancelaAgendamento(Long idAgendamento);
+    public MensagemDTO deletaAgendamento(Long idAgendamento);
 
 }

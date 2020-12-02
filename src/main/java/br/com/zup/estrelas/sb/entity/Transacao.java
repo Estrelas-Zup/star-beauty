@@ -31,8 +31,11 @@ public class Transacao {
     @Column(name = "nome_cliente", nullable = false)
     private String nomeCliente;
 
-    @Column(name = "nome_salao", nullable = false)
+    @Column(name = "nome_salao")
     private String nomeSalao;
+
+    @Column(name = "nome_autonomo")
+    private String nomeAutonomo;
 
     public Long getIdTransacao() {
         return idTransacao;
@@ -80,6 +83,22 @@ public class Transacao {
 
     public void setNomeSalao(String nomeSalao) {
         this.nomeSalao = nomeSalao;
+    }
+
+    public TipoPagamento getTipoPagmento() {
+        return tipoPagmento;
+    }
+
+    public void setTipoPagmento(TipoPagamento tipoPagmento) {
+        this.tipoPagmento = tipoPagmento;
+    }
+
+    public String getNomeAutonomo() {
+        return nomeAutonomo;
+    }
+
+    public void setNomeAutonomo(String nomeAutonomo) {
+        this.nomeAutonomo = nomeAutonomo;
     }
 
 }

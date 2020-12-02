@@ -15,8 +15,6 @@ import br.com.zup.estrelas.sb.service.TransacaoService;
 @Service
 public class TransacaoServiceImpl implements TransacaoService {
 
-    // private static final String TRANSACAO_REGISTRADA_COM_SUCESSO =
-    // "Transação registrada com sucesso.";
     private static final String TRANSACAO_REMOVIDA_COM_SUCESSO = "Transação removida com sucesso!";
     private static final String TRANSACAO_ALTERADA_COM_SUCESSO = "Transação alterada com sucesso.";
     private static final String TRANSACAO_INEXISTENTE = "Transação inexistente.";

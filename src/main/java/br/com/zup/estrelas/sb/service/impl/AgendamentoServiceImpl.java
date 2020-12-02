@@ -43,6 +43,9 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     @Autowired
     ServicoRepository servicoRepository;
 
+    @Autowired
+    TransacaoServiceImpl transacaoServiceImpl;
+
     @Override
     public Agendamento buscaAgendamento(Long idAgendamento) {
         return agendamentoRepository.findById(idAgendamento).orElse(null);
@@ -56,7 +59,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     @Override
     public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO) {
 
-        if (agendamentoDTO.getDataHora().isAfter(LocalDateTime.now())) {
+        if (agendamentoDTO.getDataHora().isBefore(LocalDateTime.now())) {
             return new MensagemDTO("NÃO É POSSÍVEL CRIAR UM AGENDAMENTO PARA UM DIA PASSADO!");
         }
 
@@ -120,7 +123,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public MensagemDTO cancelaAgendamento(Long idAgendamento) {
+    public MensagemDTO deletaAgendamento(Long idAgendamento) {
 
         if (!agendamentoRepository.existsById(idAgendamento)) {
             return new MensagemDTO("AGENDAMENTO NÃO ENCONTRADO PARA CANCELAR!");
@@ -135,17 +138,26 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         Agendamento agendamento = new Agendamento();
         Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
+        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
         Optional<Funcionario> funcionario =
                 funcionarioRepository.findById(agendamentoDTO.getIdFuncionario());
         Optional<ProfissionalAutonomo> autonomo =
                 autonomoRepository.findById(agendamentoDTO.getIdProfissionalAutonomo());
-        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
 
         BeanUtils.copyProperties(agendamentoDTO, agendamento);
         agendamento.setCliente(cliente);
-        agendamento.setFuncionario(funcionario.get());
-        agendamento.setAutonomo(autonomo.get());
         agendamento.setServico(servico);
+
+        // Como trabalhar com apenas uma das instancias populada e a outra nula?
+
+        if (autonomo.isEmpty() && funcionario.isPresent()) {
+            agendamento.setFuncionario(funcionario.get());
+        } else if (funcionario.isEmpty() && autonomo.isPresent()) {
+            agendamento.setAutonomo(autonomo.get());
+        } else {
+            return new MensagemDTO(
+                    "NÃO FOI POSSÍVEL CONCLUIR O AGENDAMENTO POIS FALTA A REFERENCIA AO PRESTADOR DE SERVIÇO!");
+        }
 
         agendamentoRepository.save(agendamento);
 
@@ -184,37 +196,41 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         agendamentoRepository.save(agendamento);
 
-        return this.deletaAgendamentoFinalizado(idAgendamento);
+        deletaAgendamento(idAgendamento);
 
+        return new MensagemDTO("AGENDAMENTO FINALIZADO COM SUCESSO!");
     }
 
     private void criaTransacao(Long idAgendamento, Agendamento agendamento) {
-
-        TransacaoServiceImpl transacaoServiceImpl = new TransacaoServiceImpl();
 
         TransacaoDTO transacaoDTO = new TransacaoDTO();
 
         transacaoDTO.setIdAgendamento(idAgendamento);
         transacaoDTO.setNomeCliente(agendamento.getNomeCliente());
-        transacaoDTO.setNomeSalao(agendamento.getFuncionario().getSalao().getNomeFantasia());
         transacaoDTO.setValor(agendamento.getServico().getValorServico());
         transacaoDTO.setTipoPagamento(agendamento.getTipoPagamento());
 
-        transacaoServiceImpl.criaTransacao(transacaoDTO);
-    }
+        Long idAutonomo = agendamento.getAutonomo().getIdUsuario();
+        Long idFuncionario = agendamento.getFuncionario().getIdFuncionario();
 
-    private MensagemDTO deletaAgendamentoFinalizado(Long idAgendamento) {
-
-        Agendamento agendameto = agendamentoRepository.findById(idAgendamento).get();
-
-        if (!agendameto.isRealizado()) {
-            return new MensagemDTO(
-                    "O AGENDAMENTO PRECISA ESTAR MARCADO COMO FINALIZADO PARA COMPLETAR ESTA AÇÃO!");
+        if (idAutonomo == null) {
+            idAutonomo = 0L;
+        } else if (idFuncionario == null) {
+            idFuncionario = 0L;
         }
 
-        agendamentoRepository.deleteById(idAgendamento);
+        // Como trabalhar com apenas uma das instancias populada e a outra nula?
 
-        return new MensagemDTO("AGENDAMENTO FINALIZADO COM SUCESSO!");
+        Optional<ProfissionalAutonomo> autonomo = autonomoRepository.findById(idAutonomo);
+        Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
+
+        if (autonomo.isEmpty() && funcionario.isPresent()) {
+            transacaoDTO.setNomeSalao(agendamento.getFuncionario().getSalao().getNomeFantasia());
+        } else if (funcionario.isEmpty() && autonomo.isPresent()) {
+            transacaoDTO.setNomeAutonomo(agendamento.getAutonomo().getNome());
+        }
+
+        transacaoServiceImpl.criaTransacao(transacaoDTO);
     }
 
 }

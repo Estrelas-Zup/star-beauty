@@ -21,8 +21,9 @@ public class TransacaoDTO {
     @NotBlank(message = "O campo nome do cliente precisa ser preenchido.")
     private String nomeCliente;
 
-    @NotBlank(message = "O campo nome do salão precisa ser preenchido.")
     private String nomeSalao;
+
+    private String nomeAutonomo;
 
     public Long getIdAgendamento() {
         return idAgendamento;
@@ -64,6 +65,20 @@ public class TransacaoDTO {
         this.nomeSalao = nomeSalao;
     }
 
+    public TipoPagamento getTipoPagmento() {
+        return tipoPagmento;
+    }
 
+    public void setTipoPagmento(TipoPagamento tipoPagmento) {
+        this.tipoPagmento = tipoPagmento;
+    }
+
+    public String getNomeAutonomo() {
+        return nomeAutonomo;
+    }
+
+    public void setNomeAutonomo(String nomeAutonomo) {
+        this.nomeAutonomo = nomeAutonomo;
+    }
 
 }

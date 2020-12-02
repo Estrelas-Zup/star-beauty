@@ -53,7 +53,7 @@ public class AgendamentoController {
     }
 
     @DeleteMapping(path = "/{idAgendamento}/cancela")
-    public MensagemDTO cancelaAgendamento(@PathVariable Long idAgendamento) {
-        return agendamentoService.cancelaAgendamento(idAgendamento);
+    public MensagemDTO deletaAgendamento(@PathVariable Long idAgendamento) {
+        return agendamentoService.deletaAgendamento(idAgendamento);
     }
 }
