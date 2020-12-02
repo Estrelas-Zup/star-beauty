@@ -23,12 +23,6 @@ public class TransacaoController {
     @Autowired
     TransacaoService transacaoService;
 
-    @PutMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO alteraTransacao(@PathVariable Long idTransacao,
-            @Valid @RequestBody TransacaoDTO transacaoDTO) {
-        return transacaoService.alteraTransacao(idTransacao, transacaoDTO);
-    }
-
     @GetMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Transacao consultaTransacao(@PathVariable Long idTransacao) {
         return transacaoService.buscaTransacao(idTransacao);
@@ -37,6 +31,12 @@ public class TransacaoController {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Transacao> listaTransacoes() {
         return transacaoService.listaTransacoes();
+    }
+
+    @PutMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public MensagemDTO alteraTransacao(@PathVariable Long idTransacao,
+            @Valid @RequestBody TransacaoDTO transacaoDTO) {
+        return transacaoService.alteraTransacao(idTransacao, transacaoDTO);
     }
 
     @DeleteMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})

@@ -28,6 +28,17 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
 
+    @Override
+    public Cliente consultaCliente(Long idUsuario) {
+        return clienteRepository.findById(idUsuario).orElse(null);
+    }
+
+    @Override
+    public List<Cliente> listaClientes() {
+        return (List<Cliente>) clienteRepository.findAll();
+    }
+
+    @Override
     public MensagemDTO insereCliente(ClienteDTO clienteDTO) {
 
         if (clienteRepository.existsByCpf(clienteDTO.getCpf())) {
@@ -37,6 +48,7 @@ public class ClienteServiceImpl implements ClienteService {
         return this.adicionaCliente(clienteDTO);
     }
 
+    @Override
     public MensagemDTO alteraCliente(Long idUsuario, ClienteDTO clienteDTO) {
 
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
@@ -55,31 +67,15 @@ public class ClienteServiceImpl implements ClienteService {
         return this.alteraInformacoesCliente(cliente, clienteDTO);
     }
 
-    public Cliente consultaCliente(Long idUsuario) {
-        return clienteRepository.findById(idUsuario).orElse(null);
-    }
-
-    public List<Cliente> listaClientes() {
-        return (List<Cliente>) clienteRepository.findAll();
-    }
-    
+    @Override
     public MensagemDTO inativaCliente(Long idUsuario, InativaClienteDTO inativaClienteDTO) {
-        
+
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
-        
+
         if (clienteConsultado.isEmpty()) {
-            return new MensagemDTO (CLIENTE_INEXISTENTE);
+            return new MensagemDTO(CLIENTE_INEXISTENTE);
         }
-        return inativaClienteComSucesso (clienteConsultado, inativaClienteDTO);
-    }
-
-    private MensagemDTO alteraInformacoesCliente(Cliente cliente, ClienteDTO clienteDTO) {
-
-        BeanUtils.copyProperties(clienteDTO, cliente);
-
-        clienteRepository.save(cliente);
-
-        return new MensagemDTO(INFORMACOES_ALTERADAS_COM_SUCESSO);
+        return inativaClienteComSucesso(clienteConsultado, inativaClienteDTO);
     }
 
     private MensagemDTO adicionaCliente(ClienteDTO clienteDTO) {
@@ -95,16 +91,25 @@ public class ClienteServiceImpl implements ClienteService {
 
         return new MensagemDTO(CLIENTE_CADASTRADO_COM_SUCESSO);
     }
-    
-    private MensagemDTO inativaClienteComSucesso (Optional<Cliente> clienteConsultado, InativaClienteDTO inativaClienteDTO) {
-        
-        Cliente cliente = clienteConsultado.get();
-        
-        BeanUtils.copyProperties(inativaClienteDTO, cliente);
-        
+
+    private MensagemDTO alteraInformacoesCliente(Cliente cliente, ClienteDTO clienteDTO) {
+
+        BeanUtils.copyProperties(clienteDTO, cliente);
+
         clienteRepository.save(cliente);
-        
-        return new MensagemDTO (CLIENTE_INATIVADO_COM_SUCESSO);
+
+        return new MensagemDTO(INFORMACOES_ALTERADAS_COM_SUCESSO);
     }
 
+    private MensagemDTO inativaClienteComSucesso(Optional<Cliente> clienteConsultado,
+            InativaClienteDTO inativaClienteDTO) {
+
+        Cliente cliente = clienteConsultado.get();
+
+        BeanUtils.copyProperties(inativaClienteDTO, cliente);
+
+        clienteRepository.save(cliente);
+
+        return new MensagemDTO(CLIENTE_INATIVADO_COM_SUCESSO);
+    }
 }

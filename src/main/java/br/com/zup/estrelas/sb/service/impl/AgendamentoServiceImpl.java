@@ -3,6 +3,7 @@ package br.com.zup.estrelas.sb.service.impl;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,15 @@ import br.com.zup.estrelas.sb.dto.FinalizaAgendamentoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.TransacaoDTO;
 import br.com.zup.estrelas.sb.entity.Agendamento;
+import br.com.zup.estrelas.sb.entity.Cliente;
+import br.com.zup.estrelas.sb.entity.Funcionario;
+import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
+import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.repository.AgendamentoRepository;
+import br.com.zup.estrelas.sb.repository.ClienteRepository;
+import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
+import br.com.zup.estrelas.sb.repository.ProfissionalAutonomoRepository;
+import br.com.zup.estrelas.sb.repository.ServicoRepository;
 import br.com.zup.estrelas.sb.service.AgendamentoService;
 
 @Service
@@ -21,6 +30,18 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Autowired
     AgendamentoRepository agendamentoRepository;
+
+    @Autowired
+    FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    ClienteRepository clienteRepository;
+
+    @Autowired
+    ProfissionalAutonomoRepository autonomoRepository;
+
+    @Autowired
+    ServicoRepository servicoRepository;
 
     @Override
     public Agendamento buscaAgendamento(Long idAgendamento) {
@@ -35,6 +56,10 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     @Override
     public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO) {
 
+        if (agendamentoDTO.getDataHora().isAfter(LocalDateTime.now())) {
+            return new MensagemDTO("NÃO É POSSÍVEL CRIAR UM AGENDAMENTO PARA UM DIA PASSADO!");
+        }
+
         boolean verificaDisponibilidadeFuncionario =
                 agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHora(
                         agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora());
@@ -45,6 +70,11 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         if (verificaDisponibilidadeFuncionario || verificaDisponibilidadeAutonomo) {
             return new MensagemDTO("HORÁRIO DE AGENDAMENTO INDISPONÍVEL!");
+        }
+
+        if (agendamentoDTO.getDataHora().isAfter(agendamentoDTO.getDataHoraFim())) {
+            return new MensagemDTO(
+                    "A DATA/HORA PREVISTA PARA O TERMINO DO SERVIÇO DEVE SER POSTERIOR A DATA/HORA INICÍO!");
         }
 
         // verificar a disponibilidade na agenda para o tempo de execução do servico, se não
@@ -104,8 +134,18 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     private MensagemDTO criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO) {
 
         Agendamento agendamento = new Agendamento();
+        Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
+        Optional<Funcionario> funcionario =
+                funcionarioRepository.findById(agendamentoDTO.getIdFuncionario());
+        Optional<ProfissionalAutonomo> autonomo =
+                autonomoRepository.findById(agendamentoDTO.getIdProfissionalAutonomo());
+        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
 
         BeanUtils.copyProperties(agendamentoDTO, agendamento);
+        agendamento.setCliente(cliente);
+        agendamento.setFuncionario(funcionario.get());
+        agendamento.setAutonomo(autonomo.get());
+        agendamento.setServico(servico);
 
         agendamentoRepository.save(agendamento);
 
@@ -115,7 +155,18 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     private MensagemDTO alteraInformacoesAgendamento(Agendamento agendamento,
             AgendamentoDTO agendamentoDTO) {
 
+        Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
+        Funcionario funcionario =
+                funcionarioRepository.findById(agendamentoDTO.getIdFuncionario()).get();
+        ProfissionalAutonomo autonomo =
+                autonomoRepository.findById(agendamentoDTO.getIdProfissionalAutonomo()).get();
+        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
+
         BeanUtils.copyProperties(agendamentoDTO, agendamento);
+        agendamento.setCliente(cliente);
+        agendamento.setFuncionario(funcionario);
+        agendamento.setAutonomo(autonomo);
+        agendamento.setServico(servico);
 
         agendamentoRepository.save(agendamento);
 
@@ -147,7 +198,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         transacaoDTO.setNomeCliente(agendamento.getNomeCliente());
         transacaoDTO.setNomeSalao(agendamento.getFuncionario().getSalao().getNomeFantasia());
         transacaoDTO.setValor(agendamento.getServico().getValorServico());
-        transacaoDTO.setFormaPagmento(agendamento.getFormaPagamento());
+        transacaoDTO.setTipoPagamento(agendamento.getTipoPagamento());
 
         transacaoServiceImpl.criaTransacao(transacaoDTO);
     }

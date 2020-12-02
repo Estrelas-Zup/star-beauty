@@ -26,6 +26,16 @@ public class ServicoServiceImpl implements ServicoService {
     ServicoRepository servicoRepository;
 
     @Override
+    public Servico buscaServico(Long idServico) {
+        return servicoRepository.findById(idServico).orElse(null);
+    }
+
+    @Override
+    public List<Servico> listaServicos() {
+        return (List<Servico>) servicoRepository.findAll();
+    }
+
+    @Override
     public MensagemDTO adicionaServico(ServicoDTO servicoDTO) {
 
         if (servicoRepository.existsByNomeServico(servicoDTO.getNomeServico())) {
@@ -35,14 +45,7 @@ public class ServicoServiceImpl implements ServicoService {
         return this.criaServico(servicoDTO);
     }
 
-    public Servico buscaServico(Long idServico) {
-        return servicoRepository.findById(idServico).orElse(null);
-    }
-
-    public List<Servico> listaServicos() {
-        return (List<Servico>) servicoRepository.findAll();
-    }
-
+    @Override
     public MensagemDTO alteraServico(Long idServico, ServicoDTO servicoDTO) {
 
         if (!servicoRepository.existsById(idServico)) {
@@ -51,18 +54,18 @@ public class ServicoServiceImpl implements ServicoService {
 
         return this.alteraInformacoesServico(idServico, servicoDTO);
     }
-    
+
+    @Override
     public MensagemDTO inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO) {
-        
+
         Optional<Servico> servicoConsultado = servicoRepository.findById(idServico);
-        
+
         if (servicoConsultado.isEmpty()) {
-            return new MensagemDTO (SERVICO_INEXISTENTE);
+            return new MensagemDTO(SERVICO_INEXISTENTE);
         }
-        
+
         return inativaServicoComSucesso(servicoConsultado, inativaServicoDTO);
     }
-
 
     private MensagemDTO alteraInformacoesServico(Long idServico, ServicoDTO servicoDTO) {
 
@@ -86,16 +89,17 @@ public class ServicoServiceImpl implements ServicoService {
 
         return new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
     }
-    
-    private MensagemDTO inativaServicoComSucesso(Optional<Servico> servicoConsultado, InativaServicoDTO inativaServicoDTO) {
-        
+
+    private MensagemDTO inativaServicoComSucesso(Optional<Servico> servicoConsultado,
+            InativaServicoDTO inativaServicoDTO) {
+
         Servico servico = servicoConsultado.get();
-        
-        BeanUtils.copyProperties(inativaServicoDTO, servico);
-        
+
+        servico.setAtivo(inativaServicoDTO.isAtivo());
+
         servicoRepository.save(servico);
-        
-        return new MensagemDTO (SERVICO_INATIVADO_COM_SUCESSO);
+
+        return new MensagemDTO(SERVICO_INATIVADO_COM_SUCESSO);
     }
 
 }

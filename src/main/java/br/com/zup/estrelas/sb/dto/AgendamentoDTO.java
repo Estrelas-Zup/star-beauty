@@ -1,9 +1,8 @@
 package br.com.zup.estrelas.sb.dto;
 
 import java.time.LocalDateTime;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.PastOrPresent;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
@@ -18,12 +17,12 @@ public class AgendamentoDTO {
     private Long idProfissionalAutonomo;
 
     @NotNull(message = "O campo nome precisa ser preenchido.")
-    @Size(max = 255, message = "O nome não pode ter menos de 3 ou mais de 255 caracteres.")
     @NumberFormat(style = Style.NUMBER)
     private Long idCliente;
 
     @NotNull(message = "O campo id do serviço precisa ser preenchido.")
-    private Long IdSevico;
+    @NumberFormat(style = Style.NUMBER)
+    private Long IdServico;
 
     @NotNull(message = "O campo nome do cliente precisa ser preenchido.")
     private String nomeCliente;
@@ -32,11 +31,11 @@ public class AgendamentoDTO {
     private String nomeServico;
 
     @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
-    @Future(message = "A data do agendamento não pode ser anterior a hoje.")
+    @PastOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHora;
 
     @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
-    @Future(message = "A data do agendamento não pode ser anterior a hoje.")
+    @PastOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHoraFim;
 
 
@@ -66,12 +65,12 @@ public class AgendamentoDTO {
         this.idCliente = idCliente;
     }
 
-    public Long getIdSevico() {
-        return IdSevico;
+    public Long getIdServico() {
+        return IdServico;
     }
 
-    public void setIdSevico(Long idSevico) {
-        IdSevico = idSevico;
+    public void setIdServico(Long idServico) {
+        IdServico = idServico;
     }
 
     public String getNomeCliente() {
@@ -96,6 +95,14 @@ public class AgendamentoDTO {
 
     public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
+    }
+
+    public LocalDateTime getDataHoraFim() {
+        return dataHoraFim;
+    }
+
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
     }
 
     public TipoPagamento getFormaPagamento() {

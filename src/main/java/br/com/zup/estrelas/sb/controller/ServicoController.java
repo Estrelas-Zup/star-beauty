@@ -24,6 +24,16 @@ public class ServicoController {
     @Autowired
     ServicoService servicoService;
 
+    @GetMapping(path = "/{idServico}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Servico consultaServico(@PathVariable Long idServico) {
+        return servicoService.buscaServico(idServico);
+    }
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<Servico> listarServicos() {
+        return servicoService.listaServicos();
+    }
+
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO adicionaServico(@Valid @RequestBody ServicoDTO servicoDTO) {
         return servicoService.adicionaServico(servicoDTO);
@@ -35,18 +45,9 @@ public class ServicoController {
         return servicoService.alteraServico(idServico, servicoDTO);
     }
 
-    @GetMapping(path = "/{idServico}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Servico consultaServico(@PathVariable Long idServico) {
-        return servicoService.buscaServico(idServico);
-    }
-
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Servico> listarServicos() {
-        return servicoService.listaServicos();
-    }
-    
-    @PutMapping (path = "/{idSevico}/inativa")
-    public MensagemDTO inativaServico (Long idServico, InativaServicoDTO inativaServicoDTO) {
+    @PutMapping(path = "/{idServico}/inativa")
+    public MensagemDTO inativaServico(@PathVariable Long idServico,
+            @Valid @RequestBody InativaServicoDTO inativaServicoDTO) {
         return servicoService.inativaServico(idServico, inativaServicoDTO);
     }
 

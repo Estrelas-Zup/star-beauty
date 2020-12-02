@@ -48,11 +48,11 @@ public class Funcionario {
     @OneToMany(mappedBy = "funcionario")
     private List<Agendamento> agendamentos;
 
-    public Long getIdFuncionarios() {
+    public Long getIdFuncionario() {
         return idFuncionario;
     }
 
-    public void setIdFuncionarios(Long idFuncionario) {
+    public void setIdFuncionario(Long idFuncionario) {
         this.idFuncionario = idFuncionario;
     }
 

@@ -11,14 +11,18 @@ import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.InativaFuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Funcionario;
+import br.com.zup.estrelas.sb.entity.Salao;
 import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
+import br.com.zup.estrelas.sb.repository.SalaoRepository;
 import br.com.zup.estrelas.sb.repository.ServicoRepository;
 import br.com.zup.estrelas.sb.service.FuncionarioService;
 
 @Service
 public class FuncionarioServiceImpl implements FuncionarioService {
 
+    private static final String O_SALÃO_NÃO_EXISTE =
+            "O salão em que está sendo alocado o funcionario não existe!";
     private static final String CADASTRO_REALIZADO_COM_SUCESSO =
             "Cadastro de funcionário realizado com sucesso.";
     private static final String FUNCIONARIO_JA_CADASTRADO = "Funcionário já cadastrado.";
@@ -34,15 +38,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Autowired
     ServicoRepository servicoRepository;
 
-    @Override
-    public MensagemDTO adicionaFuncionario(FuncionarioDTO funcionarioDTO) {
-
-        if (funcionarioRepository.existsByCpf(funcionarioDTO.getCpf())) {
-            return new MensagemDTO(FUNCIONARIO_JA_CADASTRADO);
-        }
-
-        return this.criaFuncionarioComSucesso(funcionarioDTO);
-    }
+    @Autowired
+    SalaoRepository salaoRepository;
 
     @Override
     public Funcionario buscaFuncionario(Long idFuncionario) {
@@ -55,6 +52,22 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
+    public MensagemDTO adicionaFuncionario(FuncionarioDTO funcionarioDTO) {
+
+        if (funcionarioRepository.existsByCpf(funcionarioDTO.getCpf())) {
+            return new MensagemDTO(FUNCIONARIO_JA_CADASTRADO);
+        }
+
+        if (!salaoRepository.existsById(funcionarioDTO.getIdUsuario())) {
+            return new MensagemDTO(O_SALÃO_NÃO_EXISTE);
+        }
+
+        Salao salao = salaoRepository.findById(funcionarioDTO.getIdUsuario()).get();
+
+        return this.criaFuncionarioComSucesso(salao, funcionarioDTO);
+    }
+
+    @Override
     public MensagemDTO alteraFuncionario(Long idFuncionario, FuncionarioDTO alteraFuncionarioDTO) {
 
         Optional<Funcionario> funcionarioConsultado = funcionarioRepository.findById(idFuncionario);
@@ -63,12 +76,18 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             return new MensagemDTO(FUNCIONARIO_INEXISTENTE);
         }
 
-        if (funcionarioConsultado.get().getCpf() == alteraFuncionarioDTO.getCpf()
+        if (!funcionarioConsultado.get().getCpf().equals(alteraFuncionarioDTO.getCpf())
                 && funcionarioRepository.existsByCpf(alteraFuncionarioDTO.getCpf())) {
             return new MensagemDTO(CPF_JÁ_EXISTE);
         }
 
-        return this.alteraInformacaoFuncionario(funcionarioConsultado, alteraFuncionarioDTO);
+        if (!salaoRepository.existsById(alteraFuncionarioDTO.getIdUsuario())) {
+            return new MensagemDTO(O_SALÃO_NÃO_EXISTE);
+        }
+
+        Salao salao = salaoRepository.findById(alteraFuncionarioDTO.getIdUsuario()).get();
+
+        return this.alteraInformacaoFuncionario(salao, funcionarioConsultado, alteraFuncionarioDTO);
     }
 
     @Override
@@ -92,20 +111,20 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             return new MensagemDTO("FUNCIONARIO INEXISTENTE!");
         }
 
-        if (!servicoRepository.existsById(adicionaServicoDTO.getIdSevico())) {
+        if (!servicoRepository.existsById(adicionaServicoDTO.getIdServico())) {
             return new MensagemDTO("SERVIÇO INEXISTENTE!");
         }
 
         return this.adicionaServico(idFuncionario, adicionaServicoDTO);
     }
 
-
-    private MensagemDTO alteraInformacaoFuncionario(Optional<Funcionario> funcionarioConsultado,
-            FuncionarioDTO alteraFuncionarioDTO) {
+    private MensagemDTO alteraInformacaoFuncionario(Salao salao,
+            Optional<Funcionario> funcionarioConsultado, FuncionarioDTO alteraFuncionarioDTO) {
 
         Funcionario funcionarioAlterado = funcionarioConsultado.get();
 
         BeanUtils.copyProperties(alteraFuncionarioDTO, funcionarioAlterado);
+        funcionarioAlterado.setSalao(salao);
 
         funcionarioRepository.save(funcionarioAlterado);
 
@@ -125,7 +144,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return new MensagemDTO(FUNCIONARIO_INATIVO);
     }
 
-    private MensagemDTO criaFuncionarioComSucesso(FuncionarioDTO funcionarioDTO) {
+    private MensagemDTO criaFuncionarioComSucesso(Salao salao, FuncionarioDTO funcionarioDTO) {
 
         Funcionario funcionario = new Funcionario();
 
@@ -133,6 +152,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         funcionario.setAgendamentos(Collections.emptyList());
         funcionario.setServicos(Collections.emptyList());
         funcionario.setAtivo(true);
+        funcionario.setSalao(salao);
 
         funcionarioRepository.save(funcionario);
 
@@ -143,19 +163,24 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         Funcionario funcionario = funcionarioRepository.findById(idFuncionario).get();
 
-        Servico servico = servicoRepository.findById(adicionaServicoDTO.getIdSevico()).get();
+        Servico servico = servicoRepository.findById(adicionaServicoDTO.getIdServico()).get();
 
         List<Servico> servicos = funcionario.getServicos();
 
-        for (Servico servicoFuncionario : servicos) {
-            if (servicos.contains(servicoFuncionario)) {
-                return new MensagemDTO("SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONARIO!");
-            }
+        if (!servico.isAtivo()) {
+            return new MensagemDTO(
+                    "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!");
+        }
+
+        if (servicos.contains(servico)) {
+            return new MensagemDTO("SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONARIO!");
         }
 
         servicos.add(servico);
 
         funcionario.setServicos(servicos);
+
+        funcionarioRepository.save(funcionario);
 
         return new MensagemDTO("SERVICO ADICIONADO COM SUCESSO!");
     }

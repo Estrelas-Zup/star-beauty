@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
+import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
@@ -54,10 +55,18 @@ public class ProfissionalAutonomoController {
         return profissionalAutonomoService.inativaProfissionalAutonomo(idUsuario,
                 inativaProfissionalAutonomoDTO);
     }
-    
+
     @PutMapping("/{idUsuario}/servicos")
-    public MensagemDTO adicionaServicoProfissionalAutonomo(@PathVariable Long idUsuario, @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) {
-        return adicionaServicoProfissionalAutonomo(idUsuario, adicionaServicoDTO);
+    public MensagemDTO adicionaServicoProfissionalAutonomo(@PathVariable Long idUsuario,
+            @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) {
+        return profissionalAutonomoService.adicionaServicoProfissionalAutonomo(idUsuario,
+                adicionaServicoDTO);
+    }
+
+    @PutMapping("/{idUsuario}/pagamentos")
+    public MensagemDTO adicionaFormaPagamento(@PathVariable Long idUsuario,
+            @RequestBody FormaPagamentoDTO formaPagamentoDTO) {
+        return profissionalAutonomoService.adicionaFormaPagamento(idUsuario, formaPagamentoDTO);
     }
 
 }

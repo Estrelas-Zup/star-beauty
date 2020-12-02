@@ -8,14 +8,14 @@ public class AdicionaServicoDTO {
 
     @NotNull(message = "O campo id servico não pode estar vazio")
     @NumberFormat(style = Style.NUMBER)
-    private Long idSevico;
+    private Long idServico;
 
-    public Long getIdSevico() {
-        return idSevico;
+    public Long getIdServico() {
+        return idServico;
     }
 
-    public void setIdSevico(Long idSevico) {
-        this.idSevico = idSevico;
+    public void setIdServico(Long idSevico) {
+        this.idServico = idSevico;
     }
 
 }

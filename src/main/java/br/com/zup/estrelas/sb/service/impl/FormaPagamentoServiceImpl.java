@@ -28,16 +28,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     @Autowired
     FormaPagamentoRepository formaPagamentoRepository;
 
-    public MensagemDTO adicionaFormaPagamento(FormaPagamentoDTO formaPagamentoDTO) {
-
-        if (formaPagamentoRepository.existsByTipoPagamento(formaPagamentoDTO.getTipoPagamento())) {
-
-            return new MensagemDTO(FORMA_DE_PAGAMENTO_JA_CADASTRADA);
-        }
-
-        return this.criaFormaPagamentoComSucesso(formaPagamentoDTO);
-    }
-
+    @Override
     public FormaPagamento buscaFormaPagamento(Long idFormaPagamento) {
         return formaPagamentoRepository.findById(idFormaPagamento).orElse(null);
     }
@@ -45,6 +36,32 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     @Override
     public List<FormaPagamento> listaFormaPagamentos() {
         return (List<FormaPagamento>) formaPagamentoRepository.findAll();
+    }
+
+    @Override
+    public MensagemDTO adicionaFormaPagamento(FormaPagamentoDTO formaPagamentoDTO) {
+
+        if (formaPagamentoRepository.existsByTipoPagamento(formaPagamentoDTO.getTipoPagamento())) {
+            return new MensagemDTO(FORMA_DE_PAGAMENTO_JA_CADASTRADA);
+        }
+
+        return this.criaFormaPagamentoComSucesso(formaPagamentoDTO);
+    }
+
+    @Override
+    public MensagemDTO alteraFormaPagamento(Long idFormaPagamento,
+            FormaPagamentoDTO alteraFormaPagamentoDTO) {
+
+        if (!formaPagamentoRepository.existsById(idFormaPagamento)) {
+            return new MensagemDTO(FORMA_DE_PAGAMENTO_INEXISTENTE);
+        }
+
+        if (formaPagamentoRepository
+                .existsByTipoPagamento(alteraFormaPagamentoDTO.getTipoPagamento())) {
+            return new MensagemDTO(FORMA_DE_PAGAMENTO_JA_EXISTENTE);
+        }
+
+        return this.alteraInformacoesFormaPagamento(idFormaPagamento, alteraFormaPagamentoDTO);
     }
 
     @Override
@@ -57,26 +74,6 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
         formaPagamentoRepository.deleteById(idFormaPagamento);
 
         return new MensagemDTO(FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
-    }
-
-
-    @Override
-    public MensagemDTO alteraFormaPagamento(Long idFormaPagamento,
-            FormaPagamentoDTO alteraFormaPagamentoDTO) {
-
-        if (!formaPagamentoRepository.existsById(idFormaPagamento)) {
-            return new MensagemDTO(FORMA_DE_PAGAMENTO_INEXISTENTE);
-        }
-
-
-        if (formaPagamentoRepository
-                .existsByTipoPagamento(alteraFormaPagamentoDTO.getTipoPagamento())) {
-            return new MensagemDTO(FORMA_DE_PAGAMENTO_JA_EXISTENTE);
-
-        }
-
-        return this.alteraInformacoesFormaPagamento(idFormaPagamento, alteraFormaPagamentoDTO);
-
     }
 
     private MensagemDTO criaFormaPagamentoComSucesso(FormaPagamentoDTO formaPagamentoDTO) {

@@ -26,7 +26,7 @@ public class Transacao {
     private Double valor;
 
     @Column(name = "forma_pagamento", nullable = false)
-    private TipoPagamento formaPagmento;
+    private TipoPagamento tipoPagmento;
 
     @Column(name = "nome_cliente", nullable = false)
     private String nomeCliente;
@@ -58,12 +58,12 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public TipoPagamento getFormaPagmento() {
-        return formaPagmento;
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagmento;
     }
 
-    public void setFormaPagmento(TipoPagamento formaPagmento) {
-        this.formaPagmento = formaPagmento;
+    public void setTipoPagamento(TipoPagamento tipoPagmento) {
+        this.tipoPagmento = tipoPagmento;
     }
 
     public String getNomeCliente() {

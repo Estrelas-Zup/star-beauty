@@ -23,7 +23,7 @@ public class Agendamento {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_funcionario",
+    @JoinColumn(nullable = true, name = "id_funcionario",
             foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
     private Funcionario funcionario;
 
@@ -35,7 +35,7 @@ public class Agendamento {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_usuario_autonomo",
+    @JoinColumn(nullable = true, name = "id_usuario_autonomo",
             foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
     private ProfissionalAutonomo autonomo;
 
@@ -56,7 +56,7 @@ public class Agendamento {
     private LocalDateTime dataHoraFim;
 
     @Column(name = "forma_pagamento", nullable = false)
-    private TipoPagamento formaPagamento;
+    private TipoPagamento tipoPagamento;
 
     private boolean realizado;
 
@@ -118,12 +118,12 @@ public class Agendamento {
         this.dataHora = dataHora;
     }
 
-    public TipoPagamento getFormaPagamento() {
-        return formaPagamento;
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
     }
 
-    public void setFormaPagamento(TipoPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
     }
 
     public boolean isRealizado() {

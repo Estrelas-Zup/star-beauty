@@ -6,11 +6,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
+import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
+import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
 import br.com.zup.estrelas.sb.entity.Servico;
+import br.com.zup.estrelas.sb.repository.FormaPagamentoRepository;
 import br.com.zup.estrelas.sb.repository.ProfissionalAutonomoRepository;
 import br.com.zup.estrelas.sb.repository.ServicoRepository;
 import br.com.zup.estrelas.sb.service.ProfissionalAutonomoService;
@@ -24,7 +27,11 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     @Autowired
     ServicoRepository servicoRepository;
 
+    @Autowired
+    FormaPagamentoRepository pagamentoRepository;
+
     @Override
+
     public ProfissionalAutonomo buscaProfissionalAutonomo(Long idUsuario) {
         return profissionalAutonomoRepository.findById(idUsuario).orElse(null);
     }
@@ -37,8 +44,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     @Override
     public MensagemDTO adicionaProfissionalAutonomo(
             ProfissionalAutonomoDTO profissionalAutonomoDTO) {
-        if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf())
-                || profissionalAutonomoRepository.existsByCnpj(profissionalAutonomoDTO.getCnpj())) {
+        if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf())) {
             return new MensagemDTO("ESTE PROFISSIONAL JÁ ESTÁ CADASTRADO!");
         }
 
@@ -58,13 +64,8 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         boolean verificaCpfAutonomo =
                 profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf());
 
-        boolean verificaCnpjAutonomo =
-                profissionalAutonomoRepository.existsByCnpj(profissionalAutonomoDTO.getCnpj());
-
-        if (profissionalAutonomoDTO.getCpf().equals(profissionalAutonomo.getCpf())
-                && verificaCpfAutonomo
-                || profissionalAutonomoDTO.getCnpj().equals(profissionalAutonomo.getCnpj())
-                        && verificaCnpjAutonomo) {
+        if (!profissionalAutonomoDTO.getCpf().equals(profissionalAutonomo.getCpf())
+                && verificaCpfAutonomo) {
             return new MensagemDTO("CPF JÁ CADASTRADO NO BANCO DE DADOS!");
         }
 
@@ -89,11 +90,21 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
             return new MensagemDTO("PROFISSIONAL AUTONOMOS INEXISTENTE!");
         }
 
-        if (!servicoRepository.existsById(adicionaServicoDTO.getIdSevico())) {
+        if (!servicoRepository.existsById(adicionaServicoDTO.getIdServico())) {
             return new MensagemDTO("SERVIÇO INEXISTENTE!");
         }
 
         return this.adicionaServico(idUsuario, adicionaServicoDTO);
+    }
+
+    @Override
+    public MensagemDTO adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) {
+
+        if (!profissionalAutonomoRepository.existsById(idUsuario)) {
+            return new MensagemDTO("O PROFISSIONAL EM QUESTÃO NÃO FOI ENCONTRADO!");
+        }
+
+        return this.adicionaFormaPagamentoComSucesso(idUsuario, formaPagamentoDTO);
     }
 
     private MensagemDTO adicionaAutonomo(ProfissionalAutonomoDTO profissionalAutonomoDTO) {
@@ -102,7 +113,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
         BeanUtils.copyProperties(profissionalAutonomoDTO, profissionalAutonomo);
         profissionalAutonomo.setAgendamentos(Collections.emptyList());
-        profissionalAutonomo.setFormasPagamentos(Collections.emptyList());
+        profissionalAutonomo.setFormasPagamento(Collections.emptyList());
         profissionalAutonomo.setServicos(Collections.emptyList());
         profissionalAutonomo.setAtivo(true);
 
@@ -138,20 +149,45 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
         ProfissionalAutonomo autonomo = profissionalAutonomoRepository.findById(idUsuario).get();
 
-        Servico servico = servicoRepository.findById(adicionaServicoDTO.getIdSevico()).get();
+        Servico servico = servicoRepository.findById(adicionaServicoDTO.getIdServico()).get();
 
         List<Servico> servicos = autonomo.getServicos();
 
-        for (Servico servicoFuncionario : servicos) {
-            if (servicos.contains(servicoFuncionario)) {
-                return new MensagemDTO("SERVIÇO JÁ EXISTENTE NO PERFIL DO PROFISSIONAL AUTONOMO!");
-            }
+        if (!servico.isAtivo()) {
+            return new MensagemDTO(
+                    "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!");
+        }
+
+        if (servicos.contains(servico)) {
+            return new MensagemDTO("SERVIÇO JÁ EXISTENTE NO PERFIL DO PROFISSIONAL AUTONOMO!");
         }
 
         servicos.add(servico);
 
         autonomo.setServicos(servicos);
 
+        profissionalAutonomoRepository.save(autonomo);
+
         return new MensagemDTO("SERVICO ADICIONADO COM SUCESSO!");
     }
+
+    private MensagemDTO adicionaFormaPagamentoComSucesso(Long idUsuario,
+            FormaPagamentoDTO formaPagamentoDTO) {
+
+        ProfissionalAutonomo autonomo = profissionalAutonomoRepository.findById(idUsuario).get();
+        FormaPagamento formaPagamento =
+                pagamentoRepository.findByTipoPagamento(formaPagamentoDTO.getTipoPagamento());
+        List<FormaPagamento> formasPagamento = autonomo.getFormasPagamento();
+
+        if (formasPagamento.contains(formaPagamento)) {
+            return new MensagemDTO("FORMA DE PAGAMENTO JÁ EXISTENTE NO CADASTRO!");
+        }
+
+        formasPagamento.add(formaPagamento);
+
+        profissionalAutonomoRepository.save(autonomo);
+
+        return new MensagemDTO("FORMA DE PAGAMENTO CADASTRADA COM SUCESSO!");
+    }
+
 }

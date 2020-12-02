@@ -10,5 +10,7 @@ public interface FormaPagamentoRepository extends CrudRepository<FormaPagamento,
 
     boolean existsByTipoPagamento(TipoPagamento tipoPagamento);
 
+    FormaPagamento findByTipoPagamento(TipoPagamento tipoPagamento);
+
 }
 

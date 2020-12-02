@@ -6,7 +6,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 
@@ -23,11 +22,6 @@ public class ProfissionalAutonomoDTO {
     @NotBlank(message = "O campo nome precisa ser preenchido.")
     @Size(max = 255, message = "O nome não pode ter de 255 caracteres.")
     private String nome;
-
-    @Size(max = 18,
-            message = "O campo CPF não pode ter mais de 18 dígitos contando com pontos e barra.")
-    @CNPJ
-    private String cnpj;
 
     @Size(max = 14,
             message = "O campo CPF não pode ter mais de 14 dígitos contando com pontos e traço.")
@@ -162,14 +156,6 @@ public class ProfissionalAutonomoDTO {
 
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
     }
 
     public String getCpf() {

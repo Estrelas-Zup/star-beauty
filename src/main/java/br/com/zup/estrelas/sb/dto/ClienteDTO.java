@@ -29,7 +29,7 @@ public class ClienteDTO {
     private String endereco;
 
     @NotBlank(message = "O campo CEP precisa ser preenchido.")
-    @Size(max = 8, message = "O CEP pode ter no máximo 8 dígitos.")
+    @Size(max = 9, message = "O CEP pode ter no máximo 9 dígitos.")
     private String cep;
 
     @NotBlank(message = "O campo estado precisa ser preenchido.")

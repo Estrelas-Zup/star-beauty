@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "ab7ae7b1-46a4-4d12-9d11-325088b2237e",
-		"name": "Star-Beauty",
+		"_postman_id": "4448cd7b-e104-49d0-8167-3511ed8b974f",
+		"name": "Star-Beauty Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -27,7 +27,7 @@
 							"variable": [
 								{
 									"key": "idCliente",
-									"value": "1"
+									"value": "4"
 								}
 							]
 						}
@@ -60,7 +60,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"login\": \"elias.lima.com\",\r\n    \"senha\": \"shua1243!@#$\",\r\n    \"nome\": \"Elias\",\r\n    \"endereco\": \"rua dos etc, 02\",\r\n    \"cep\": \"14000-000\",\r\n    \"estado\": \"Campinas\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"bairro\": \"Campo Grande\",\r\n    \"telefone\": \"19983792017\",\r\n    \"email\": \"elias.lima@mail.com\",\r\n    \"cpf\": \"40015789635\",\r\n    \"dataNascimento\": \"1999-01-05\",\r\n    \"tipoUsuario\": \"CLIENTE\"\r\n}",
+							"raw": "{\r\n    \"login\": \"Grazy@mail.com\",\r\n    \"senha\": \"katsu!@#$\",\r\n    \"nome\": \"Grazi\",\r\n    \"endereco\": \"Avenida Bernardo Sayão, 587\",\r\n    \"cep\": \"77825-000\",\r\n    \"estado\": \"Tocantins\",\r\n    \"cidade\": \"Araguaína\",\r\n    \"bairro\": \"Residencial Belchior\",\r\n    \"telefone\": \"17989632548\",\r\n    \"email\": \"Grazi.lima@mail.com\",\r\n    \"cpf\": \"32853943070\",\r\n    \"dataNascimento\": \"1988-08-11\",\r\n    \"tipoUsuario\": \"CLIENTE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -88,7 +88,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"login\": \"grazi@mail.com\",\r\n    \"senha\": \"12345678\",\r\n    \"nome\": \"graziela\",\r\n    \"endereco\": \"ruadosxpto\",\r\n    \"cep\": \"38000-000\",\r\n    \"estado\": \"minasgerais\",\r\n    \"cidade\": \"uberlandia\",\r\n    \"bairro\": \"santamonica\",\r\n    \"telefone\": \"34954789325\",\r\n    \"email\": \"grazi@mail.com\",\r\n    \"tipoUsuario\": \"CLIENTE\",\r\n    \"cpf\": \"123.456.789-10\",\r\n    \"dataNascimento\": \"1984-10-21\"\r\n}",
+							"raw": "{\r\n    \"login\": \"Cris@mail.com\",\r\n    \"senha\": \"pots!@#$\",\r\n    \"nome\": \"Cristiano\",\r\n    \"endereco\": \"Rua José Goulart Pereira, 422\",\r\n    \"cep\": \"79640-050\",\r\n    \"estado\": \"Mato Grosso Do Sul\",\r\n    \"cidade\": \"Três Lagoas\",\r\n    \"bairro\": \"Interlagos\",\r\n    \"telefone\": \"19983792017\",\r\n    \"email\": \"Cris.lima@mail.com\",\r\n    \"cpf\": \"47381574004\",\r\n    \"dataNascimento\": \"1979-04-01\",\r\n    \"tipoUsuario\": \"CLIENTE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,7 +109,43 @@
 							"variable": [
 								{
 									"key": "idCliente",
-									"value": "1"
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inativaCliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/:idCliente/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								":idCliente",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idCliente",
+									"value": "3"
 								}
 							]
 						}
@@ -181,7 +217,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"login\": \"elias.p.lima@mail.com\",\r\n\"senha\": \"154987341sff\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"rua dos xpto, 021\",\r\n\"cep\": \"13000-000\",\r\n\"estado\": \"Campinas\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"Campo Grande\",\r\n\"telefone\": \"1932569741\",\r\n\"email\": \"graziela@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"12654789632587\",\r\n\"nomeFantasia\": \"STAR-BEAUTY_DATE\"\r\n}",
+							"raw": "{\r\n\"login\": \"CristianoSantos@mail.com\",\r\n\"senha\": \"5fsfdf44564d\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"Rua Iluminismo, 021\",\r\n\"cep\": \"68907-250\",\r\n\"estado\": \"Amapá\",\r\n\"cidade\": \"Macapá\",\r\n\"bairro\": \"Renascer\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"CristianoSantos@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"96.692.896/0001-96\",\r\n\"nomeFantasia\": \"STAR-BEAUTY-CRIS\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -209,7 +245,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"login\": \"elias.p.lima@mail.com\",\r\n\"senha\": \"154987341sff\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"rua dos etc, 021\",\r\n\"cep\": \"13000-000\",\r\n\"estado\": \"Campinas\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"Campo Grande\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"graziela@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"12654789632588\",\r\n\"nomeFantasia\": \"STAR-BEAUTY_DATE\"\r\n}",
+							"raw": "{\r\n\"login\": \"CristianoSantos@mail.com\",\r\n\"senha\": \"5fsfdf44564d\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"Rua Iluminismo, 512\",\r\n\"cep\": \"68907-250\",\r\n\"estado\": \"Amapá\",\r\n\"cidade\": \"Macapá\",\r\n\"bairro\": \"Renascer\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"CristianoSantos@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"96.692.896/0001-96\",\r\n\"nomeFantasia\": \"STAR-BEAUTY-DATE-TIME\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -230,7 +266,7 @@
 							"variable": [
 								{
 									"key": "idSalao",
-									"value": "9"
+									"value": "12"
 								}
 							]
 						}
@@ -244,7 +280,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ativo\": true\r\n}",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -266,7 +302,43 @@
 							"variable": [
 								{
 									"key": "idSalao",
-									"value": "3"
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaFormasPagamento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoPagamento\": \"DINHEIRO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes/:idSalao/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao",
+								"pagamentos"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "5"
 								}
 							]
 						}
@@ -331,7 +403,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"login\": \"cris@mail.com\",\r\n\"senha\": \"83754123\",\r\n\"nome\": \"Cris\",\r\n\"endereco\": \"rua dos etc, 853\",\r\n\"cep\": \"11000-000\",\r\n\"estado\": \"São Paulo\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"Guarulhos\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"cris@mail.com\",\r\n\"cpfCnpj\": \"40015789635\",\r\n\"dataNascimento\": \"1979-02-08\",\r\n\"tipoUsuario\": \"AUTONOMO\"\r\n}",
+							"raw": "{\r\n    \"login\": \"Lima.Elias@mail.com\",\r\n    \"senha\": \"854684ddgsfdu\",\r\n    \"nome\": \"Elias\",\r\n    \"endereco\": \"Avenida Fernando Paolieri, 462\",\r\n    \"cep\": \"13056-015\",\r\n    \"estado\": \"São Paulo\",\r\n    \"cidade\": \"Campinas\",\r\n    \"bairro\": \"Campo Grande\",\r\n    \"telefone\": \"11986478521\",\r\n    \"email\": \"Lima.Elias@mail.com\",\r\n    \"cpf\": \"901.718.830-80\",\r\n    \"dataNascimento\": \"1998-10-12\",\r\n    \"tipoUsuario\": \"AUTONOMO\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -359,7 +431,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"login\": \"cris@mail.com\",\r\n\"senha\": \"83754123\",\r\n\"nome\": \"Cris\",\r\n\"endereco\": \"rua dos etc, 853\",\r\n\"cep\": \"12000-000\",\r\n\"estado\": \"São Paulo\",\r\n\"cidade\": \"São Paulo\",\r\n\"bairro\": \"cotia\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"cristiano@mail.com\",\r\n\"cpfCnpj\": \"40015789635\",\r\n\"dataNascimento\": \"1979-02-08\",\r\n\"tipoUsuario\": \"AUTONOMO\"\r\n}",
+							"raw": "{\r\n    \"login\": \"Lima.Elias@mail.com\",\r\n    \"senha\": \"854684ddgsfdu\",\r\n    \"nome\": \"Elias\",\r\n    \"endereco\": \"Avenida Fernando Paolieri, 462\",\r\n    \"cep\": \"13056-015\",\r\n    \"estado\": \"São Paulo\",\r\n    \"cidade\": \"Campinas\",\r\n    \"bairro\": \"Campo Grande\",\r\n    \"telefone\": \"19983792017\",\r\n    \"email\": \"Lima.Elias@mail.com\",\r\n    \"cpf\": \"901.718.830-80\",\r\n    \"dataNascimento\": \"1998-10-12\",\r\n    \"tipoUsuario\": \"AUTONOMO\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -380,7 +452,7 @@
 							"variable": [
 								{
 									"key": "idAutonomo",
-									"value": "10"
+									"value": "14"
 								}
 							]
 						}
@@ -394,7 +466,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ativo\": true\r\n}",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -416,7 +488,79 @@
 							"variable": [
 								{
 									"key": "idAutonomo",
-									"value": "10"
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaServicoAutonomo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idServico\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/autonomos/:idAutonomo/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo",
+								"servicos"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaPagamentoAutonomo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoPagamento\": \"PIX\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/autonomos/:idAutonomo/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo",
+								"pagamentos"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "14"
 								}
 							]
 						}
@@ -481,7 +625,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"nome\": \"Dayana\",\r\n\"telefone\": \"11234659789\",\r\n\"cpf\": \"14563254784\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idSalao\": 7\r\n}",
+							"raw": "{\r\n\"nome\": \"José\",\r\n\"telefone\": \"35999258793\",\r\n\"cpf\": \"823.172.450-84\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idUsuario\": 8\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -509,7 +653,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"nome\": \"Dayana\",\r\n\"telefone\": \"1123465779\",\r\n\"cpf\": \"39951234578\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idSalao\": 7\r\n}",
+							"raw": "{\r\n\"nome\": \"José\",\r\n\"telefone\": \"31998654789\",\r\n\"cpf\": \"823.172.450-84\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idUsuario\": 5\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -530,7 +674,43 @@
 							"variable": [
 								{
 									"key": "idFuncionario",
-									"value": "4"
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaServicoFuncionario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idServico\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario",
+								"servicos"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "3"
 								}
 							]
 						}
@@ -567,32 +747,6 @@
 								{
 									"key": "idFuncionario",
 									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "removeFuncionario",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/funcionarios/:idFuncionario",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"funcionarios",
-								":idFuncionario"
-							],
-							"variable": [
-								{
-									"key": "idFuncionario",
-									"value": "2"
 								}
 							]
 						}
@@ -657,7 +811,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idFuncionario\": \"1\",\r\n    \"nomeCliente\": \"DAYANA\",\r\n    \"nomeServico\": \"Escova\",\r\n    \"dataHora\": \"2020-01-12T15:00:00\",\r\n    \"formaPagamento\": \"DINHEIRO\"\r\n}",
+							"raw": "{\r\n    \"idFuncionario\": \"3\",\r\n    \"idProfissionalAltonomo\": \"\",\r\n    \"idCliente\": \"1\",\r\n    \"idServico\": \"4\",\r\n    \"nomeCliente\": \"Elias\",\r\n    \"nomeServico\": \"Depilação\",\r\n    \"dataHora\": \"2020-02-12T15:00:00\",\r\n    \"dataHoraFim\": \"2020-02-12T16:00:00\",\r\n    \"formaPagamento\": \"DINHEIRO\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -781,7 +935,7 @@
 							"variable": [
 								{
 									"key": "idServico",
-									"value": "1"
+									"value": "5"
 								}
 							]
 						}
@@ -814,7 +968,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"nomeServico\": \"Massagem\",\r\n    \"duracao\": \"60\",\r\n    \"valorServico\": \"400\",\r\n    \"tipoServico\": \"OUTROS\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -842,7 +996,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nomeServico\": \"Escova\",\r\n    \"duracao\": \"60\",\r\n    \"valorServico\": 80.00,\r\n    \"tipoServico\": \"CABELEIREIRO\"\r\n}",
+							"raw": "{\r\n    \"nomeServico\": \"Massagem\",\r\n    \"duracao\": \"60\",\r\n    \"valorServico\": \"400\",\r\n    \"tipoServico\": \"ESTETICA\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -863,7 +1017,7 @@
 							"variable": [
 								{
 									"key": "idServico",
-									"value": "2"
+									"value": "5"
 								}
 							]
 						}
@@ -871,12 +1025,21 @@
 					"response": []
 				},
 				{
-					"name": "removeServico",
+					"name": "inativaSalão",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/servicos/:idServico",
+							"raw": "http://localhost:8080/servicos/:idServico/inativa",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -884,12 +1047,13 @@
 							"port": "8080",
 							"path": [
 								"servicos",
-								":idServico"
+								":idServico",
+								"inativa"
 							],
 							"variable": [
 								{
 									"key": "idServico",
-									"value": ""
+									"value": "5"
 								}
 							]
 						}
@@ -1085,7 +1249,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tipoPagamento\": \"PIX\"\r\n}",
+							"raw": "{\r\n    \"tipoPagamento\": \"CARTAO_CREDITO_MASTERCARD\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

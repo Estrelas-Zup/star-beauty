@@ -27,9 +27,15 @@ public class TransacaoServiceImpl implements TransacaoService {
     @Autowired
     AgendamentoRepository agendamentoRepository;
 
+    public Transacao buscaTransacao(Long idTransacao) {
+        return transacaoRepository.findById(idTransacao).orElse(null);
+    }
+
+    public List<Transacao> listaTransacoes() {
+        return (List<Transacao>) transacaoRepository.findAll();
+    }
+
     public void criaTransacao(TransacaoDTO transacaoDTO) {
-
-
 
         Agendamento agendamento =
                 agendamentoRepository.findById(transacaoDTO.getIdAgendamento()).get();
@@ -38,15 +44,16 @@ public class TransacaoServiceImpl implements TransacaoService {
             return;
         }
 
-        this.adicionaTransacao(transacaoDTO);
+        this.adicionaTransacao(agendamento, transacaoDTO);
     }
 
-    public Transacao buscaTransacao(Long idTransacao) {
-        return transacaoRepository.findById(idTransacao).orElse(null);
-    }
+    public MensagemDTO alteraTransacao(Long idTransacao, TransacaoDTO transacaoDTO) {
 
-    public List<Transacao> listaTransacoes() {
-        return (List<Transacao>) transacaoRepository.findAll();
+        if (!transacaoRepository.existsById(idTransacao)) {
+            return new MensagemDTO(TRANSACAO_INEXISTENTE);
+        }
+
+        return this.alteraInformacoesTransacao(idTransacao, transacaoDTO);
     }
 
     public MensagemDTO removeTransacao(Long idTransacao) {
@@ -60,20 +67,12 @@ public class TransacaoServiceImpl implements TransacaoService {
         return new MensagemDTO(TRANSACAO_REMOVIDA_COM_SUCESSO);
     }
 
-    public MensagemDTO alteraTransacao(Long idTransacao, TransacaoDTO transacaoDTO) {
-
-        if (!transacaoRepository.existsById(idTransacao)) {
-            return new MensagemDTO(TRANSACAO_INEXISTENTE);
-        }
-
-        return this.alteraInformacoesTransacao(idTransacao, transacaoDTO);
-    }
-
-    private void adicionaTransacao(TransacaoDTO transacaoDTO) {
+    private void adicionaTransacao(Agendamento agendamento, TransacaoDTO transacaoDTO) {
 
         Transacao transacao = new Transacao();
 
         BeanUtils.copyProperties(transacaoDTO, transacao);
+        transacao.setAgendamento(agendamento);
 
         transacaoRepository.save(transacao);
     }

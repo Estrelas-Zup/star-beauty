@@ -25,14 +25,14 @@ public class FuncionarioDTO {
     private String horarioAlmoco;
 
     @NotNull(message = "O campo id do salão precisa ser preenchido.")
-    private Long idSalao;
+    private Long idUsuario;
 
-    public Long getIdSalao() {
-        return idSalao;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdSalao(Long idSalao) {
-        this.idSalao = idSalao;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNome() {

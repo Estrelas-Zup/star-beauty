@@ -24,6 +24,16 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
+    @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Cliente consultaCliente(@PathVariable Long idUsuario) {
+        return clienteService.consultaCliente(idUsuario);
+    }
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<Cliente> listaClientes() {
+        return clienteService.listaClientes();
+    }
+
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO insereCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
         return clienteService.insereCliente(clienteDTO);
@@ -35,19 +45,10 @@ public class ClienteController {
         return clienteService.alteraCliente(idUsuario, clienteDTO);
     }
 
-    @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Cliente consultaCliente(@PathVariable Long idUsuario) {
-        return clienteService.consultaCliente(idUsuario);
-    }
-
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Cliente> listaClientes() {
-        return clienteService.listaClientes();
-    }
-    
-    @PutMapping (path = "/{idUsuario/inativa}")
-    public MensagemDTO inativaCliente(@PathVariable Long idUsuario, @Valid @RequestBody InativaClienteDTO inativaClienteDTO) {
+    @PutMapping(path = "/{idUsuario}/inativa")
+    public MensagemDTO inativaCliente(@PathVariable Long idUsuario,
+            @Valid @RequestBody InativaClienteDTO inativaClienteDTO) {
         return clienteService.inativaCliente(idUsuario, inativaClienteDTO);
     }
-    
+
 }

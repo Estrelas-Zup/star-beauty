@@ -24,26 +24,20 @@ public class FormaPagamentoController {
     @Autowired
     FormaPagamentoService formaPagamentoService;
 
-    @PostMapping
-    public MensagemDTO adicionaFormaPagamento(
-            @Valid @RequestBody FormaPagamentoDTO formaPagamentoDTO) {
-        return formaPagamentoService.adicionaFormaPagamento(formaPagamentoDTO);
-    }
-
     @GetMapping(path = "/{idFormaPagamento}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public FormaPagamento buscaFormaPagamento(@PathVariable Long idFormaPagamento) {
         return formaPagamentoService.buscaFormaPagamento(idFormaPagamento);
     }
-
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<FormaPagamento> listaFormaPagamentos() {
         return formaPagamentoService.listaFormaPagamentos();
     }
 
-    @DeleteMapping(path = "/{idFormaPagamento}")
-    public MensagemDTO removeFormaPagamento(@PathVariable Long idFormaPagamento) {
-        return formaPagamentoService.removeFormaPagamento(idFormaPagamento);
+    @PostMapping
+    public MensagemDTO adicionaFormaPagamento(
+            @Valid @RequestBody FormaPagamentoDTO formaPagamentoDTO) {
+        return formaPagamentoService.adicionaFormaPagamento(formaPagamentoDTO);
     }
 
     @PutMapping(path = "/{idFormaPagamento}")
@@ -52,4 +46,10 @@ public class FormaPagamentoController {
         return formaPagamentoService.alteraFormaPagamento(idFormaPagamento,
                 alteraFormaPagamentoDTO);
     }
+
+    @DeleteMapping(path = "/{idFormaPagamento}")
+    public MensagemDTO removeFormaPagamento(@PathVariable Long idFormaPagamento) {
+        return formaPagamentoService.removeFormaPagamento(idFormaPagamento);
+    }
+
 }

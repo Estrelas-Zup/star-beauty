@@ -18,7 +18,7 @@ public class Salao extends Usuario {
     private String nomeFantasia;
 
     @ManyToMany
-    private List<FormaPagamento> formasPagamentos;
+    private List<FormaPagamento> formasPagamento;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "salao")
@@ -41,11 +41,11 @@ public class Salao extends Usuario {
     }
 
     public List<FormaPagamento> getFormaPagamento() {
-        return formasPagamentos;
+        return formasPagamento;
     }
 
-    public void setFormaPagamento(List<FormaPagamento> formasPagamentos) {
-        this.formasPagamentos = formasPagamentos;
+    public void setFormaPagamento(List<FormaPagamento> formasPagamento) {
+        this.formasPagamento = formasPagamento;
     }
 
     public List<Funcionario> getFuncionarios() {

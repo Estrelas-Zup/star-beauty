@@ -45,7 +45,6 @@ public class SalaoDTO {
     @NotBlank(message = "O CNPJ não pode ser nulo")
     @Size(max = 18,
             message = "O campo CPF não pode ter mais de 18 dígitos contando com pontos e traço.")
-
     @CNPJ
     private String cnpj;
 

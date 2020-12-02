@@ -16,7 +16,7 @@ public class TransacaoDTO {
     @NumberFormat(style = Style.NUMBER)
     private Double valor;
 
-    private TipoPagamento formaPagmento;
+    private TipoPagamento tipoPagmento;
 
     @NotBlank(message = "O campo nome do cliente precisa ser preenchido.")
     private String nomeCliente;
@@ -40,12 +40,12 @@ public class TransacaoDTO {
         this.valor = valor;
     }
 
-    public TipoPagamento getFormaPagmento() {
-        return formaPagmento;
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagmento;
     }
 
-    public void setFormaPagmento(TipoPagamento formaPagmento) {
-        this.formaPagmento = formaPagmento;
+    public void setTipoPagamento(TipoPagamento tipoPagmento) {
+        this.tipoPagmento = tipoPagmento;
     }
 
     public String getNomeCliente() {

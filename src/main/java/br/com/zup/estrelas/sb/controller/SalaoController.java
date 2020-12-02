@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaSalaoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.SalaoDTO;
@@ -24,9 +25,9 @@ public class SalaoController {
     @Autowired
     SalaoService salaoService;
 
-    @GetMapping(path = "/{idSalao}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Salao buscaSalao(@PathVariable Long idSalao) {
-        return salaoService.buscaSalao(idSalao);
+    @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Salao buscaSalao(@PathVariable Long idUsuario) {
+        return salaoService.buscaSalao(idUsuario);
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -39,16 +40,23 @@ public class SalaoController {
         return salaoService.adicionaSalao(salaoDTO);
     }
 
-    @PutMapping(path = "/{idSalao}")
-    public MensagemDTO alteraSalao(@PathVariable Long idSalao,
+    @PutMapping(path = "/{idUsuario}")
+    public MensagemDTO alteraSalao(@PathVariable Long idUsuario,
             @Valid @RequestBody SalaoDTO salaoDTO) {
-        return salaoService.alteraSalao(idSalao, salaoDTO);
+        return salaoService.alteraSalao(idUsuario, salaoDTO);
     }
 
-    @PutMapping(path = "/{idSalao}/inativa")
-    public MensagemDTO inativaSalao(@PathVariable Long idSalao,
+    @PutMapping(path = "/{idUsuario}/inativa")
+    public MensagemDTO inativaSalao(@PathVariable Long idUsuario,
             @Valid @RequestBody InativaSalaoDTO inativaSalaoDTO) {
-        return salaoService.inativaSalao(idSalao, inativaSalaoDTO);
+        return salaoService.inativaSalao(idUsuario, inativaSalaoDTO);
     }
+
+    @PutMapping(path = "/{idUsuario}/pagamentos")
+    public MensagemDTO adicionaFormaPagamento(@PathVariable Long idUsuario,
+            @RequestBody FormaPagamentoDTO formaPagamentoDTO) {
+        return salaoService.adicionaFormaPagamento(idUsuario, formaPagamentoDTO);
+    }
+
 
 }

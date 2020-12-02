@@ -25,10 +25,7 @@ public class FuncionarioController {
     @Autowired
     FuncionarioService funcionarioService;
 
-    @PostMapping
-    public MensagemDTO adicionaFuncionario(@Valid @RequestBody FuncionarioDTO funcionario) {
-        return funcionarioService.adicionaFuncionario(funcionario);
-    }
+
 
     @GetMapping(path = "/{idFuncionario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Funcionario buscaFuncionario(@PathVariable Long idFuncionario) {
@@ -38,6 +35,11 @@ public class FuncionarioController {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Funcionario> listaFuncionarios() {
         return funcionarioService.listaFuncionarios();
+    }
+
+    @PostMapping
+    public MensagemDTO adicionaFuncionario(@Valid @RequestBody FuncionarioDTO funcionario) {
+        return funcionarioService.adicionaFuncionario(funcionario);
     }
 
     @PutMapping(path = "/{idFuncionario}")
@@ -55,7 +57,7 @@ public class FuncionarioController {
     @PutMapping("/{idFuncionario}/servicos")
     public MensagemDTO adicionaServicoFuncionario(@PathVariable Long idFuncionario,
             @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) {
-        return adicionaServicoFuncionario(idFuncionario, adicionaServicoDTO);
+        return funcionarioService.adicionaServicoFuncionario(idFuncionario, adicionaServicoDTO);
     }
 
 }

@@ -14,9 +14,6 @@ public class ProfissionalAutonomo extends Usuario {
 
     @Column(unique = true)
     private String cpf;
-    
-    @Column(unique = true)
-    private String cnpj;
 
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
@@ -29,7 +26,7 @@ public class ProfissionalAutonomo extends Usuario {
     private List<Agendamento> agendamentos;
 
     @ManyToMany
-    private List<FormaPagamento> formasPagamentos;
+    private List<FormaPagamento> formasPagamento;
 
     public String getCpf() {
         return cpf;
@@ -37,14 +34,6 @@ public class ProfissionalAutonomo extends Usuario {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
     }
 
     public LocalDate getDataNascimento() {
@@ -71,12 +60,12 @@ public class ProfissionalAutonomo extends Usuario {
         this.agendamentos = agendamentos;
     }
 
-    public List<FormaPagamento> getFormasPagamentos() {
-        return formasPagamentos;
+    public List<FormaPagamento> getFormasPagamento() {
+        return formasPagamento;
     }
 
-    public void setFormasPagamentos(List<FormaPagamento> formasPagamentos) {
-        this.formasPagamentos = formasPagamentos;
+    public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
+        this.formasPagamento = formasPagamento;
     }
 
 }

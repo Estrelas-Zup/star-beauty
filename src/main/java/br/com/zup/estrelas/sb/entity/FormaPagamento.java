@@ -33,8 +33,8 @@ public class FormaPagamento {
         return tipoPagamento;
     }
 
-    public void setTipoPagamento(TipoPagamento tipoPagamnto) {
-        this.tipoPagamento = tipoPagamnto;
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
     }
 
 }
