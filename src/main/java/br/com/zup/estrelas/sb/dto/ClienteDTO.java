@@ -2,7 +2,6 @@ package br.com.zup.estrelas.sb.dto;
 
 import java.time.LocalDate;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -22,7 +21,7 @@ public class ClienteDTO {
     private String senha;
 
     @NotBlank(message = "O campo nome precisa ser preenchido.")
-    @Max(value = 255, message = "O nome não pode ter de 255 caracteres.")
+    @Size(max = 255, message = "O nome não pode ter de 255 caracteres.")
     private String nome;
 
     @NotBlank(message = "O campo endereço precisa ser preenchido.")
