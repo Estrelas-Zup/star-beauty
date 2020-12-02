@@ -36,11 +36,11 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO) {
 
         boolean verificaDisponibilidadeFuncionario =
-                agendamentoRepository.existsByIdFuncionarioAndDataHora(
+                agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHora(
                         agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora());
 
         boolean verificaDisponibilidadeAutonomo =
-                agendamentoRepository.existsByIdUsuarioAndDataHora(
+                agendamentoRepository.existsByAutonomoIdUsuarioAndDataHora(
                         agendamentoDTO.getIdProfissionalAutonomo(), agendamentoDTO.getDataHora());
 
         if (verificaDisponibilidadeFuncionario || verificaDisponibilidadeAutonomo) {
