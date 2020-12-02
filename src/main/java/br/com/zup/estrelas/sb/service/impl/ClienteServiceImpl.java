@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
 import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
@@ -27,6 +28,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     ClienteRepository clienteRepository;
+    
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public MensagemDTO insereCliente(ClienteDTO clienteDTO) {
 
@@ -87,6 +91,7 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente cliente = new Cliente();
 
         BeanUtils.copyProperties(clienteDTO, cliente);
+        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         cliente.setAgendamentos(Collections.emptyList());
         cliente.setAtivo(true);
         cliente.setTipoUsuario(clienteDTO.getTipoUsuario());
