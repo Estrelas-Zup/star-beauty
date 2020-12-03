@@ -23,7 +23,7 @@ public class Agendamento {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(nullable = true, name = "id_funcionario",
+    @JoinColumn(name = "id_funcionario",
             foreignKey = @ForeignKey(name = "agendamento_funcionario_fk"))
     private Funcionario funcionario;
 
@@ -35,7 +35,7 @@ public class Agendamento {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(nullable = true, name = "id_usuario_autonomo",
+    @JoinColumn(name = "id_usuario_autonomo",
             foreignKey = @ForeignKey(name = "agendamentos_autonomo_fk"))
     private ProfissionalAutonomo autonomo;
 

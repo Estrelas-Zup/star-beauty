@@ -139,21 +139,32 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         Agendamento agendamento = new Agendamento();
         Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
         Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
-        Optional<Funcionario> funcionario =
-                funcionarioRepository.findById(agendamentoDTO.getIdFuncionario());
-        Optional<ProfissionalAutonomo> autonomo =
-                autonomoRepository.findById(agendamentoDTO.getIdProfissionalAutonomo());
+
+        Optional<Funcionario> funcionario;
+        Optional<ProfissionalAutonomo> autonomo;
 
         BeanUtils.copyProperties(agendamentoDTO, agendamento);
         agendamento.setCliente(cliente);
         agendamento.setServico(servico);
 
         // Como trabalhar com apenas uma das instancias populada e a outra nula?
+        if (agendamentoDTO.getIdFuncionario() != null
+                && agendamentoDTO.getIdProfissionalAutonomo() != null) {
+            return new MensagemDTO(
+                    "O AGENDAMENTO DEVE FAZER REFERENCIA A APENAS UM PROFISSIONAL!F");
 
-        if (autonomo.isEmpty() && funcionario.isPresent()) {
+        } else if (agendamentoDTO.getIdFuncionario() != null) {
+
+            funcionario = funcionarioRepository.findById(agendamentoDTO.getIdFuncionario());
+
             agendamento.setFuncionario(funcionario.get());
-        } else if (funcionario.isEmpty() && autonomo.isPresent()) {
+
+        } else if (agendamentoDTO.getIdProfissionalAutonomo() != null) {
+
+            autonomo = autonomoRepository.findById(agendamentoDTO.getIdProfissionalAutonomo());
+
             agendamento.setAutonomo(autonomo.get());
+
         } else {
             return new MensagemDTO(
                     "NÃO FOI POSSÍVEL CONCLUIR O AGENDAMENTO POIS FALTA A REFERENCIA AO PRESTADOR DE SERVIÇO!");
@@ -196,8 +207,6 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         agendamentoRepository.save(agendamento);
 
-        deletaAgendamento(idAgendamento);
-
         return new MensagemDTO("AGENDAMENTO FINALIZADO COM SUCESSO!");
     }
 
@@ -210,24 +219,29 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         transacaoDTO.setValor(agendamento.getServico().getValorServico());
         transacaoDTO.setTipoPagamento(agendamento.getTipoPagamento());
 
-        Long idAutonomo = agendamento.getAutonomo().getIdUsuario();
-        Long idFuncionario = agendamento.getFuncionario().getIdFuncionario();
+        Long idAutonomo = null;
+        Long idFuncionario = null;
 
-        if (idAutonomo == null) {
-            idAutonomo = 0L;
-        } else if (idFuncionario == null) {
-            idFuncionario = 0L;
+        if (agendamento.getAutonomo() != null) {
+            idAutonomo = agendamento.getAutonomo().getIdUsuario();
+        } else if (agendamento.getFuncionario() != null) {
+            idFuncionario = agendamento.getFuncionario().getIdFuncionario();
         }
 
-        // Como trabalhar com apenas uma das instancias populada e a outra nula?
+        Optional<ProfissionalAutonomo> autonomo;
+        Optional<Funcionario> funcionario;
 
-        Optional<ProfissionalAutonomo> autonomo = autonomoRepository.findById(idAutonomo);
-        Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
+        if (idFuncionario != null) {
 
-        if (autonomo.isEmpty() && funcionario.isPresent()) {
-            transacaoDTO.setNomeSalao(agendamento.getFuncionario().getSalao().getNomeFantasia());
-        } else if (funcionario.isEmpty() && autonomo.isPresent()) {
-            transacaoDTO.setNomeAutonomo(agendamento.getAutonomo().getNome());
+            funcionario = funcionarioRepository.findById(idFuncionario);
+
+            transacaoDTO.setNomeSalao(funcionario.get().getSalao().getNomeFantasia());
+
+        } else if (idAutonomo != null) {
+
+            autonomo = autonomoRepository.findById(idAutonomo);
+
+            transacaoDTO.setNomeAutonomo(autonomo.get().getNome());
         }
 
         transacaoServiceImpl.criaTransacao(transacaoDTO);
