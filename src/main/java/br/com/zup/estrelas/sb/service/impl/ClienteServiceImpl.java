@@ -10,6 +10,7 @@ import br.com.zup.estrelas.sb.dto.ClienteDTO;
 import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.ClienteRepository;
 import br.com.zup.estrelas.sb.service.ClienteService;
 
@@ -29,8 +30,9 @@ public class ClienteServiceImpl implements ClienteService {
     ClienteRepository clienteRepository;
 
     @Override
-    public Cliente consultaCliente(Long idUsuario) {
-        return clienteRepository.findById(idUsuario).orElse(null);
+    public Cliente consultaCliente(Long idUsuario) throws RegrasDeNegocioException {
+        return clienteRepository.findById(idUsuario).orElseThrow(
+                () -> new RegrasDeNegocioException("Cliente não encontrado pelo Id: " + idUsuario));
     }
 
     @Override
@@ -39,41 +41,41 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public MensagemDTO insereCliente(ClienteDTO clienteDTO) {
+    public MensagemDTO insereCliente(ClienteDTO clienteDTO) throws RegrasDeNegocioException {
 
         if (clienteRepository.existsByCpf(clienteDTO.getCpf())) {
-            return new MensagemDTO(CLIENTE_JA_CADASTRADO);
+            throw new RegrasDeNegocioException(CLIENTE_JA_CADASTRADO);
         }
 
         return this.adicionaCliente(clienteDTO);
     }
 
     @Override
-    public MensagemDTO alteraCliente(Long idUsuario, ClienteDTO clienteDTO) {
+    public MensagemDTO alteraCliente(Long idUsuario, ClienteDTO clienteDTO) throws RegrasDeNegocioException {
 
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
 
         if (clienteConsultado.isEmpty()) {
-            return new MensagemDTO(CLIENTE_INEXISTENTE);
+            throw new RegrasDeNegocioException(CLIENTE_INEXISTENTE);
         }
 
         Cliente cliente = clienteConsultado.get();
 
         if (!clienteDTO.getCpf().equals(cliente.getCpf())
                 && clienteRepository.existsByCpf(clienteDTO.getCpf())) {
-            return new MensagemDTO(ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
+            throw new RegrasDeNegocioException(ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
         }
 
         return this.alteraInformacoesCliente(cliente, clienteDTO);
     }
 
     @Override
-    public MensagemDTO inativaCliente(Long idUsuario, InativaClienteDTO inativaClienteDTO) {
+    public MensagemDTO inativaCliente(Long idUsuario, InativaClienteDTO inativaClienteDTO) throws RegrasDeNegocioException {
 
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
 
         if (clienteConsultado.isEmpty()) {
-            return new MensagemDTO(CLIENTE_INEXISTENTE);
+            throw new RegrasDeNegocioException(CLIENTE_INEXISTENTE);
         }
         return inativaClienteComSucesso(clienteConsultado, inativaClienteDTO);
     }

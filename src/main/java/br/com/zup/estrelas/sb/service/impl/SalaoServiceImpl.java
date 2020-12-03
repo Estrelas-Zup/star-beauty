@@ -12,6 +12,7 @@ import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.SalaoDTO;
 import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.entity.Salao;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.FormaPagamentoRepository;
 import br.com.zup.estrelas.sb.repository.SalaoRepository;
 import br.com.zup.estrelas.sb.service.SalaoService;
@@ -26,8 +27,9 @@ public class SalaoServiceImpl implements SalaoService {
     FormaPagamentoRepository pagamentoRepository;
 
     @Override
-    public Salao buscaSalao(Long idUsuario) {
-        return salaoRepository.findById(idUsuario).orElse(null);
+    public Salao buscaSalao(Long idUsuario) throws RegrasDeNegocioException {
+        return salaoRepository.findById(idUsuario).orElseThrow(() -> new RegrasDeNegocioException(
+                "Não foi possível encontrar o salão pelo Id" + idUsuario));
     }
 
     @Override
@@ -36,18 +38,18 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     @Override
-    public MensagemDTO adicionaSalao(SalaoDTO salaoDTO) {
+    public MensagemDTO adicionaSalao(SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         if (salaoRepository.existsByCnpj(salaoDTO.getCnpj())) {
-            return new MensagemDTO("SALÂO JÁ CADASTRADO!");
+            throw new RegrasDeNegocioException("SALÂO JÁ CADASTRADO!");
         }
 
         return criaSalao(salaoDTO);
     }
 
     @Override
-    public MensagemDTO alteraSalao(Long idUsuario, SalaoDTO salaoDTO) {
+    public MensagemDTO alteraSalao(Long idUsuario, SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         if (!salaoRepository.existsById(idUsuario)) {
-            return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARA SER ALTERADO!");
+            throw new RegrasDeNegocioException("O SALÃO EM QUESTÂO NÂO EXISTE PARA SER ALTERADO!");
         }
 
         Salao salao = salaoRepository.findById(idUsuario).get();
@@ -55,26 +57,26 @@ public class SalaoServiceImpl implements SalaoService {
         // por que a condição de alteração não funciona se comparar a diferenca entre cnpj's?
         if (!salaoDTO.getCnpj().equals(salao.getCnpj())
                 && salaoRepository.existsByCnpj(salaoDTO.getCnpj())) {
-            return new MensagemDTO("CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!");
+            throw new RegrasDeNegocioException("CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!");
         }
 
         return this.alteraInformacoesSalao(salao, salaoDTO);
     }
 
     @Override
-    public MensagemDTO inativaSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) {
+    public MensagemDTO inativaSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) throws RegrasDeNegocioException {
         if (!salaoRepository.existsById(idUsuario)) {
-            return new MensagemDTO("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER INATIVADO!");
+            throw new RegrasDeNegocioException("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER INATIVADO!");
         }
 
         return this.finalizaInativacaoSalao(idUsuario, inativaSalaoDTO);
     }
 
     @Override
-    public MensagemDTO adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) {
+    public MensagemDTO adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         if (!salaoRepository.existsById(idUsuario)) {
-            return new MensagemDTO("O SALÃO EM QUESTÃO NÃO FOI ENCONTRADO!");
+            throw new RegrasDeNegocioException("O SALÃO EM QUESTÃO NÃO FOI ENCONTRADO!");
         }
 
         return this.adicionaFormaPagamentoComSucesso(idUsuario, formaPagamentoDTO);
@@ -115,7 +117,7 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     private MensagemDTO adicionaFormaPagamentoComSucesso(Long idUsuario,
-            FormaPagamentoDTO formaPagamentoDTO) {
+            FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         Salao salao = salaoRepository.findById(idUsuario).get();
         FormaPagamento formaPagamento =
@@ -123,7 +125,7 @@ public class SalaoServiceImpl implements SalaoService {
         List<FormaPagamento> formasPagamento = salao.getFormaPagamento();
 
         if (formasPagamento.contains(formaPagamento)) {
-            return new MensagemDTO("FORMA DE PAGAMENTO JÁ EXISTENTE NO CADASTRO!");
+            throw new RegrasDeNegocioException("FORMA DE PAGAMENTO JÁ EXISTENTE NO CADASTRO!");
         }
 
         formasPagamento.add(formaPagamento);

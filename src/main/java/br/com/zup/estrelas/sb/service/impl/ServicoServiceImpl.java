@@ -9,6 +9,7 @@ import br.com.zup.estrelas.sb.dto.InativaServicoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ServicoDTO;
 import br.com.zup.estrelas.sb.entity.Servico;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.ServicoRepository;
 import br.com.zup.estrelas.sb.service.ServicoService;
 
@@ -26,8 +27,9 @@ public class ServicoServiceImpl implements ServicoService {
     ServicoRepository servicoRepository;
 
     @Override
-    public Servico buscaServico(Long idServico) {
-        return servicoRepository.findById(idServico).orElse(null);
+    public Servico buscaServico(Long idServico) throws RegrasDeNegocioException {
+        return servicoRepository.findById(idServico).orElseThrow(() -> new RegrasDeNegocioException(
+                "Serviço não pode ser encontrado pelo Id " + idServico));
     }
 
     @Override
@@ -36,32 +38,32 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public MensagemDTO adicionaServico(ServicoDTO servicoDTO) {
+    public MensagemDTO adicionaServico(ServicoDTO servicoDTO) throws RegrasDeNegocioException {
 
         if (servicoRepository.existsByNomeServico(servicoDTO.getNomeServico())) {
-            return new MensagemDTO(SERVICO_JA_CADASTRADO);
+            throw new RegrasDeNegocioException(SERVICO_JA_CADASTRADO);
         }
 
         return this.criaServico(servicoDTO);
     }
 
     @Override
-    public MensagemDTO alteraServico(Long idServico, ServicoDTO servicoDTO) {
+    public MensagemDTO alteraServico(Long idServico, ServicoDTO servicoDTO) throws RegrasDeNegocioException {
 
         if (!servicoRepository.existsById(idServico)) {
-            return new MensagemDTO(SERVICO_INEXISTENTE);
+            throw new RegrasDeNegocioException(SERVICO_INEXISTENTE);
         }
 
         return this.alteraInformacoesServico(idServico, servicoDTO);
     }
 
     @Override
-    public MensagemDTO inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO) {
+    public MensagemDTO inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO) throws RegrasDeNegocioException {
 
         Optional<Servico> servicoConsultado = servicoRepository.findById(idServico);
 
         if (servicoConsultado.isEmpty()) {
-            return new MensagemDTO(SERVICO_INEXISTENTE);
+            throw new RegrasDeNegocioException(SERVICO_INEXISTENTE);
         }
 
         return inativaServicoComSucesso(servicoConsultado, inativaServicoDTO);
