@@ -27,6 +27,9 @@ public class SwaggerConfig {
 
     private List<ResponseMessage> responseMessageForGET() {
         return new ArrayList<ResponseMessage>() {
+
+            private static final long serialVersionUID = 1L;
+
             {
                 add(new ResponseMessageBuilder().code(500).message("500 message")
                         .responseModel(new ModelRef("Error")).build());

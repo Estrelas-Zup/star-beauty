@@ -21,8 +21,6 @@ import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.FuncionarioService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/funcionarios")
@@ -32,9 +30,6 @@ public class FuncionarioController {
     FuncionarioService funcionarioService;
 
     @ApiOperation(value = "Busca um funcionário")
-//    @ApiResponses(value = {@ApiResponse(code = 200, message = "Retorna o funcionário"),
-//            @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-//            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),})
     @GetMapping(path = "/{idFuncionario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Funcionario buscaFuncionario(@PathVariable Long idFuncionario)
             throws RegrasDeNegocioException {
