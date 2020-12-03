@@ -19,6 +19,7 @@ import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.ClienteService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/clientes")
@@ -27,29 +28,34 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
+    @ApiOperation(value = "Consulta um cliente")
     @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Cliente consultaCliente(@PathVariable Long idUsuario) throws RegrasDeNegocioException {
         return clienteService.consultaCliente(idUsuario);
     }
 
+    @ApiOperation(value = "Lista todos os clientes")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Cliente> listaClientes() {
         return clienteService.listaClientes();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Insere um cliente")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO insereCliente(@Valid @RequestBody ClienteDTO clienteDTO)
             throws RegrasDeNegocioException {
         return clienteService.insereCliente(clienteDTO);
     }
 
+    @ApiOperation(value = "Altera informações de um cliente")
     @PutMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO alteraCliente(@PathVariable Long idUsuario,
             @Valid @RequestBody ClienteDTO clienteDTO) throws RegrasDeNegocioException {
         return clienteService.alteraCliente(idUsuario, clienteDTO);
     }
 
+    @ApiOperation(value = "Inativa um cliente")
     @PutMapping(path = "/{idUsuario}/inativa")
     public MensagemDTO inativaCliente(@PathVariable Long idUsuario,
             @Valid @RequestBody InativaClienteDTO inativaClienteDTO)

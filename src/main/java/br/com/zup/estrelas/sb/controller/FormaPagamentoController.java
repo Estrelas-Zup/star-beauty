@@ -19,6 +19,7 @@ import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.FormaPagamentoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/pagamentos")
@@ -27,23 +28,27 @@ public class FormaPagamentoController {
     @Autowired
     FormaPagamentoService formaPagamentoService;
 
+    @ApiOperation(value = "Busca uma forma de pagamento")
     @GetMapping(path = "/{idFormaPagamento}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public FormaPagamento buscaFormaPagamento(@PathVariable Long idFormaPagamento) throws RegrasDeNegocioException {
         return formaPagamentoService.buscaFormaPagamento(idFormaPagamento);
     }
 
+    @ApiOperation(value = "Lista todas as formas de pagamento")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<FormaPagamento> listaFormaPagamentos() {
         return formaPagamentoService.listaFormaPagamentos();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Adiciona uma forma de pagamento")
     @PostMapping
     public MensagemDTO adicionaFormaPagamento(
             @Valid @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
         return formaPagamentoService.adicionaFormaPagamento(formaPagamentoDTO);
     }
 
+    @ApiOperation(value = "Altera uma forma de pagamento")
     @PutMapping(path = "/{idFormaPagamento}")
     public MensagemDTO alteraFormaPagamento(@PathVariable Long idFormaPagamento,
             @Valid @RequestBody FormaPagamentoDTO alteraFormaPagamentoDTO) throws RegrasDeNegocioException {
@@ -51,6 +56,7 @@ public class FormaPagamentoController {
                 alteraFormaPagamentoDTO);
     }
 
+    @ApiOperation(value = "Deleta uma forma de pagamento")
     @DeleteMapping(path = "/{idFormaPagamento}")
     public MensagemDTO removeFormaPagamento(@PathVariable Long idFormaPagamento)
             throws RegrasDeNegocioException {
