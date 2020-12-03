@@ -16,6 +16,7 @@ import br.com.zup.estrelas.sb.entity.Cliente;
 import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
 import br.com.zup.estrelas.sb.entity.Servico;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.AgendamentoRepository;
 import br.com.zup.estrelas.sb.repository.ClienteRepository;
 import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
@@ -47,8 +48,10 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     TransacaoServiceImpl transacaoServiceImpl;
 
     @Override
-    public Agendamento buscaAgendamento(Long idAgendamento) {
-        return agendamentoRepository.findById(idAgendamento).orElse(null);
+    public Agendamento buscaAgendamento(Long idAgendamento) throws RegrasDeNegocioException {
+        return agendamentoRepository.findById(idAgendamento)
+                .orElseThrow(() -> new RegrasDeNegocioException(
+                        "Agendamento não encontrado pelo Id!: " + idAgendamento));
     }
 
     @Override
@@ -57,10 +60,12 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO) {
+    public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO)
+            throws RegrasDeNegocioException {
 
         if (agendamentoDTO.getDataHora().isBefore(LocalDateTime.now())) {
-            return new MensagemDTO("NÃO É POSSÍVEL CRIAR UM AGENDAMENTO PARA UM DIA PASSADO!");
+            throw new RegrasDeNegocioException(
+                    "NÃO É POSSÍVEL CRIAR UM AGENDAMENTO PARA UM DIA PASSADO!");
         }
 
         boolean verificaDisponibilidadeFuncionario =
@@ -72,11 +77,11 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                         agendamentoDTO.getIdProfissionalAutonomo(), agendamentoDTO.getDataHora());
 
         if (verificaDisponibilidadeFuncionario || verificaDisponibilidadeAutonomo) {
-            return new MensagemDTO("HORÁRIO DE AGENDAMENTO INDISPONÍVEL!");
+            throw new RegrasDeNegocioException("HORÁRIO DE AGENDAMENTO INDISPONÍVEL!");
         }
 
         if (agendamentoDTO.getDataHora().isAfter(agendamentoDTO.getDataHoraFim())) {
-            return new MensagemDTO(
+            throw new RegrasDeNegocioException(
                     "A DATA/HORA PREVISTA PARA O TERMINO DO SERVIÇO DEVE SER POSTERIOR A DATA/HORA INICÍO!");
         }
 
@@ -87,14 +92,16 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public MensagemDTO alteraAgendamento(Long idAgendamento, AgendamentoDTO agendamentoDTO) {
+    public MensagemDTO alteraAgendamento(Long idAgendamento, AgendamentoDTO agendamentoDTO)
+            throws RegrasDeNegocioException {
 
         if (!agendamentoRepository.existsById(idAgendamento)) {
-            return new MensagemDTO("AGENDAMENTO NÃO ENCONTRADO PARA ALTERAR!");
+            throw new RegrasDeNegocioException("AGENDAMENTO NÃO ENCONTRADO PARA ALTERAR!");
         }
 
         if (agendamentoDTO.getDataHora().isBefore(LocalDateTime.now())) {
-            return new MensagemDTO("NÃO É POSSÍVEL ALTERAR A DATA PARA UM DIA PASSADO!");
+            throw new RegrasDeNegocioException(
+                    "NÃO É POSSÍVEL ALTERAR A DATA PARA UM DIA PASSADO!");
         }
 
         Agendamento agendamento = agendamentoRepository.findById(idAgendamento).get();
@@ -103,7 +110,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                 ChronoUnit.HOURS.between(LocalDateTime.now(), agendamento.getDataHora());
 
         if (diferencaHoras < HORAS_MINIMAS_PARA_REAGENDAMENTO) {
-            return new MensagemDTO(
+            throw new RegrasDeNegocioException(
                     "NÃO É POSSÍVEL ALTERAR A DATA COM MENOS DE 24 HORAS DO AGENDAMENTO!");
         }
 
@@ -112,10 +119,10 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Override
     public MensagemDTO finalizaAgendamento(Long idAgendamento,
-            FinalizaAgendamentoDTO finalizaAgendamentoDTO) {
+            FinalizaAgendamentoDTO finalizaAgendamentoDTO) throws RegrasDeNegocioException {
 
         if (!agendamentoRepository.existsById(idAgendamento)) {
-            return new MensagemDTO("AGENDAMENTO NÃO ENCONTRADO PARA FINALIZAR!");
+            throw new RegrasDeNegocioException("AGENDAMENTO NÃO ENCONTRADO PARA FINALIZAR!");
         }
 
         return this.finalizaAgendamentoComSucesso(idAgendamento, finalizaAgendamentoDTO);
@@ -123,10 +130,10 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public MensagemDTO deletaAgendamento(Long idAgendamento) {
+    public MensagemDTO deletaAgendamento(Long idAgendamento) throws RegrasDeNegocioException {
 
         if (!agendamentoRepository.existsById(idAgendamento)) {
-            return new MensagemDTO("AGENDAMENTO NÃO ENCONTRADO PARA CANCELAR!");
+            throw new RegrasDeNegocioException("AGENDAMENTO NÃO ENCONTRADO PARA CANCELAR!");
         }
 
         agendamentoRepository.deleteById(idAgendamento);
@@ -134,7 +141,8 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         return new MensagemDTO("AGENDAMENTO CANCELADO E EXCLUÍDO COM SUCESSO!");
     }
 
-    private MensagemDTO criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO) {
+    private MensagemDTO criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO)
+            throws RegrasDeNegocioException {
 
         Agendamento agendamento = new Agendamento();
         Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
@@ -147,11 +155,10 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         agendamento.setCliente(cliente);
         agendamento.setServico(servico);
 
-        // Como trabalhar com apenas uma das instancias populada e a outra nula?
         if (agendamentoDTO.getIdFuncionario() != null
                 && agendamentoDTO.getIdProfissionalAutonomo() != null) {
-            return new MensagemDTO(
-                    "O AGENDAMENTO DEVE FAZER REFERENCIA A APENAS UM PROFISSIONAL!F");
+            throw new RegrasDeNegocioException(
+                    "O AGENDAMENTO DEVE FAZER REFERENCIA A APENAS UM PROFISSIONAL!");
 
         } else if (agendamentoDTO.getIdFuncionario() != null) {
 
@@ -166,7 +173,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
             agendamento.setAutonomo(autonomo.get());
 
         } else {
-            return new MensagemDTO(
+            throw new RegrasDeNegocioException(
                     "NÃO FOI POSSÍVEL CONCLUIR O AGENDAMENTO POIS FALTA A REFERENCIA AO PRESTADOR DE SERVIÇO!");
         }
 

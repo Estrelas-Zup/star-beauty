@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.FormaPagamento;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.FormaPagamentoRepository;
 import br.com.zup.estrelas.sb.service.FormaPagamentoService;
 
@@ -29,8 +30,11 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     FormaPagamentoRepository formaPagamentoRepository;
 
     @Override
-    public FormaPagamento buscaFormaPagamento(Long idFormaPagamento) {
-        return formaPagamentoRepository.findById(idFormaPagamento).orElse(null);
+    public FormaPagamento buscaFormaPagamento(Long idFormaPagamento)
+            throws RegrasDeNegocioException {
+        return formaPagamentoRepository.findById(idFormaPagamento)
+                .orElseThrow(() -> new RegrasDeNegocioException(
+                        "Forma pagamento não encontrada pelo Id: " + idFormaPagamento));
     }
 
     @Override
@@ -39,10 +43,13 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     }
 
     @Override
-    public MensagemDTO adicionaFormaPagamento(FormaPagamentoDTO formaPagamentoDTO) {
+    public MensagemDTO adicionaFormaPagamento(FormaPagamentoDTO formaPagamentoDTO)
+            throws RegrasDeNegocioException {
+
+        // como verificar se o valor do enum é valido?
 
         if (formaPagamentoRepository.existsByTipoPagamento(formaPagamentoDTO.getTipoPagamento())) {
-            return new MensagemDTO(FORMA_DE_PAGAMENTO_JA_CADASTRADA);
+            throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_JA_CADASTRADA);
         }
 
         return this.criaFormaPagamentoComSucesso(formaPagamentoDTO);
@@ -50,30 +57,30 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
 
     @Override
     public MensagemDTO alteraFormaPagamento(Long idFormaPagamento,
-            FormaPagamentoDTO alteraFormaPagamentoDTO) {
+            FormaPagamentoDTO alteraFormaPagamentoDTO) throws RegrasDeNegocioException {
 
         if (!formaPagamentoRepository.existsById(idFormaPagamento)) {
-            return new MensagemDTO(FORMA_DE_PAGAMENTO_INEXISTENTE);
+            throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_INEXISTENTE);
         }
 
         if (formaPagamentoRepository
                 .existsByTipoPagamento(alteraFormaPagamentoDTO.getTipoPagamento())) {
-            return new MensagemDTO(FORMA_DE_PAGAMENTO_JA_EXISTENTE);
+            throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_JA_EXISTENTE);
         }
 
         return this.alteraInformacoesFormaPagamento(idFormaPagamento, alteraFormaPagamentoDTO);
     }
 
     @Override
-    public MensagemDTO removeFormaPagamento(Long idFormaPagamento) {
+    public MensagemDTO removeFormaPagamento(Long idFormaPagamento) throws RegrasDeNegocioException {
 
         if (!formaPagamentoRepository.existsById(idFormaPagamento)) {
-            return new MensagemDTO(FORMA_DE_PAGAMENTO_INEXISTENTE);
+            throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_INEXISTENTE);
         }
 
         formaPagamentoRepository.deleteById(idFormaPagamento);
 
-        return new MensagemDTO(FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
+        throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
     }
 
     private MensagemDTO criaFormaPagamentoComSucesso(FormaPagamentoDTO formaPagamentoDTO) {
