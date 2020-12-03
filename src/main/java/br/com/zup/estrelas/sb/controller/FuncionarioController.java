@@ -28,8 +28,6 @@ public class FuncionarioController {
     @Autowired
     FuncionarioService funcionarioService;
 
-
-
     @GetMapping(path = "/{idFuncionario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Funcionario buscaFuncionario(@PathVariable Long idFuncionario)
             throws RegrasDeNegocioException {
