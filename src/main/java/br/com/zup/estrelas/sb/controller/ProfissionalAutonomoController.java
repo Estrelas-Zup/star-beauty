@@ -19,6 +19,7 @@ import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.ProfissionalAutonomoService;
 
 @RestController
@@ -29,7 +30,7 @@ public class ProfissionalAutonomoController {
     ProfissionalAutonomoService profissionalAutonomoService;
 
     @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ProfissionalAutonomo buscaProfissionalAutonomo(@PathVariable Long idUsuario) {
+    public ProfissionalAutonomo buscaProfissionalAutonomo(@PathVariable Long idUsuario) throws RegrasDeNegocioException {
         return profissionalAutonomoService.buscaProfissionalAutonomo(idUsuario);
     }
 
@@ -41,34 +42,34 @@ public class ProfissionalAutonomoController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public MensagemDTO adicionaProfissionaisAutonomos(
-            @Valid @RequestBody ProfissionalAutonomoDTO profissionalAutonomoDTO) {
+            @Valid @RequestBody ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.adicionaProfissionalAutonomo(profissionalAutonomoDTO);
     }
 
     @PutMapping("/{idUsuario}")
     public MensagemDTO alteraProfissionalAutonomo(@PathVariable Long idUsuario,
-            @Valid @RequestBody ProfissionalAutonomoDTO profissionaoAutonomoDTO) {
+            @Valid @RequestBody ProfissionalAutonomoDTO profissionaoAutonomoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.alteraProfissionalAutonomo(idUsuario,
                 profissionaoAutonomoDTO);
     }
 
     @PutMapping("/{idUsuario}/inativa")
     public MensagemDTO inativaProfissionalAutonomo(@PathVariable Long idUsuario,
-            @Valid @RequestBody InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) {
+            @Valid @RequestBody InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.inativaProfissionalAutonomo(idUsuario,
                 inativaProfissionalAutonomoDTO);
     }
 
     @PutMapping("/{idUsuario}/servicos")
     public MensagemDTO adicionaServicoProfissionalAutonomo(@PathVariable Long idUsuario,
-            @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) {
+            @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.adicionaServicoProfissionalAutonomo(idUsuario,
                 adicionaServicoDTO);
     }
 
     @PutMapping("/{idUsuario}/pagamentos")
     public MensagemDTO adicionaFormaPagamento(@PathVariable Long idUsuario,
-            @RequestBody FormaPagamentoDTO formaPagamentoDTO) {
+            @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.adicionaFormaPagamento(idUsuario, formaPagamentoDTO);
     }
 

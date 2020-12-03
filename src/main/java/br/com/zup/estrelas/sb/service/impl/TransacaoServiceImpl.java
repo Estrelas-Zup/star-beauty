@@ -8,6 +8,7 @@ import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.TransacaoDTO;
 import br.com.zup.estrelas.sb.entity.Agendamento;
 import br.com.zup.estrelas.sb.entity.Transacao;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.AgendamentoRepository;
 import br.com.zup.estrelas.sb.repository.TransacaoRepository;
 import br.com.zup.estrelas.sb.service.TransacaoService;
@@ -25,8 +26,10 @@ public class TransacaoServiceImpl implements TransacaoService {
     @Autowired
     AgendamentoRepository agendamentoRepository;
 
-    public Transacao buscaTransacao(Long idTransacao) {
-        return transacaoRepository.findById(idTransacao).orElse(null);
+    public Transacao buscaTransacao(Long idTransacao) throws RegrasDeNegocioException {
+        return transacaoRepository.findById(idTransacao)
+                .orElseThrow(() -> new RegrasDeNegocioException(
+                        "Transação não pode ser encontrada pelo Id " + idTransacao));
     }
 
     public List<Transacao> listaTransacoes() {
@@ -45,19 +48,19 @@ public class TransacaoServiceImpl implements TransacaoService {
         this.adicionaTransacao(agendamento, transacaoDTO);
     }
 
-    public MensagemDTO alteraTransacao(Long idTransacao, TransacaoDTO transacaoDTO) {
+    public MensagemDTO alteraTransacao(Long idTransacao, TransacaoDTO transacaoDTO) throws RegrasDeNegocioException {
 
         if (!transacaoRepository.existsById(idTransacao)) {
-            return new MensagemDTO(TRANSACAO_INEXISTENTE);
+           throw new RegrasDeNegocioException(TRANSACAO_INEXISTENTE);
         }
 
         return this.alteraInformacoesTransacao(idTransacao, transacaoDTO);
     }
 
-    public MensagemDTO removeTransacao(Long idTransacao) {
+    public MensagemDTO removeTransacao(Long idTransacao) throws RegrasDeNegocioException {
 
         if (!transacaoRepository.existsById(idTransacao)) {
-            return new MensagemDTO(TRANSACAO_INEXISTENTE);
+            throw new RegrasDeNegocioException(TRANSACAO_INEXISTENTE);
         }
 
         transacaoRepository.deleteById(idTransacao);
