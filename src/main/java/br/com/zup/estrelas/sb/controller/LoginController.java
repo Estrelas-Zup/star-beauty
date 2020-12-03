@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.zup.estrelas.sb.config.JwtTokenUtil;
 import br.com.zup.estrelas.sb.dto.LoginDTO;
 import br.com.zup.estrelas.sb.dto.TokenDTO;
+import br.com.zup.estrelas.sb.security.JwtTokenUtil;
 import br.com.zup.estrelas.sb.security.UsuarioDetailsServiceImpl;
 
 @RestController
