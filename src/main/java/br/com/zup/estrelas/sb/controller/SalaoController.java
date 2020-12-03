@@ -18,6 +18,7 @@ import br.com.zup.estrelas.sb.dto.InativaSalaoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.SalaoDTO;
 import br.com.zup.estrelas.sb.entity.Salao;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.SalaoService;
 
 @RestController
@@ -28,36 +29,36 @@ public class SalaoController {
     SalaoService salaoService;
 
     @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Salao buscaSalao(@PathVariable Long idUsuario) {
+    public Salao buscaSalao(@PathVariable Long idUsuario) throws RegrasDeNegocioException {
         return salaoService.buscaSalao(idUsuario);
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Salao> listaSalao() {
+    public List<Salao> listaSalao() throws RegrasDeNegocioException {
         return salaoService.listaSalao();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public MensagemDTO adicionaSalao(@Valid @RequestBody SalaoDTO salaoDTO) {
+    public MensagemDTO adicionaSalao(@Valid @RequestBody SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         return salaoService.adicionaSalao(salaoDTO);
     }
 
     @PutMapping(path = "/{idUsuario}")
     public MensagemDTO alteraSalao(@PathVariable Long idUsuario,
-            @Valid @RequestBody SalaoDTO salaoDTO) {
+            @Valid @RequestBody SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         return salaoService.alteraSalao(idUsuario, salaoDTO);
     }
 
     @PutMapping(path = "/{idUsuario}/inativa")
     public MensagemDTO inativaSalao(@PathVariable Long idUsuario,
-            @Valid @RequestBody InativaSalaoDTO inativaSalaoDTO) {
+            @Valid @RequestBody InativaSalaoDTO inativaSalaoDTO) throws RegrasDeNegocioException {
         return salaoService.inativaSalao(idUsuario, inativaSalaoDTO);
     }
 
     @PutMapping(path = "/{idUsuario}/pagamentos")
     public MensagemDTO adicionaFormaPagamento(@PathVariable Long idUsuario,
-            @RequestBody FormaPagamentoDTO formaPagamentoDTO) {
+            @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
         return salaoService.adicionaFormaPagamento(idUsuario, formaPagamentoDTO);
     }
 

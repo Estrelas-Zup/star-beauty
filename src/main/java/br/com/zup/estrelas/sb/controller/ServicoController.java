@@ -17,6 +17,7 @@ import br.com.zup.estrelas.sb.dto.InativaServicoDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ServicoDTO;
 import br.com.zup.estrelas.sb.entity.Servico;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.ServicoService;
 
 @RestController
@@ -27,7 +28,7 @@ public class ServicoController {
     ServicoService servicoService;
 
     @GetMapping(path = "/{idServico}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Servico consultaServico(@PathVariable Long idServico) {
+    public Servico consultaServico(@PathVariable Long idServico) throws RegrasDeNegocioException {
         return servicoService.buscaServico(idServico);
     }
 
@@ -38,19 +39,19 @@ public class ServicoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO adicionaServico(@Valid @RequestBody ServicoDTO servicoDTO) {
+    public MensagemDTO adicionaServico(@Valid @RequestBody ServicoDTO servicoDTO) throws RegrasDeNegocioException {
         return servicoService.adicionaServico(servicoDTO);
     }
 
     @PutMapping(path = "/{idServico}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public MensagemDTO alteraServico(@PathVariable Long idServico,
-            @Valid @RequestBody ServicoDTO servicoDTO) {
+            @Valid @RequestBody ServicoDTO servicoDTO) throws RegrasDeNegocioException {
         return servicoService.alteraServico(idServico, servicoDTO);
     }
 
     @PutMapping(path = "/{idServico}/inativa")
     public MensagemDTO inativaServico(@PathVariable Long idServico,
-            @Valid @RequestBody InativaServicoDTO inativaServicoDTO) {
+            @Valid @RequestBody InativaServicoDTO inativaServicoDTO) throws RegrasDeNegocioException {
         return servicoService.inativaServico(idServico, inativaServicoDTO);
     }
 
