@@ -1,4 +1,4 @@
-package br.com.zup.estrelas.sb.config;
+package br.com.zup.estrelas.sb.security;
 
 import java.io.Serializable;
 import java.util.Date;
