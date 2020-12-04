@@ -52,7 +52,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
             throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_JA_CADASTRADA);
         }
 
-        return this.criaFormaPagamentoComSucesso(formaPagamentoDTO);
+        return this.insereFormaPagamento(formaPagamentoDTO);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
             throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_JA_EXISTENTE);
         }
 
-        return this.alteraInformacoesFormaPagamento(idFormaPagamento, alteraFormaPagamentoDTO);
+        return this.midificaFormaPagamento(idFormaPagamento, alteraFormaPagamentoDTO);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
         throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
     }
 
-    private MensagemDTO criaFormaPagamentoComSucesso(FormaPagamentoDTO formaPagamentoDTO) {
+    private MensagemDTO insereFormaPagamento(FormaPagamentoDTO formaPagamentoDTO) {
 
         FormaPagamento formaPagamento = new FormaPagamento();
 
@@ -94,7 +94,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
         return new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
     }
 
-    private MensagemDTO alteraInformacoesFormaPagamento(Long idFormaPagamento,
+    private MensagemDTO midificaFormaPagamento(Long idFormaPagamento,
             FormaPagamentoDTO alteraFormaPagamentoDTO) {
 
         FormaPagamento formaPagamento = formaPagamentoRepository.findById(idFormaPagamento).get();

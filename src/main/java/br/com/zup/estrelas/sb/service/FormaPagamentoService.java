@@ -6,7 +6,6 @@ import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 
-
 public interface FormaPagamentoService {
 
     public MensagemDTO adicionaFormaPagamento(FormaPagamentoDTO formaPagamentoDTO)
@@ -21,7 +20,5 @@ public interface FormaPagamentoService {
 
     public MensagemDTO alteraFormaPagamento(Long idFormaPagamento,
             FormaPagamentoDTO alteraFormaPagamentoDTO) throws RegrasDeNegocioException;
-
-
 
 }

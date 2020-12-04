@@ -68,7 +68,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         Salao salao = salaoRepository.findById(funcionarioDTO.getIdUsuario()).get();
 
-        return this.criaFuncionarioComSucesso(salao, funcionarioDTO);
+        return this.adicionaFuncionarioComSucesso(salao, funcionarioDTO);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return new MensagemDTO(FUNCIONARIO_INATIVO);
     }
 
-    private MensagemDTO criaFuncionarioComSucesso(Salao salao, FuncionarioDTO funcionarioDTO)
+    private MensagemDTO adicionaFuncionarioComSucesso(Salao salao, FuncionarioDTO funcionarioDTO)
             throws RegrasDeNegocioException {
 
         Funcionario funcionario = new Funcionario();
