@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.InativaFuncionarioDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.entity.Salao;
 import br.com.zup.estrelas.sb.entity.Servico;
@@ -23,16 +22,15 @@ import br.com.zup.estrelas.sb.service.FuncionarioService;
 public class FuncionarioServiceImpl implements FuncionarioService {
 
     private static final String O_SALÃO_NÃO_EXISTE =
-            "O salão em que está sendo alocado o funcionario não existe!";
-    private static final String CADASTRO_REALIZADO_COM_SUCESSO =
-            "Cadastro de funcionário realizado com sucesso.";
-    private static final String FUNCIONARIO_JA_CADASTRADO = "Funcionário já cadastrado.";
-    private static final String FUNCIONARIO_INEXISTENTE = "Funcionário inexistente.";
-    private static final String FUNCIONARIO_ALTERADO_COM_SUCESSO =
-            "Funcionário alterado com sucesso.";
-    private static final String FUNCIONARIO_INATIVO = "Funcionário inativo com sucesso";
-    private static final String CPF_JÁ_EXISTE = "Cpf já existe no Banco de Dados!";
-
+            "O SALÃO ONDE ESTA SENDO ALOCADO O FUNCIONÁRIO  NÃO EXISTE!";
+    private static final String FUNCIONARIO_JA_CADASTRADO = "FUNCINÁRIO JÁ CADASTRADO!";
+    private static final String FUNCIONARIO_INEXISTENTE = "FUNCIONÁRIO INEXISTENTE!";
+    private static final String CPF_JÁ_EXISTE = "CPF JÁ EXISTE NO BANCO DE DADOS!";
+    private static final String SERVICO_INEXISTENTE = "SERVIÇO INEXISTENTE!";
+    private static final String SERVICO_MARCADO_INATIVO = "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!";
+    private static final String NAO_FOI_POSSIVEL_ACHAR_FUNCIONARIO_PELO_ID = "NÃO FOI POSSÍVEL ACHAR O FUNIONÁRIO PELO ID  ";
+    private static final String SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO = "SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONÁRIO!";
+    
     @Autowired
     FuncionarioRepository funcionarioRepository;
 
@@ -46,7 +44,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public Funcionario buscaFuncionario(Long idFuncionario) throws RegrasDeNegocioException {
         return funcionarioRepository.findById(idFuncionario)
                 .orElseThrow(() -> new RegrasDeNegocioException(
-                        "Não for possível achar o funcionario pelo Id: " + idFuncionario));
+                        NAO_FOI_POSSIVEL_ACHAR_FUNCIONARIO_PELO_ID + idFuncionario));
     }
 
     @Override
@@ -55,7 +53,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public MensagemDTO adicionaFuncionario(FuncionarioDTO funcionarioDTO)
+    public Funcionario insereFuncionario(FuncionarioDTO funcionarioDTO)
             throws RegrasDeNegocioException {
 
         if (funcionarioRepository.existsByCpf(funcionarioDTO.getCpf())) {
@@ -68,11 +66,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         Salao salao = salaoRepository.findById(funcionarioDTO.getIdUsuario()).get();
 
-        return this.criaFuncionarioComSucesso(salao, funcionarioDTO);
+        return this.adicionaFuncionarioComSucesso(salao, funcionarioDTO);
     }
 
     @Override
-    public MensagemDTO alteraFuncionario(Long idFuncionario, FuncionarioDTO alteraFuncionarioDTO)
+    public Funcionario alteraFuncionario(Long idFuncionario, FuncionarioDTO alteraFuncionarioDTO)
             throws RegrasDeNegocioException {
 
         Optional<Funcionario> funcionarioConsultado = funcionarioRepository.findById(idFuncionario);
@@ -92,11 +90,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         Salao salao = salaoRepository.findById(alteraFuncionarioDTO.getIdUsuario()).get();
 
-        return this.alteraInformacaoFuncionario(salao, funcionarioConsultado, alteraFuncionarioDTO);
+        return this.modificaFuncionario(salao, funcionarioConsultado, alteraFuncionarioDTO);
     }
 
     @Override
-    public MensagemDTO inativaFuncionario(Long idFuncionario,
+    public Funcionario inativaFuncionario(Long idFuncionario,
             InativaFuncionarioDTO inativaFuncionarioDTO) throws RegrasDeNegocioException {
 
         Optional<Funcionario> funcionarioConsultado = funcionarioRepository.findById(idFuncionario);
@@ -109,21 +107,21 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public MensagemDTO adicionaServicoFuncionario(Long idFuncionario,
+    public Funcionario adicionaServicoFuncionario(Long idFuncionario,
             AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
 
         if (!funcionarioRepository.existsById(idFuncionario)) {
-            throw new RegrasDeNegocioException("FUNCIONARIO INEXISTENTE!");
+            throw new RegrasDeNegocioException(FUNCIONARIO_INEXISTENTE);
         }
 
         if (!servicoRepository.existsById(adicionaServicoDTO.getIdServico())) {
-            throw new RegrasDeNegocioException("SERVIÇO INEXISTENTE!");
+            throw new RegrasDeNegocioException(SERVICO_INEXISTENTE);
         }
 
         return this.adicionaServico(idFuncionario, adicionaServicoDTO);
     }
 
-    private MensagemDTO alteraInformacaoFuncionario(Salao salao,
+    private Funcionario modificaFuncionario(Salao salao,
             Optional<Funcionario> funcionarioConsultado, FuncionarioDTO alteraFuncionarioDTO) {
 
         Funcionario funcionarioAlterado = funcionarioConsultado.get();
@@ -133,11 +131,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         funcionarioRepository.save(funcionarioAlterado);
 
-        return new MensagemDTO(FUNCIONARIO_ALTERADO_COM_SUCESSO);
+        return funcionarioAlterado;
 
     }
 
-    private MensagemDTO inativaFuncionarioComSucesso(Optional<Funcionario> funcionarioConsultado,
+    private Funcionario inativaFuncionarioComSucesso(Optional<Funcionario> funcionarioConsultado,
             InativaFuncionarioDTO inativaFuncionarioDTO) {
 
         Funcionario funcionario = funcionarioConsultado.get();
@@ -146,10 +144,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         funcionarioRepository.save(funcionario);
 
-        return new MensagemDTO(FUNCIONARIO_INATIVO);
+        return funcionario;
     }
 
-    private MensagemDTO criaFuncionarioComSucesso(Salao salao, FuncionarioDTO funcionarioDTO)
+    private Funcionario adicionaFuncionarioComSucesso(Salao salao, FuncionarioDTO funcionarioDTO)
             throws RegrasDeNegocioException {
 
         Funcionario funcionario = new Funcionario();
@@ -162,10 +160,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         funcionarioRepository.save(funcionario);
 
-        return new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
+        return funcionario;
     }
 
-    private MensagemDTO adicionaServico(Long idFuncionario, AdicionaServicoDTO adicionaServicoDTO)
+    private Funcionario adicionaServico(Long idFuncionario, AdicionaServicoDTO adicionaServicoDTO)
             throws RegrasDeNegocioException {
 
         Funcionario funcionario = funcionarioRepository.findById(idFuncionario).get();
@@ -175,12 +173,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         List<Servico> servicos = funcionario.getServicos();
 
         if (!servico.isAtivo()) {
-            throw new RegrasDeNegocioException(
-                    "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!");
+            throw new RegrasDeNegocioException(SERVICO_MARCADO_INATIVO);
         }
 
         if (servicos.contains(servico)) {
-            throw new RegrasDeNegocioException("SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONARIO!");
+            throw new RegrasDeNegocioException(SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO);
         }
 
         servicos.add(servico);
@@ -189,7 +186,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         funcionarioRepository.save(funcionario);
 
-        return new MensagemDTO("SERVICO ADICIONADO COM SUCESSO!");
+        return funcionario;
     }
 
 }

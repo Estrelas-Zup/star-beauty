@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.InativaFuncionarioDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.FuncionarioService;
@@ -45,14 +44,14 @@ public class FuncionarioController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona um funcionário")
     @PostMapping
-    public MensagemDTO adicionaFuncionario(@Valid @RequestBody FuncionarioDTO funcionario)
+    public Funcionario adicionaFuncionario(@Valid @RequestBody FuncionarioDTO funcionario)
             throws RegrasDeNegocioException {
-        return funcionarioService.adicionaFuncionario(funcionario);
+        return funcionarioService.insereFuncionario(funcionario);
     }
 
     @ApiOperation(value = "Altera um funcionário")
     @PutMapping(path = "/{idFuncionario}")
-    public MensagemDTO alteraFuncionario(@PathVariable Long idFuncionario,
+    public Funcionario alteraFuncionario(@PathVariable Long idFuncionario,
             @Valid @RequestBody FuncionarioDTO alteraFuncionarioDTO)
             throws RegrasDeNegocioException {
         return funcionarioService.alteraFuncionario(idFuncionario, alteraFuncionarioDTO);
@@ -60,7 +59,7 @@ public class FuncionarioController {
 
     @ApiOperation(value = "Inativa um funcionário")
     @PutMapping(path = "/{idFuncionario}/inativa")
-    public MensagemDTO inativaFuncionario(@PathVariable Long idFuncionario,
+    public Funcionario inativaFuncionario(@PathVariable Long idFuncionario,
             @Valid @RequestBody InativaFuncionarioDTO inativaFuncionarioDTO)
             throws RegrasDeNegocioException {
         return funcionarioService.inativaFuncionario(idFuncionario, inativaFuncionarioDTO);
@@ -68,7 +67,7 @@ public class FuncionarioController {
 
     @ApiOperation(value = "Adiciona um serviço de um funcionário")
     @PutMapping("/{idFuncionario}/servicos")
-    public MensagemDTO adicionaServicoFuncionario(@PathVariable Long idFuncionario,
+    public Funcionario adicionaServicoFuncionario(@PathVariable Long idFuncionario,
             @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO)
             throws RegrasDeNegocioException {
         return funcionarioService.adicionaServicoFuncionario(idFuncionario, adicionaServicoDTO);

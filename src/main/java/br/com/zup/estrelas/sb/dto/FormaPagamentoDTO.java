@@ -14,5 +14,4 @@ public class FormaPagamentoDTO {
         this.tipoPagamento = tipoPagamento;
     }
 
-
 }
