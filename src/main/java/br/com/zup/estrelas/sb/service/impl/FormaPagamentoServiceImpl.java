@@ -15,12 +15,14 @@ import br.com.zup.estrelas.sb.service.FormaPagamentoService;
 public class FormaPagamentoServiceImpl implements FormaPagamentoService {
 
     private static final String FORMA_DE_PAGAMENTO_JA_CADASTRADA =
-            "Forma de pagamento já cadastrada";
-    private static final String FORMA_DE_PAGAMENTO_INEXISTENTE = "Forma de pagamento inexistente.";
+            "FORMA DE PAGAMENTO JA CADASTRADA!";
+    private static final String FORMA_DE_PAGAMENTO_INEXISTENTE = "FORMA DE PAGAMENTO INEXISTENTE!";
     private static final String FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO =
-            "Forma de pagamento removida com sucesso.";
+            "FORMA DE PAGAMENTO REMOVIDA COM SUCESSO!";
     private static final String FORMA_DE_PAGAMENTO_JA_EXISTENTE =
-            "Forma de pagamento já existente.";
+            "FORMA_DE_PAGAMENTO_JÁ _EXISTENTE!";
+    private static final String FORMA_DE_PAGAMENTO_NAO_ENCONTRADA_PELO_ID =
+            "FORMA DE PAGAMENTO NÃO ENCONTRADA PELO ID ";
 
     @Autowired
     FormaPagamentoRepository formaPagamentoRepository;
@@ -30,7 +32,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
             throws RegrasDeNegocioException {
         return formaPagamentoRepository.findById(idFormaPagamento)
                 .orElseThrow(() -> new RegrasDeNegocioException(
-                        "Forma pagamento não encontrada pelo Id: " + idFormaPagamento));
+                        FORMA_DE_PAGAMENTO_NAO_ENCONTRADA_PELO_ID + idFormaPagamento));
     }
 
     @Override

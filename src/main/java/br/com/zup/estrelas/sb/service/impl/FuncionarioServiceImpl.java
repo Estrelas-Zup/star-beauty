@@ -22,11 +22,15 @@ import br.com.zup.estrelas.sb.service.FuncionarioService;
 public class FuncionarioServiceImpl implements FuncionarioService {
 
     private static final String O_SALÃO_NÃO_EXISTE =
-            "O salão em que está sendo alocado o funcionario não existe!";
-    private static final String FUNCIONARIO_JA_CADASTRADO = "Funcionário já cadastrado.";
-    private static final String FUNCIONARIO_INEXISTENTE = "Funcionário inexistente.";
-    private static final String CPF_JÁ_EXISTE = "Cpf já existe no Banco de Dados!";
-
+            "O SALÃO ONDE ESTA SENDO ALOCADO O FUNCIONÁRIO  NÃO EXISTE!";
+    private static final String FUNCIONARIO_JA_CADASTRADO = "FUNCINÁRIO JÁ CADASTRADO!";
+    private static final String FUNCIONARIO_INEXISTENTE = "FUNCIONÁRIO INEXISTENTE!";
+    private static final String CPF_JÁ_EXISTE = "CPF JÁ EXISTE NO BANCO DE DADOS!";
+    private static final String SERVICO_INEXISTENTE = "SERVIÇO INEXISTENTE!";
+    private static final String SERVICO_MARCADO_INATIVO = "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!";
+    private static final String NAO_FOI_POSSIVEL_ACHAR_FUNCIONARIO_PELO_ID = "NÃO FOI POSSÍVEL ACHAR O FUNIONÁRIO PELO ID  ";
+    private static final String SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO = "SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONÁRIO!";
+    
     @Autowired
     FuncionarioRepository funcionarioRepository;
 
@@ -40,7 +44,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public Funcionario buscaFuncionario(Long idFuncionario) throws RegrasDeNegocioException {
         return funcionarioRepository.findById(idFuncionario)
                 .orElseThrow(() -> new RegrasDeNegocioException(
-                        "Não for possível achar o funcionario pelo Id: " + idFuncionario));
+                        NAO_FOI_POSSIVEL_ACHAR_FUNCIONARIO_PELO_ID + idFuncionario));
     }
 
     @Override
@@ -107,11 +111,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
 
         if (!funcionarioRepository.existsById(idFuncionario)) {
-            throw new RegrasDeNegocioException("FUNCIONARIO INEXISTENTE!");
+            throw new RegrasDeNegocioException(FUNCIONARIO_INEXISTENTE);
         }
 
         if (!servicoRepository.existsById(adicionaServicoDTO.getIdServico())) {
-            throw new RegrasDeNegocioException("SERVIÇO INEXISTENTE!");
+            throw new RegrasDeNegocioException(SERVICO_INEXISTENTE);
         }
 
         return this.adicionaServico(idFuncionario, adicionaServicoDTO);
@@ -169,12 +173,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         List<Servico> servicos = funcionario.getServicos();
 
         if (!servico.isAtivo()) {
-            throw new RegrasDeNegocioException(
-                    "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!");
+            throw new RegrasDeNegocioException(SERVICO_MARCADO_INATIVO);
         }
 
         if (servicos.contains(servico)) {
-            throw new RegrasDeNegocioException("SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONARIO!");
+            throw new RegrasDeNegocioException(SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO);
         }
 
         servicos.add(servico);
