@@ -16,8 +16,10 @@ import br.com.zup.estrelas.sb.service.TransacaoService;
 @Service
 public class TransacaoServiceImpl implements TransacaoService {
 
-    private static final String TRANSACAO_REMOVIDA_COM_SUCESSO = "Transação removida com sucesso!";
-    private static final String TRANSACAO_INEXISTENTE = "Transação inexistente.";
+    private static final String TRANSAÇÃO_NÃO_ENCONTRADA_PELO_ID =
+            "TRANSAÇÃO NÃO ENCONTRADA PELO ID ";
+    private static final String TRANSACAO_REMOVIDA_COM_SUCESSO = "TRANSAÇÃO REMOVIDA COM SUCESSO!";
+    private static final String TRANSACAO_INEXISTENTE = "TRANSAÇÃO INEXISTENTE!";
 
     @Autowired
     TransacaoRepository transacaoRepository;
@@ -26,9 +28,8 @@ public class TransacaoServiceImpl implements TransacaoService {
     AgendamentoRepository agendamentoRepository;
 
     public Transacao buscaTransacao(Long idTransacao) throws RegrasDeNegocioException {
-        return transacaoRepository.findById(idTransacao)
-                .orElseThrow(() -> new RegrasDeNegocioException(
-                        "Transação não pode ser encontrada pelo Id " + idTransacao));
+        return transacaoRepository.findById(idTransacao).orElseThrow(
+                () -> new RegrasDeNegocioException(TRANSAÇÃO_NÃO_ENCONTRADA_PELO_ID + idTransacao));
     }
 
     public List<Transacao> listaTransacoes() {

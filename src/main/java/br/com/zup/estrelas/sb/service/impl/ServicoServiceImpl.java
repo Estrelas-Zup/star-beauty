@@ -16,8 +16,8 @@ import br.com.zup.estrelas.sb.service.ServicoService;
 public class ServicoServiceImpl implements ServicoService {
 
     private static final String SERVICO_JA_CADASTRADO =
-            "O cadastro não ocorreu, Serviço já está cadastrado";
-    private static final String SERVICO_INEXISTENTE = "Serviço inexistente.";
+            "O CADASTRO NÃO OCORREU, POIS O SERVIÇO JÁ ESTÁ CADASTRADO";
+    private static final String SERVICO_INEXISTENTE = "TRANSAÇÃO INEXISTENTE!";
 
     @Autowired
     ServicoRepository servicoRepository;
