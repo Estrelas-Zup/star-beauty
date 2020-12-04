@@ -17,7 +17,7 @@ import br.com.zup.estrelas.sb.service.TransacaoService;
 public class TransacaoServiceImpl implements TransacaoService {
 
     private static final String TRANSAÇÃO_NÃO_ENCONTRADA_PELO_ID =
-            "TRANSAÇÃO NÃO ENCONTRADA PELO ID ";
+            "TRANSAÇÃO NÃO ENCONTRADA PELO ID: ";
     private static final String TRANSACAO_REMOVIDA_COM_SUCESSO = "TRANSAÇÃO REMOVIDA COM SUCESSO!";
     private static final String TRANSACAO_INEXISTENTE = "TRANSAÇÃO INEXISTENTE!";
 

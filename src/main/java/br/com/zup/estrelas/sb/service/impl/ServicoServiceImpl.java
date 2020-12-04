@@ -15,6 +15,7 @@ import br.com.zup.estrelas.sb.service.ServicoService;
 @Service
 public class ServicoServiceImpl implements ServicoService {
 
+    private static final String SERVICO_NÃO_ENCONTRADO_PELO_ID = "SERVIÇO NÃO ENCONTRADO PELO ID: ";
     private static final String SERVICO_JA_CADASTRADO =
             "O CADASTRO NÃO OCORREU, POIS O SERVIÇO JÁ ESTÁ CADASTRADO!";
     private static final String SERVICO_INEXISTENTE = "TRANSAÇÃO INEXISTENTE!";
@@ -24,8 +25,8 @@ public class ServicoServiceImpl implements ServicoService {
 
     @Override
     public Servico buscaServico(Long idServico) throws RegrasDeNegocioException {
-        return servicoRepository.findById(idServico).orElseThrow(() -> new RegrasDeNegocioException(
-                "Serviço não pode ser encontrado pelo Id " + idServico));
+        return servicoRepository.findById(idServico).orElseThrow(
+                () -> new RegrasDeNegocioException(SERVICO_NÃO_ENCONTRADO_PELO_ID + idServico));
     }
 
     @Override
