@@ -6,7 +6,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.InativaServicoDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ServicoDTO;
 import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
@@ -16,11 +15,8 @@ import br.com.zup.estrelas.sb.service.ServicoService;
 @Service
 public class ServicoServiceImpl implements ServicoService {
 
-    private static final String SERVICO_INATIVADO_COM_SUCESSO = "Servico inativado com sucesso.";
-    private static final String SERVICO_ALTERADO_COM_SUCESSO = "Serviço alterado com sucesso.";
     private static final String SERVICO_JA_CADASTRADO =
             "O cadastro não ocorreu, Serviço já está cadastrado";
-    private static final String CADASTRO_REALIZADO_COM_SUCESSO = "Cadastro realizado com sucesso.";
     private static final String SERVICO_INEXISTENTE = "Serviço inexistente.";
 
     @Autowired
@@ -38,7 +34,7 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public MensagemDTO adicionaServico(ServicoDTO servicoDTO) throws RegrasDeNegocioException {
+    public Servico insereServico(ServicoDTO servicoDTO) throws RegrasDeNegocioException {
 
         if (servicoRepository.existsByNomeServico(servicoDTO.getNomeServico())) {
             throw new RegrasDeNegocioException(SERVICO_JA_CADASTRADO);
@@ -48,7 +44,8 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public MensagemDTO alteraServico(Long idServico, ServicoDTO servicoDTO) throws RegrasDeNegocioException {
+    public Servico alteraServico(Long idServico, ServicoDTO servicoDTO)
+            throws RegrasDeNegocioException {
 
         if (!servicoRepository.existsById(idServico)) {
             throw new RegrasDeNegocioException(SERVICO_INEXISTENTE);
@@ -58,7 +55,8 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public MensagemDTO inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO) throws RegrasDeNegocioException {
+    public Servico inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO)
+            throws RegrasDeNegocioException {
 
         Optional<Servico> servicoConsultado = servicoRepository.findById(idServico);
 
@@ -69,7 +67,7 @@ public class ServicoServiceImpl implements ServicoService {
         return inativaServicoComSucesso(servicoConsultado, inativaServicoDTO);
     }
 
-    private MensagemDTO alteraInformacoesServico(Long idServico, ServicoDTO servicoDTO) {
+    private Servico alteraInformacoesServico(Long idServico, ServicoDTO servicoDTO) {
 
         Servico servico = servicoRepository.findById(idServico).get();
 
@@ -77,10 +75,10 @@ public class ServicoServiceImpl implements ServicoService {
 
         servicoRepository.save(servico);
 
-        return new MensagemDTO(SERVICO_ALTERADO_COM_SUCESSO);
+        return servico;
     }
 
-    private MensagemDTO criaServico(ServicoDTO servicoDTO) {
+    private Servico criaServico(ServicoDTO servicoDTO) {
 
         Servico servico = new Servico();
 
@@ -89,10 +87,10 @@ public class ServicoServiceImpl implements ServicoService {
 
         servicoRepository.save(servico);
 
-        return new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
+        return servico;
     }
 
-    private MensagemDTO inativaServicoComSucesso(Optional<Servico> servicoConsultado,
+    private Servico inativaServicoComSucesso(Optional<Servico> servicoConsultado,
             InativaServicoDTO inativaServicoDTO) {
 
         Servico servico = servicoConsultado.get();
@@ -101,7 +99,7 @@ public class ServicoServiceImpl implements ServicoService {
 
         servicoRepository.save(servico);
 
-        return new MensagemDTO(SERVICO_INATIVADO_COM_SUCESSO);
+        return servico;
     }
 
 }

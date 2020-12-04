@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.estrelas.sb.dto.InativaServicoDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ServicoDTO;
 import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
@@ -43,21 +42,23 @@ public class ServicoController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona serviço")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO adicionaServico(@Valid @RequestBody ServicoDTO servicoDTO) throws RegrasDeNegocioException {
-        return servicoService.adicionaServico(servicoDTO);
+    public Servico insereServico(@Valid @RequestBody ServicoDTO servicoDTO)
+            throws RegrasDeNegocioException {
+        return servicoService.insereServico(servicoDTO);
     }
 
     @ApiOperation(value = "Altera serviço")
     @PutMapping(path = "/{idServico}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO alteraServico(@PathVariable Long idServico,
+    public Servico alteraServico(@PathVariable Long idServico,
             @Valid @RequestBody ServicoDTO servicoDTO) throws RegrasDeNegocioException {
         return servicoService.alteraServico(idServico, servicoDTO);
     }
 
     @ApiOperation(value = "Inativa serviço")
     @PutMapping(path = "/{idServico}/inativa")
-    public MensagemDTO inativaServico(@PathVariable Long idServico,
-            @Valid @RequestBody InativaServicoDTO inativaServicoDTO) throws RegrasDeNegocioException {
+    public Servico inativaServico(@PathVariable Long idServico,
+            @Valid @RequestBody InativaServicoDTO inativaServicoDTO)
+            throws RegrasDeNegocioException {
         return servicoService.inativaServico(idServico, inativaServicoDTO);
     }
 

@@ -27,7 +27,8 @@ public class TransacaoController {
 
     @ApiOperation(value = "Consulta transação")
     @GetMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Transacao consultaTransacao(@PathVariable Long idTransacao) throws RegrasDeNegocioException {
+    public Transacao consultaTransacao(@PathVariable Long idTransacao)
+            throws RegrasDeNegocioException {
         return transacaoService.buscaTransacao(idTransacao);
     }
 
@@ -39,14 +40,15 @@ public class TransacaoController {
 
     @ApiOperation(value = "Altera transação")
     @PutMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO alteraTransacao(@PathVariable Long idTransacao,
+    public Transacao alteraTransacao(@PathVariable Long idTransacao,
             @Valid @RequestBody TransacaoDTO transacaoDTO) throws RegrasDeNegocioException {
         return transacaoService.alteraTransacao(idTransacao, transacaoDTO);
     }
 
     @ApiOperation(value = "Remove transação")
     @DeleteMapping(path = "/{idTransacao}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO removeTransacao(@PathVariable Long idTransacao) throws RegrasDeNegocioException {
+    public MensagemDTO removeTransacao(@PathVariable Long idTransacao)
+            throws RegrasDeNegocioException {
         return transacaoService.removeTransacao(idTransacao);
     }
 

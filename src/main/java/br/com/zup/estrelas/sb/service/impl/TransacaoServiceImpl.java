@@ -17,7 +17,6 @@ import br.com.zup.estrelas.sb.service.TransacaoService;
 public class TransacaoServiceImpl implements TransacaoService {
 
     private static final String TRANSACAO_REMOVIDA_COM_SUCESSO = "Transação removida com sucesso!";
-    private static final String TRANSACAO_ALTERADA_COM_SUCESSO = "Transação alterada com sucesso.";
     private static final String TRANSACAO_INEXISTENTE = "Transação inexistente.";
 
     @Autowired
@@ -48,10 +47,11 @@ public class TransacaoServiceImpl implements TransacaoService {
         this.adicionaTransacao(agendamento, transacaoDTO);
     }
 
-    public MensagemDTO alteraTransacao(Long idTransacao, TransacaoDTO transacaoDTO) throws RegrasDeNegocioException {
+    public Transacao alteraTransacao(Long idTransacao, TransacaoDTO transacaoDTO)
+            throws RegrasDeNegocioException {
 
         if (!transacaoRepository.existsById(idTransacao)) {
-           throw new RegrasDeNegocioException(TRANSACAO_INEXISTENTE);
+            throw new RegrasDeNegocioException(TRANSACAO_INEXISTENTE);
         }
 
         return this.alteraInformacoesTransacao(idTransacao, transacaoDTO);
@@ -78,7 +78,7 @@ public class TransacaoServiceImpl implements TransacaoService {
         transacaoRepository.save(transacao);
     }
 
-    private MensagemDTO alteraInformacoesTransacao(Long idTransacao, TransacaoDTO transacaoDTO) {
+    private Transacao alteraInformacoesTransacao(Long idTransacao, TransacaoDTO transacaoDTO) {
 
         Transacao transacao = transacaoRepository.findById(idTransacao).get();
 
@@ -86,7 +86,7 @@ public class TransacaoServiceImpl implements TransacaoService {
 
         transacaoRepository.save(transacao);
 
-        return new MensagemDTO(TRANSACAO_ALTERADA_COM_SUCESSO);
+        return transacao;
     }
 
 }

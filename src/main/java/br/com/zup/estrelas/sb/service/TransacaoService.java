@@ -16,6 +16,6 @@ public interface TransacaoService {
     
     public MensagemDTO removeTransacao (Long idTransacao) throws RegrasDeNegocioException;
     
-    public MensagemDTO alteraTransacao (Long idTransacao, TransacaoDTO transacaoDTO) throws RegrasDeNegocioException;
+    public Transacao alteraTransacao (Long idTransacao, TransacaoDTO transacaoDTO) throws RegrasDeNegocioException;
 
 }
