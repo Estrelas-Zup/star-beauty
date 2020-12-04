@@ -21,6 +21,20 @@ import br.com.zup.estrelas.sb.service.ProfissionalAutonomoService;
 @Service
 public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoService {
 
+    private static final String FORMA_DE_PAGAMENTO_JA_EXISTE_NO_CADASTRO = "FORMA DE PAGAMENTO JÁ EXISTE NO CADASTRO!";
+
+    private static final String SERVIÇO_JA_EXISTE_NO_PERFIL_DO_PROFISSIONAL = "O SERVIÇO JÁ EXISTE NO PERFIL DO PROFISSIONAL AUTÔNOMO!";
+
+    private static final String SERVICO_JA_ESTA_COMO_INATIVO = "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!";
+
+    private static final String SERVICO_INEXISTENTE = "SERVIÇO A SER ADICIONADO É INEXISTENTE!";
+
+    private static final String CPF_JA_CADASTRADO_NO_BANCO_DE_DADOS = "CPF JÁ CADASTRADO NO BANCO DE DADOS!";
+
+    private static final String PROFISSIONAL_NAO_ENCONTRADO = "O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.";
+
+    private static final String PROFISSIONAL_JA_EXISTE_NO_BANCO_DE_DADOS = "ESTE PROFISSIONAL JÁ EXISTE NO BANCO DE DADOS!";
+
     @Autowired
     ProfissionalAutonomoRepository profissionalAutonomoRepository;
 
@@ -46,7 +60,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     public ProfissionalAutonomo adicionaProfissionalAutonomo (
             ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
         if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf())) {
-            throw new RegrasDeNegocioException("ESTE PROFISSIONAL JÁ ESTÁ CADASTRADO!");
+            throw new RegrasDeNegocioException(PROFISSIONAL_JA_EXISTE_NO_BANCO_DE_DADOS);
         }
 
         return this.adicionaAutonomo(profissionalAutonomoDTO);
@@ -56,7 +70,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     public ProfissionalAutonomo alteraProfissionalAutonomo(Long idUsuario,
             ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
+            throw new RegrasDeNegocioException(PROFISSIONAL_NAO_ENCONTRADO);
         }
 
         ProfissionalAutonomo profissionalAutonomo =
@@ -67,7 +81,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
         if (!profissionalAutonomoDTO.getCpf().equals(profissionalAutonomo.getCpf())
                 && verificaCpfAutonomo) {
-            throw new RegrasDeNegocioException("CPF JÁ CADASTRADO NO BANCO DE DADOS!");
+            throw new RegrasDeNegocioException(CPF_JA_CADASTRADO_NO_BANCO_DE_DADOS);
         }
 
         return this.alteraInformacoesAutonomo(profissionalAutonomo, profissionalAutonomoDTO);
@@ -78,7 +92,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
             InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) throws RegrasDeNegocioException {
         
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
+            throw new RegrasDeNegocioException(PROFISSIONAL_NAO_ENCONTRADO);
         }
 
         return this.inativaAutonomo(idUsuario, inativaProfissionalAutonomoDTO);
@@ -89,11 +103,11 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
             AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
 
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
+            throw new RegrasDeNegocioException(PROFISSIONAL_NAO_ENCONTRADO);
         }
 
         if (!servicoRepository.existsById(adicionaServicoDTO.getIdServico())) {
-            throw new RegrasDeNegocioException("SERVIÇO A SER ADICIONADO É INEXISTENTE!");
+            throw new RegrasDeNegocioException(SERVICO_INEXISTENTE);
         }
 
         return this.adicionaServico(idUsuario, adicionaServicoDTO);
@@ -103,7 +117,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     public ProfissionalAutonomo adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
+            throw new RegrasDeNegocioException(PROFISSIONAL_NAO_ENCONTRADO);
         }
 
         return this.adicionaFormaPagamentoComSucesso(idUsuario, formaPagamentoDTO);
@@ -157,11 +171,11 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
         if (!servico.isAtivo()) {
             throw new RegrasDeNegocioException(
-                    "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!");
+                    SERVICO_JA_ESTA_COMO_INATIVO);
         }
 
         if (servicos.contains(servico)) {
-            throw new RegrasDeNegocioException("O SERVIÇO JÁ EXISTENTE NO PERFIL DO PROFISSIONAL AUTÔNOMO!");
+            throw new RegrasDeNegocioException(SERVIÇO_JA_EXISTE_NO_PERFIL_DO_PROFISSIONAL);
         }
 
         servicos.add(servico);
@@ -182,7 +196,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         List<FormaPagamento> formasPagamento = autonomo.getFormasPagamento();
 
         if (formasPagamento.contains(formaPagamento)) {
-            throw new RegrasDeNegocioException("FORMA DE PAGAMENTO EXISTENTE NO CADASTRO!");
+            throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_JA_EXISTE_NO_CADASTRO);
         }
 
         formasPagamento.add(formaPagamento);
