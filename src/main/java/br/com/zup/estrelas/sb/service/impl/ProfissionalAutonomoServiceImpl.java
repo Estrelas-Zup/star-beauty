@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
@@ -35,7 +34,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
     public ProfissionalAutonomo buscaProfissionalAutonomo(Long idUsuario) throws RegrasDeNegocioException {
         return profissionalAutonomoRepository.findById(idUsuario).orElseThrow(() -> new RegrasDeNegocioException(
-                "Não for possível achar o funcionario pelo Id: " + idUsuario));
+                "NÃO FOI POSSÍVEL ENCONTRAR O PROFISSIONAL PELO ID: " + idUsuario));
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     }
 
     @Override
-    public MensagemDTO adicionaProfissionalAutonomo (
+    public ProfissionalAutonomo adicionaProfissionalAutonomo (
             ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
         if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf())) {
             throw new RegrasDeNegocioException("ESTE PROFISSIONAL JÁ ESTÁ CADASTRADO!");
@@ -54,10 +53,10 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     }
 
     @Override
-    public MensagemDTO alteraProfissionalAutonomo(Long idUsuario,
+    public ProfissionalAutonomo alteraProfissionalAutonomo(Long idUsuario,
             ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("O PROFISSIONAL EM QUESTÃO NÃO FOI ENCONTRADO!");
+            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
         }
 
         ProfissionalAutonomo profissionalAutonomo =
@@ -75,41 +74,42 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     }
 
     @Override
-    public MensagemDTO inativaProfissionalAutonomo(Long idUsuario,
+    public ProfissionalAutonomo inativaProfissionalAutonomo(Long idUsuario,
             InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) throws RegrasDeNegocioException {
+        
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("O PROFISSIONAL EM QUESTÃO NÃO FOI ENCONTRADO!");
+            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
         }
 
         return this.inativaAutonomo(idUsuario, inativaProfissionalAutonomoDTO);
     }
 
     @Override
-    public MensagemDTO adicionaServicoProfissionalAutonomo(Long idUsuario,
+    public ProfissionalAutonomo adicionaServicoProfissionalAutonomo(Long idUsuario,
             AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
 
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("PROFISSIONAL AUTONOMOS INEXISTENTE!");
+            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
         }
 
         if (!servicoRepository.existsById(adicionaServicoDTO.getIdServico())) {
-            throw new RegrasDeNegocioException("SERVIÇO INEXISTENTE!");
+            throw new RegrasDeNegocioException("SERVIÇO A SER ADICIONADO É INEXISTENTE!");
         }
 
         return this.adicionaServico(idUsuario, adicionaServicoDTO);
     }
 
     @Override
-    public MensagemDTO adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
+    public ProfissionalAutonomo adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
-            throw new RegrasDeNegocioException("O PROFISSIONAL EM QUESTÃO NÃO FOI ENCONTRADO!");
+            throw new RegrasDeNegocioException("O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.");
         }
 
         return this.adicionaFormaPagamentoComSucesso(idUsuario, formaPagamentoDTO);
     }
 
-    private MensagemDTO adicionaAutonomo(ProfissionalAutonomoDTO profissionalAutonomoDTO) {
+    private ProfissionalAutonomo adicionaAutonomo(ProfissionalAutonomoDTO profissionalAutonomoDTO) {
 
         ProfissionalAutonomo profissionalAutonomo = new ProfissionalAutonomo();
 
@@ -121,20 +121,20 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
         profissionalAutonomoRepository.save(profissionalAutonomo);
 
-        return new MensagemDTO("PROFISSIONAL AUTONOMO ADICIONADO COM SUCESSO!");
+        return profissionalAutonomo;
     }
 
-    private MensagemDTO alteraInformacoesAutonomo(ProfissionalAutonomo profissionalAutonomo,
+    private ProfissionalAutonomo alteraInformacoesAutonomo(ProfissionalAutonomo profissionalAutonomo,
             ProfissionalAutonomoDTO profissionalAutonomoDTO) {
 
         BeanUtils.copyProperties(profissionalAutonomoDTO, profissionalAutonomo);
 
         profissionalAutonomoRepository.save(profissionalAutonomo);
 
-        return new MensagemDTO("ALTERADO COM SUCESSO!");
+        return profissionalAutonomo;
     }
 
-    private MensagemDTO inativaAutonomo(Long idUsuario,
+    private ProfissionalAutonomo inativaAutonomo(Long idUsuario,
             InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) {
 
         ProfissionalAutonomo profissionalAutonomo =
@@ -144,10 +144,10 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
         profissionalAutonomoRepository.save(profissionalAutonomo);
 
-        return new MensagemDTO("INATIVADO COM SUCESSO!");
+        return profissionalAutonomo;
     }
 
-    private MensagemDTO adicionaServico(Long idUsuario, AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
+    private ProfissionalAutonomo adicionaServico(Long idUsuario, AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
 
         ProfissionalAutonomo autonomo = profissionalAutonomoRepository.findById(idUsuario).get();
 
@@ -161,7 +161,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         }
 
         if (servicos.contains(servico)) {
-            throw new RegrasDeNegocioException("SERVIÇO JÁ EXISTENTE NO PERFIL DO PROFISSIONAL AUTONOMO!");
+            throw new RegrasDeNegocioException("O SERVIÇO JÁ EXISTENTE NO PERFIL DO PROFISSIONAL AUTÔNOMO!");
         }
 
         servicos.add(servico);
@@ -170,10 +170,10 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
         profissionalAutonomoRepository.save(autonomo);
 
-        return new MensagemDTO("SERVICO ADICIONADO COM SUCESSO!");
+        return autonomo;
     }
 
-    private MensagemDTO adicionaFormaPagamentoComSucesso(Long idUsuario,
+    private ProfissionalAutonomo adicionaFormaPagamentoComSucesso(Long idUsuario,
             FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         ProfissionalAutonomo autonomo = profissionalAutonomoRepository.findById(idUsuario).get();
@@ -182,14 +182,14 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         List<FormaPagamento> formasPagamento = autonomo.getFormasPagamento();
 
         if (formasPagamento.contains(formaPagamento)) {
-            throw new RegrasDeNegocioException("FORMA DE PAGAMENTO JÁ EXISTENTE NO CADASTRO!");
+            throw new RegrasDeNegocioException("FORMA DE PAGAMENTO EXISTENTE NO CADASTRO!");
         }
 
         formasPagamento.add(formaPagamento);
 
         profissionalAutonomoRepository.save(autonomo);
 
-        return new MensagemDTO("FORMA DE PAGAMENTO CADASTRADA COM SUCESSO!");
+        return autonomo;
     }
 
 }

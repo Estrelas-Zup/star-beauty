@@ -2,13 +2,11 @@ package br.com.zup.estrelas.sb.service.impl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaSalaoDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.SalaoDTO;
 import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.entity.Salao;
@@ -38,7 +36,7 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     @Override
-    public MensagemDTO adicionaSalao(SalaoDTO salaoDTO) throws RegrasDeNegocioException {
+    public Salao adicionaSalao(SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         if (salaoRepository.existsByCnpj(salaoDTO.getCnpj())) {
             throw new RegrasDeNegocioException("SALÂO JÁ CADASTRADO!");
         }
@@ -47,14 +45,13 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     @Override
-    public MensagemDTO alteraSalao(Long idUsuario, SalaoDTO salaoDTO) throws RegrasDeNegocioException {
+    public Salao alteraSalao(Long idUsuario, SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         if (!salaoRepository.existsById(idUsuario)) {
             throw new RegrasDeNegocioException("O SALÃO EM QUESTÂO NÂO EXISTE PARA SER ALTERADO!");
         }
 
         Salao salao = salaoRepository.findById(idUsuario).get();
 
-        // por que a condição de alteração não funciona se comparar a diferenca entre cnpj's?
         if (!salaoDTO.getCnpj().equals(salao.getCnpj())
                 && salaoRepository.existsByCnpj(salaoDTO.getCnpj())) {
             throw new RegrasDeNegocioException("CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!");
@@ -64,7 +61,7 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     @Override
-    public MensagemDTO inativaSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) throws RegrasDeNegocioException {
+    public Salao inativaSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) throws RegrasDeNegocioException {
         if (!salaoRepository.existsById(idUsuario)) {
             throw new RegrasDeNegocioException("O SALÃO EM QUESTÂO NÂO EXISTE PARAS SER INATIVADO!");
         }
@@ -73,7 +70,7 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     @Override
-    public MensagemDTO adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
+    public Salao adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         if (!salaoRepository.existsById(idUsuario)) {
             throw new RegrasDeNegocioException("O SALÃO EM QUESTÃO NÃO FOI ENCONTRADO!");
@@ -82,7 +79,7 @@ public class SalaoServiceImpl implements SalaoService {
         return this.adicionaFormaPagamentoComSucesso(idUsuario, formaPagamentoDTO);
     }
 
-    private MensagemDTO criaSalao(SalaoDTO salaoDTO) {
+    private Salao criaSalao(SalaoDTO salaoDTO) {
 
         Salao novoSalao = new Salao();
 
@@ -93,30 +90,30 @@ public class SalaoServiceImpl implements SalaoService {
 
         salaoRepository.save(novoSalao);
 
-        return new MensagemDTO("SALÃO CADASTRADO COM SUCESSO!");
+        return novoSalao;
     }
 
-    private MensagemDTO alteraInformacoesSalao(Salao salao, SalaoDTO salaoDTO) {
+    private Salao alteraInformacoesSalao(Salao salao, SalaoDTO salaoDTO) {
 
         BeanUtils.copyProperties(salaoDTO, salao);
 
         salaoRepository.save(salao);
 
-        return new MensagemDTO("SALÃO ALTERADO COM SUCESSO!");
+        return salao;
     }
 
-    private MensagemDTO finalizaInativacaoSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) {
+    private Salao finalizaInativacaoSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) {
 
-        Optional<Salao> salao = salaoRepository.findById(idUsuario);
+        Salao salao = salaoRepository.findById(idUsuario).get();
+        
+        salao.setAtivo(inativaSalaoDTO.isAtivo());
 
-        salao.get().setAtivo(inativaSalaoDTO.isAtivo());
+        salaoRepository.save(salao);
 
-        salaoRepository.save(salao.get());
-
-        return new MensagemDTO("SALÃO INATIVADO COM SUCESSO!");
+        return salao;
     }
 
-    private MensagemDTO adicionaFormaPagamentoComSucesso(Long idUsuario,
+    private Salao adicionaFormaPagamentoComSucesso(Long idUsuario,
             FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         Salao salao = salaoRepository.findById(idUsuario).get();
@@ -132,7 +129,7 @@ public class SalaoServiceImpl implements SalaoService {
 
         salaoRepository.save(salao);
 
-        return new MensagemDTO("FORMA DE PAGAMENTO CADASTRADA COM SUCESSO!");
+        return salao;
 
     }
 

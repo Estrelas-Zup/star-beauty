@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaSalaoDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.SalaoDTO;
 import br.com.zup.estrelas.sb.entity.Salao;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
@@ -44,27 +43,27 @@ public class SalaoController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona salão")
     @PostMapping
-    public MensagemDTO adicionaSalao(@Valid @RequestBody SalaoDTO salaoDTO) throws RegrasDeNegocioException {
+    public Salao adicionaSalao(@Valid @RequestBody SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         return salaoService.adicionaSalao(salaoDTO);
     }
 
     @ApiOperation(value = "Altera salão")
     @PutMapping(path = "/{idUsuario}")
-    public MensagemDTO alteraSalao(@PathVariable Long idUsuario,
+    public Salao alteraSalao(@PathVariable Long idUsuario,
             @Valid @RequestBody SalaoDTO salaoDTO) throws RegrasDeNegocioException {
         return salaoService.alteraSalao(idUsuario, salaoDTO);
     }
 
     @ApiOperation(value = "Inativa salão")
     @PutMapping(path = "/{idUsuario}/inativa")
-    public MensagemDTO inativaSalao(@PathVariable Long idUsuario,
+    public Salao inativaSalao(@PathVariable Long idUsuario,
             @Valid @RequestBody InativaSalaoDTO inativaSalaoDTO) throws RegrasDeNegocioException {
         return salaoService.inativaSalao(idUsuario, inativaSalaoDTO);
     }
 
     @ApiOperation(value = "Adiciona forma de pagamento para o salão")
     @PutMapping(path = "/{idUsuario}/pagamentos")
-    public MensagemDTO adicionaFormaPagamento(@PathVariable Long idUsuario,
+    public Salao adicionaFormaPagamento(@PathVariable Long idUsuario,
             @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
         return salaoService.adicionaFormaPagamento(idUsuario, formaPagamentoDTO);
     }
