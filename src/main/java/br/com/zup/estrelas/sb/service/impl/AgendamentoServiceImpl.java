@@ -29,6 +29,43 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     private static final Long HORAS_MINIMAS_PARA_REAGENDAMENTO = 24L;
 
+    private static final String NÃO_FOI_POSSÍVEL_CONCLUIR_O_AGENDAMENTO_POIS_FALTA_A_REFERENCIA_AO_PRESTADOR_DE_SERVIÇO =
+            "NÃO FOI POSSÍVEL CONCLUIR O AGENDAMENTO POIS FALTA A REFERENCIA AO PRESTADOR DE SERVIÇO!";
+
+    private static final String O_AGENDAMENTO_DEVE_FAZER_REFERENCIA_A_APENAS_UM_PROFISSIONAL =
+            "O AGENDAMENTO DEVE FAZER REFERENCIA A APENAS UM PROFISSIONAL!";
+
+    private static final String AGENDAMENTO_CANCELADO_E_EXCLUÍDO_COM_SUCESSO =
+            "AGENDAMENTO CANCELADO E EXCLUÍDO COM SUCESSO!";
+
+    private static final String AGENDAMENTO_NÃO_ENCONTRADO_PARA_CANCELAR =
+            "AGENDAMENTO NÃO ENCONTRADO PARA CANCELAR!";
+
+    private static final String AGENDAMENTO_NÃO_ENCONTRADO_PARA_FINALIZAR =
+            "AGENDAMENTO NÃO ENCONTRADO PARA FINALIZAR!";
+
+    private static final String NÃO_É_POSSÍVEL_ALTERAR_A_DATA_COM_MENOS_DE_24_HORAS_DO_AGENDAMENTO =
+            "NÃO É POSSÍVEL ALTERAR A DATA COM MENOS DE 24 HORAS DO AGENDAMENTO!";
+
+    private static final String NÃO_É_POSSÍVEL_ALTERAR_A_DATA_PARA_UM_DIA_PASSADO =
+            "NÃO É POSSÍVEL ALTERAR A DATA PARA UM DIA PASSADO!";
+
+    private static final String AGENDAMENTO_NÃO_ENCONTRADO_PARA_ALTERAR =
+            "AGENDAMENTO NÃO ENCONTRADO PARA ALTERAR!";
+
+    private static final String A_DATA_HORA_TERMINO_POSTERIOR_A_DATA_HORA_INICÍO =
+            "A DATA/HORA PREVISTA PARA O TERMINO DO SERVIÇO DEVE SER POSTERIOR A DATA/HORA INICÍO!";
+
+    private static final String HORÁRIO_DE_AGENDAMENTO_INDISPONÍVEL =
+            "HORÁRIO DE AGENDAMENTO INDISPONÍVEL!";
+
+    private static final String NÃO_É_POSSÍVEL_CRIAR_UM_AGENDAMENTO_PARA_UM_DIA_PASSADO =
+            "NÃO É POSSÍVEL CRIAR UM AGENDAMENTO PARA UM DIA PASSADO!";
+
+    private static final String AGENDAMENTO_NÃO_ENCONTRADO_PELO_ID =
+            "AGENDAMENTO NÃO ENCONTRADO PELO ID: ";
+
+
     @Autowired
     AgendamentoRepository agendamentoRepository;
 
@@ -51,7 +88,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     public Agendamento buscaAgendamento(Long idAgendamento) throws RegrasDeNegocioException {
         return agendamentoRepository.findById(idAgendamento)
                 .orElseThrow(() -> new RegrasDeNegocioException(
-                        "Agendamento não encontrado pelo Id!: " + idAgendamento));
+                        AGENDAMENTO_NÃO_ENCONTRADO_PELO_ID + idAgendamento));
     }
 
     @Override
@@ -60,12 +97,12 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO)
+    public Agendamento criaAgendamento(AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException {
 
         if (agendamentoDTO.getDataHora().isBefore(LocalDateTime.now())) {
             throw new RegrasDeNegocioException(
-                    "NÃO É POSSÍVEL CRIAR UM AGENDAMENTO PARA UM DIA PASSADO!");
+                    NÃO_É_POSSÍVEL_CRIAR_UM_AGENDAMENTO_PARA_UM_DIA_PASSADO);
         }
 
         boolean verificaDisponibilidadeFuncionario =
@@ -77,12 +114,11 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                         agendamentoDTO.getIdProfissionalAutonomo(), agendamentoDTO.getDataHora());
 
         if (verificaDisponibilidadeFuncionario || verificaDisponibilidadeAutonomo) {
-            throw new RegrasDeNegocioException("HORÁRIO DE AGENDAMENTO INDISPONÍVEL!");
+            throw new RegrasDeNegocioException(HORÁRIO_DE_AGENDAMENTO_INDISPONÍVEL);
         }
 
         if (agendamentoDTO.getDataHora().isAfter(agendamentoDTO.getDataHoraFim())) {
-            throw new RegrasDeNegocioException(
-                    "A DATA/HORA PREVISTA PARA O TERMINO DO SERVIÇO DEVE SER POSTERIOR A DATA/HORA INICÍO!");
+            throw new RegrasDeNegocioException(A_DATA_HORA_TERMINO_POSTERIOR_A_DATA_HORA_INICÍO);
         }
 
         // verificar a disponibilidade na agenda para o tempo de execução do servico, se não
@@ -92,16 +128,15 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public MensagemDTO alteraAgendamento(Long idAgendamento, AgendamentoDTO agendamentoDTO)
+    public Agendamento alteraAgendamento(Long idAgendamento, AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException {
 
         if (!agendamentoRepository.existsById(idAgendamento)) {
-            throw new RegrasDeNegocioException("AGENDAMENTO NÃO ENCONTRADO PARA ALTERAR!");
+            throw new RegrasDeNegocioException(AGENDAMENTO_NÃO_ENCONTRADO_PARA_ALTERAR);
         }
 
         if (agendamentoDTO.getDataHora().isBefore(LocalDateTime.now())) {
-            throw new RegrasDeNegocioException(
-                    "NÃO É POSSÍVEL ALTERAR A DATA PARA UM DIA PASSADO!");
+            throw new RegrasDeNegocioException(NÃO_É_POSSÍVEL_ALTERAR_A_DATA_PARA_UM_DIA_PASSADO);
         }
 
         Agendamento agendamento = agendamentoRepository.findById(idAgendamento).get();
@@ -111,18 +146,18 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         if (diferencaHoras < HORAS_MINIMAS_PARA_REAGENDAMENTO) {
             throw new RegrasDeNegocioException(
-                    "NÃO É POSSÍVEL ALTERAR A DATA COM MENOS DE 24 HORAS DO AGENDAMENTO!");
+                    NÃO_É_POSSÍVEL_ALTERAR_A_DATA_COM_MENOS_DE_24_HORAS_DO_AGENDAMENTO);
         }
 
         return this.alteraInformacoesAgendamento(agendamento, agendamentoDTO);
     }
 
     @Override
-    public MensagemDTO finalizaAgendamento(Long idAgendamento,
+    public Agendamento finalizaAgendamento(Long idAgendamento,
             FinalizaAgendamentoDTO finalizaAgendamentoDTO) throws RegrasDeNegocioException {
 
         if (!agendamentoRepository.existsById(idAgendamento)) {
-            throw new RegrasDeNegocioException("AGENDAMENTO NÃO ENCONTRADO PARA FINALIZAR!");
+            throw new RegrasDeNegocioException(AGENDAMENTO_NÃO_ENCONTRADO_PARA_FINALIZAR);
         }
 
         return this.finalizaAgendamentoComSucesso(idAgendamento, finalizaAgendamentoDTO);
@@ -133,15 +168,15 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     public MensagemDTO deletaAgendamento(Long idAgendamento) throws RegrasDeNegocioException {
 
         if (!agendamentoRepository.existsById(idAgendamento)) {
-            throw new RegrasDeNegocioException("AGENDAMENTO NÃO ENCONTRADO PARA CANCELAR!");
+            throw new RegrasDeNegocioException(AGENDAMENTO_NÃO_ENCONTRADO_PARA_CANCELAR);
         }
 
         agendamentoRepository.deleteById(idAgendamento);
 
-        return new MensagemDTO("AGENDAMENTO CANCELADO E EXCLUÍDO COM SUCESSO!");
+        return new MensagemDTO(AGENDAMENTO_CANCELADO_E_EXCLUÍDO_COM_SUCESSO);
     }
 
-    private MensagemDTO criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO)
+    private Agendamento criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException {
 
         Agendamento agendamento = new Agendamento();
@@ -158,7 +193,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         if (agendamentoDTO.getIdFuncionario() != null
                 && agendamentoDTO.getIdProfissionalAutonomo() != null) {
             throw new RegrasDeNegocioException(
-                    "O AGENDAMENTO DEVE FAZER REFERENCIA A APENAS UM PROFISSIONAL!");
+                    O_AGENDAMENTO_DEVE_FAZER_REFERENCIA_A_APENAS_UM_PROFISSIONAL);
 
         } else if (agendamentoDTO.getIdFuncionario() != null) {
 
@@ -174,15 +209,15 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         } else {
             throw new RegrasDeNegocioException(
-                    "NÃO FOI POSSÍVEL CONCLUIR O AGENDAMENTO POIS FALTA A REFERENCIA AO PRESTADOR DE SERVIÇO!");
+                    NÃO_FOI_POSSÍVEL_CONCLUIR_O_AGENDAMENTO_POIS_FALTA_A_REFERENCIA_AO_PRESTADOR_DE_SERVIÇO);
         }
 
         agendamentoRepository.save(agendamento);
 
-        return new MensagemDTO("AGENDAMENTO REALIZADO COM SUCESSO!");
+        return agendamento;
     }
 
-    private MensagemDTO alteraInformacoesAgendamento(Agendamento agendamento,
+    private Agendamento alteraInformacoesAgendamento(Agendamento agendamento,
             AgendamentoDTO agendamentoDTO) {
 
         Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
@@ -200,10 +235,10 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         agendamentoRepository.save(agendamento);
 
-        return new MensagemDTO("AGENDAMENTO ALTERADO COM SUCESSO!");
+        return agendamento;
     }
 
-    private MensagemDTO finalizaAgendamentoComSucesso(Long idAgendamento,
+    private Agendamento finalizaAgendamentoComSucesso(Long idAgendamento,
             FinalizaAgendamentoDTO finalizaAgendamentoDTO) {
 
         Agendamento agendamento = agendamentoRepository.findById(idAgendamento).get();
@@ -214,7 +249,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         agendamentoRepository.save(agendamento);
 
-        return new MensagemDTO("AGENDAMENTO FINALIZADO COM SUCESSO!");
+        return agendamento;
     }
 
     private void criaTransacao(Long idAgendamento, Agendamento agendamento) {

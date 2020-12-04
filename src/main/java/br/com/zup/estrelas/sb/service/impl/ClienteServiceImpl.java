@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
 import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.ClienteRepository;
@@ -17,14 +16,10 @@ import br.com.zup.estrelas.sb.service.ClienteService;
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
-    private static final String CLIENTE_INATIVADO_COM_SUCESSO = "Cliente inativado com sucesso.";
     private static final String ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE =
-            "A alteração não é possível pois já existe outro cliente com o CPF informado.";
-    private static final String INFORMACOES_ALTERADAS_COM_SUCESSO =
-            "Informações alteradas com sucesso!";
-    private static final String CLIENTE_INEXISTENTE = "Cliente inexistente!";
-    private static final String CLIENTE_CADASTRADO_COM_SUCESSO = "Cliente cadastrado com sucesso!";
-    private static final String CLIENTE_JA_CADASTRADO = "Cliente já cadastrado!";
+            "A ALTERAÇÃO NÃO É POSSÍVEL, POIS JÁ EXISTE OUTRO CLIENTE COM O CPF INFORMADO!";
+    private static final String CLIENTE_INEXISTENTE = "CLIENTE INEXISTENTE!";
+    private static final String CLIENTE_JA_CADASTRADO = "CLIENTE JÁ CADASTRADO!";
 
     @Autowired
     ClienteRepository clienteRepository;
@@ -41,7 +36,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public MensagemDTO insereCliente(ClienteDTO clienteDTO) throws RegrasDeNegocioException {
+    public Cliente insereCliente(ClienteDTO clienteDTO) throws RegrasDeNegocioException {
 
         if (clienteRepository.existsByCpf(clienteDTO.getCpf())) {
             throw new RegrasDeNegocioException(CLIENTE_JA_CADASTRADO);
@@ -51,7 +46,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public MensagemDTO alteraCliente(Long idUsuario, ClienteDTO clienteDTO) throws RegrasDeNegocioException {
+    public Cliente alteraCliente(Long idUsuario, ClienteDTO clienteDTO) throws RegrasDeNegocioException {
 
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
 
@@ -70,7 +65,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public MensagemDTO inativaCliente(Long idUsuario, InativaClienteDTO inativaClienteDTO) throws RegrasDeNegocioException {
+    public Cliente inativaCliente(Long idUsuario, InativaClienteDTO inativaClienteDTO) throws RegrasDeNegocioException {
 
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
 
@@ -80,7 +75,7 @@ public class ClienteServiceImpl implements ClienteService {
         return inativaClienteComSucesso(clienteConsultado, inativaClienteDTO);
     }
 
-    private MensagemDTO adicionaCliente(ClienteDTO clienteDTO) {
+    private Cliente adicionaCliente(ClienteDTO clienteDTO) {
 
         Cliente cliente = new Cliente();
 
@@ -91,19 +86,19 @@ public class ClienteServiceImpl implements ClienteService {
 
         clienteRepository.save(cliente);
 
-        return new MensagemDTO(CLIENTE_CADASTRADO_COM_SUCESSO);
+        return cliente;
     }
 
-    private MensagemDTO alteraInformacoesCliente(Cliente cliente, ClienteDTO clienteDTO) {
+    private Cliente alteraInformacoesCliente(Cliente cliente, ClienteDTO clienteDTO) {
 
         BeanUtils.copyProperties(clienteDTO, cliente);
 
         clienteRepository.save(cliente);
 
-        return new MensagemDTO(INFORMACOES_ALTERADAS_COM_SUCESSO);
+        return cliente;
     }
 
-    private MensagemDTO inativaClienteComSucesso(Optional<Cliente> clienteConsultado,
+    private Cliente inativaClienteComSucesso(Optional<Cliente> clienteConsultado,
             InativaClienteDTO inativaClienteDTO) {
 
         Cliente cliente = clienteConsultado.get();
@@ -112,6 +107,6 @@ public class ClienteServiceImpl implements ClienteService {
 
         clienteRepository.save(cliente);
 
-        return new MensagemDTO(CLIENTE_INATIVADO_COM_SUCESSO);
+        return cliente;
     }
 }
