@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaProfissionalAutonomoDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ProfissionalAutonomoDTO;
 import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
@@ -45,14 +44,14 @@ public class ProfissionalAutonomoController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona profissional autônomo")
     @PostMapping
-    public MensagemDTO adicionaProfissionaisAutonomos(
+    public ProfissionalAutonomo adicionaProfissionaisAutonomos(
             @Valid @RequestBody ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.adicionaProfissionalAutonomo(profissionalAutonomoDTO);
     }
 
     @ApiOperation(value = "Altera profissional autônomo")
     @PutMapping("/{idUsuario}")
-    public MensagemDTO alteraProfissionalAutonomo(@PathVariable Long idUsuario,
+    public ProfissionalAutonomo alteraProfissionalAutonomo(@PathVariable Long idUsuario,
             @Valid @RequestBody ProfissionalAutonomoDTO profissionaoAutonomoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.alteraProfissionalAutonomo(idUsuario,
                 profissionaoAutonomoDTO);
@@ -60,7 +59,7 @@ public class ProfissionalAutonomoController {
 
     @ApiOperation(value = "Inativa profissional autônomo")
     @PutMapping("/{idUsuario}/inativa")
-    public MensagemDTO inativaProfissionalAutonomo(@PathVariable Long idUsuario,
+    public ProfissionalAutonomo inativaProfissionalAutonomo(@PathVariable Long idUsuario,
             @Valid @RequestBody InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.inativaProfissionalAutonomo(idUsuario,
                 inativaProfissionalAutonomoDTO);
@@ -68,7 +67,7 @@ public class ProfissionalAutonomoController {
 
     @ApiOperation(value = "Adiciona serviço para o profissional autônomo")
     @PutMapping("/{idUsuario}/servicos")
-    public MensagemDTO adicionaServicoProfissionalAutonomo(@PathVariable Long idUsuario,
+    public ProfissionalAutonomo adicionaServicoProfissionalAutonomo(@PathVariable Long idUsuario,
             @Valid @RequestBody AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.adicionaServicoProfissionalAutonomo(idUsuario,
                 adicionaServicoDTO);
@@ -76,7 +75,7 @@ public class ProfissionalAutonomoController {
 
     @ApiOperation(value = "Adiciona uma forma de pagamento para o profissional autônomo")
     @PutMapping("/{idUsuario}/pagamentos")
-    public MensagemDTO adicionaFormaPagamento(@PathVariable Long idUsuario,
+    public ProfissionalAutonomo adicionaFormaPagamento(@PathVariable Long idUsuario,
             @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
         return profissionalAutonomoService.adicionaFormaPagamento(idUsuario, formaPagamentoDTO);
     }
