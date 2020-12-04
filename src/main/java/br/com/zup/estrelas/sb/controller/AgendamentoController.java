@@ -45,21 +45,21 @@ public class AgendamentoController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Cria um agendamento")
     @PostMapping
-    public MensagemDTO criaAgendamento(@Valid @RequestBody AgendamentoDTO agendamentoDTO)
+    public Agendamento criaAgendamento(@Valid @RequestBody AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException {
         return agendamentoService.criaAgendamento(agendamentoDTO);
     }
 
     @ApiOperation(value = "Altera um agendamento")
     @PutMapping(path = "/{idAgendamento}")
-    public MensagemDTO alteraAgendamento(@PathVariable Long idAgendamento,
+    public Agendamento alteraAgendamento(@PathVariable Long idAgendamento,
             @Valid @RequestBody AgendamentoDTO agendamentoDTO) throws RegrasDeNegocioException {
         return agendamentoService.alteraAgendamento(idAgendamento, agendamentoDTO);
     }
 
     @ApiOperation(value = "Finaliza um agendamento")
     @PutMapping(path = "/{idAgendamento}/finaliza")
-    public MensagemDTO finalizaAgendamento(@PathVariable Long idAgendamento,
+    public Agendamento finalizaAgendamento(@PathVariable Long idAgendamento,
             @Valid @RequestBody FinalizaAgendamentoDTO finalizaAgendamentoDTO)
             throws RegrasDeNegocioException {
         return agendamentoService.finalizaAgendamento(idAgendamento, finalizaAgendamentoDTO);

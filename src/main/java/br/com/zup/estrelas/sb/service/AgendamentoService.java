@@ -13,12 +13,12 @@ public interface AgendamentoService {
 
     public List<Agendamento> listaAgendamento();
 
-    public MensagemDTO criaAgendamento(AgendamentoDTO agendamentoDTO)
+    public Agendamento criaAgendamento(AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException;
 
-    public MensagemDTO alteraAgendamento(Long idAgendamento, AgendamentoDTO agendamentoDTO) throws RegrasDeNegocioException;
+    public Agendamento alteraAgendamento(Long idAgendamento, AgendamentoDTO agendamentoDTO) throws RegrasDeNegocioException;
 
-    public MensagemDTO finalizaAgendamento(Long idAgendamento,
+    public Agendamento finalizaAgendamento(Long idAgendamento,
             FinalizaAgendamentoDTO finalizaAgendamentoDTO) throws RegrasDeNegocioException;
 
     public MensagemDTO deletaAgendamento(Long idAgendamento) throws RegrasDeNegocioException;

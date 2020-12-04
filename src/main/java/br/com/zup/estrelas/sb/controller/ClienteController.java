@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
 import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.ClienteService;
@@ -43,21 +42,21 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Insere um cliente")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO insereCliente(@Valid @RequestBody ClienteDTO clienteDTO)
+    public Cliente insereCliente(@Valid @RequestBody ClienteDTO clienteDTO)
             throws RegrasDeNegocioException {
         return clienteService.insereCliente(clienteDTO);
     }
 
     @ApiOperation(value = "Altera informações de um cliente")
     @PutMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MensagemDTO alteraCliente(@PathVariable Long idUsuario,
+    public Cliente alteraCliente(@PathVariable Long idUsuario,
             @Valid @RequestBody ClienteDTO clienteDTO) throws RegrasDeNegocioException {
         return clienteService.alteraCliente(idUsuario, clienteDTO);
     }
 
     @ApiOperation(value = "Inativa um cliente")
     @PutMapping(path = "/{idUsuario}/inativa")
-    public MensagemDTO inativaCliente(@PathVariable Long idUsuario,
+    public Cliente inativaCliente(@PathVariable Long idUsuario,
             @Valid @RequestBody InativaClienteDTO inativaClienteDTO)
             throws RegrasDeNegocioException {
         return clienteService.inativaCliente(idUsuario, inativaClienteDTO);
