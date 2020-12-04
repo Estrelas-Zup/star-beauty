@@ -43,14 +43,14 @@ public class FormaPagamentoController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona uma forma de pagamento")
     @PostMapping
-    public MensagemDTO adicionaFormaPagamento(
+    public FormaPagamento adicionaFormaPagamento(
             @Valid @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
         return formaPagamentoService.adicionaFormaPagamento(formaPagamentoDTO);
     }
 
     @ApiOperation(value = "Altera uma forma de pagamento")
     @PutMapping(path = "/{idFormaPagamento}")
-    public MensagemDTO alteraFormaPagamento(@PathVariable Long idFormaPagamento,
+    public FormaPagamento alteraFormaPagamento(@PathVariable Long idFormaPagamento,
             @Valid @RequestBody FormaPagamentoDTO alteraFormaPagamentoDTO) throws RegrasDeNegocioException {
         return formaPagamentoService.alteraFormaPagamento(idFormaPagamento,
                 alteraFormaPagamentoDTO);
