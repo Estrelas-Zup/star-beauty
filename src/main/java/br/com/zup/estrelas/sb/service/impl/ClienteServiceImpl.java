@@ -100,7 +100,7 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setAgendamentos(Collections.emptyList());
         cliente.setAtivo(true);
         cliente.setTipoUsuario(clienteDTO.getTipoUsuario());
-
+    
         clienteRepository.save(cliente);
 
         return cliente;
