@@ -39,11 +39,11 @@ public class Salao extends Usuario {
         this.nomeFantasia = nomeFantasia;
     }
 
-    public List<FormaPagamento> getFormaPagamento() {
+    public List<FormaPagamento> getFormasPagamento() {
         return formasPagamento;
     }
 
-    public void setFormaPagamento(List<FormaPagamento> formasPagamento) {
+    public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
         this.formasPagamento = formasPagamento;
     }
 

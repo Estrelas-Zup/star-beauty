@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,12 @@ public class ProfissionalAutonomo extends Usuario {
 
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
+
+    @Column(name = "hora_inicio_expediente", nullable = false)
+    private LocalTime horaInicioExpediente;
+
+    @Column(name = "hora_fim_expediente", nullable = false)
+    private LocalTime horaFimExpediente;
 
     @ManyToMany
     private List<Servico> servicos;
@@ -41,6 +48,22 @@ public class ProfissionalAutonomo extends Usuario {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public LocalTime getHoraInicioExpediente() {
+        return horaInicioExpediente;
+    }
+
+    public void setHoraInicioExpediente(LocalTime horaInicioExpediente) {
+        this.horaInicioExpediente = horaInicioExpediente;
+    }
+
+    public LocalTime getHoraFimExpediente() {
+        return horaFimExpediente;
+    }
+
+    public void setHoraFimExpediente(LocalTime horaFimExpediente) {
+        this.horaFimExpediente = horaFimExpediente;
     }
 
     public List<Servico> getServicos() {
