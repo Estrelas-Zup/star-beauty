@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import br.com.zup.estrelas.sb.abstrata.Usuario;
 
 @Entity
 public class Cliente extends Usuario {
