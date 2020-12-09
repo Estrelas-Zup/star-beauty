@@ -1,7 +1,6 @@
 package br.com.zup.estrelas.sb.exceptions;
 
 import static java.util.Objects.nonNull;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +37,7 @@ public class GlobalExceptionHandler {
 
             if (nonNull(erro.getCodes())) {
 
-                StringBuilder mensagemASerExibida = new StringBuilder();
-                mensagemASerExibida.append(erro.getDefaultMessage());
+                String mensagemASerExibida = erro.getDefaultMessage();
 
                 errosDeValidacao.add(new ErrorDTO(mensagemASerExibida.toString()));
             }
@@ -48,6 +46,14 @@ public class GlobalExceptionHandler {
         return errosDeValidacao;
     }
 
-    // Como cobrir as outras excepitions lançadas pelo sistema?
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+
+    public @ResponseBody ErrorDTO handleGenericException(Exception e) {
+
+        ErrorDTO erro = new ErrorDTO(e.getLocalizedMessage());
+
+        return erro;
+    }
 
 }

@@ -1,10 +1,12 @@
-package br.com.zup.estrelas.sb.controller;
+ package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.annotation.security.DenyAll;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +37,7 @@ public class FormaPagamentoController {
     }
 
     @ApiOperation(value = "Lista todas as formas de pagamento")
+    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<FormaPagamento> listaFormaPagamentos() {
         return formaPagamentoService.listaFormaPagamentos();
@@ -42,6 +45,7 @@ public class FormaPagamentoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona uma forma de pagamento")
+    @DenyAll
     @PostMapping
     public FormaPagamento adicionaFormaPagamento(
             @Valid @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
@@ -49,6 +53,7 @@ public class FormaPagamentoController {
     }
 
     @ApiOperation(value = "Altera uma forma de pagamento")
+    @DenyAll
     @PutMapping(path = "/{idFormaPagamento}")
     public FormaPagamento alteraFormaPagamento(@PathVariable Long idFormaPagamento,
             @Valid @RequestBody FormaPagamentoDTO alteraFormaPagamentoDTO) throws RegrasDeNegocioException {
@@ -57,6 +62,7 @@ public class FormaPagamentoController {
     }
 
     @ApiOperation(value = "Deleta uma forma de pagamento")
+    @DenyAll
     @DeleteMapping(path = "/{idFormaPagamento}")
     public MensagemDTO removeFormaPagamento(@PathVariable Long idFormaPagamento)
             throws RegrasDeNegocioException {

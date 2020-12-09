@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.annotation.security.DenyAll;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import br.com.zup.estrelas.sb.service.TransacaoService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@DenyAll
 @RequestMapping("/transacoes")
 public class TransacaoController {
 

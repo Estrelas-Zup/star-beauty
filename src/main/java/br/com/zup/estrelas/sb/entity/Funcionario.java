@@ -1,5 +1,6 @@
 package br.com.zup.estrelas.sb.entity;
 
+import java.time.LocalTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,12 @@ public class Funcionario {
 
     @Column(name = "horario_almoco", nullable = false)
     private String horarioAlmoco;
+
+    @Column(name = "hora_inicio_expediente", nullable = false)
+    private LocalTime horaInicioExpediente;
+
+    @Column(name = "hora_fim_expediente", nullable = false)
+    private LocalTime horaFimExpediente;
 
     private boolean ativo;
 
@@ -87,6 +94,24 @@ public class Funcionario {
     public void setHorarioAlmoco(String horarioAlmoco) {
         this.horarioAlmoco = horarioAlmoco;
     }
+
+
+    public LocalTime getHoraInicioExpediente() {
+        return horaInicioExpediente;
+    }
+
+    public void setHoraInicioExpediente(LocalTime horaInicioExpediente) {
+        this.horaInicioExpediente = horaInicioExpediente;
+    }
+
+    public LocalTime getHoraFimExpediente() {
+        return horaFimExpediente;
+    }
+
+    public void setHoraFimExpediente(LocalTime horaFimExpediente) {
+        this.horaFimExpediente = horaFimExpediente;
+    }
+
 
     public boolean isAtivo() {
         return ativo;

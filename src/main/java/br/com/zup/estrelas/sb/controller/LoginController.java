@@ -21,6 +21,10 @@ import br.com.zup.estrelas.sb.security.UsuarioDetailsServiceImpl;
 public class LoginController {
 
 
+    private static final String USUARIO_DESABILITADO = "USUÁRIO DESABILITADO!";
+
+    private static final String CREDENCIAL_INVALIDA = "CREDENCIAL INVÁLIDA!";
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -31,8 +35,7 @@ public class LoginController {
     private UsuarioDetailsServiceImpl userDetailsService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public TokenDTO criaToken(
-            @RequestBody LoginDTO informacoesLogin) throws Exception {
+    public TokenDTO criaToken(@RequestBody LoginDTO informacoesLogin) throws Exception {
         autenticar(informacoesLogin.getLogin(), informacoesLogin.getSenha());
         final UserDetails userDetails =
                 userDetailsService.loadUserByUsername(informacoesLogin.getLogin());
@@ -45,9 +48,10 @@ public class LoginController {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(login, senha));
         } catch (DisabledException e) {
-            // Tratar usuário desabilitadu.
+            throw new DisabledException(USUARIO_DESABILITADO);
+
         } catch (BadCredentialsException e) {
-            // Tratar credencial inválida.
+            throw new BadCredentialsException(CREDENCIAL_INVALIDA);
         }
     }
 
