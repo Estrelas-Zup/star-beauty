@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,7 @@ public class ServicoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona serviço")
+    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public Servico insereServico(@Valid @RequestBody ServicoDTO servicoDTO)
             throws RegrasDeNegocioException {
@@ -48,6 +50,7 @@ public class ServicoController {
     }
 
     @ApiOperation(value = "Altera serviço")
+    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @PutMapping(path = "/{idServico}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Servico alteraServico(@PathVariable Long idServico,
             @Valid @RequestBody ServicoDTO servicoDTO) throws RegrasDeNegocioException {
@@ -55,6 +58,7 @@ public class ServicoController {
     }
 
     @ApiOperation(value = "Inativa serviço")
+    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @PutMapping(path = "/{idServico}/inativa")
     public Servico inativaServico(@PathVariable Long idServico,
             @Valid @RequestBody InativaServicoDTO inativaServicoDTO)
