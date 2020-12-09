@@ -24,7 +24,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     ClienteRepository clienteRepository;
-    
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -50,7 +50,8 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente alteraCliente(Long idUsuario, ClienteDTO clienteDTO) throws RegrasDeNegocioException {
+    public Cliente alteraCliente(Long idUsuario, ClienteDTO clienteDTO)
+            throws RegrasDeNegocioException {
 
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
 
@@ -69,7 +70,8 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente inativaCliente(Long idUsuario, InativaClienteDTO inativaClienteDTO) throws RegrasDeNegocioException {
+    public Cliente inativaCliente(Long idUsuario, InativaClienteDTO inativaClienteDTO)
+            throws RegrasDeNegocioException {
 
         Optional<Cliente> clienteConsultado = clienteRepository.findById(idUsuario);
 
@@ -84,6 +86,7 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente cliente = new Cliente();
 
         BeanUtils.copyProperties(clienteDTO, cliente);
+        cliente.setSenha(passwordEncoder.encode(clienteDTO.getSenha()));
         cliente.setAgendamentos(Collections.emptyList());
         cliente.setAtivo(true);
         cliente.setTipoUsuario(clienteDTO.getTipoUsuario());
@@ -96,11 +99,8 @@ public class ClienteServiceImpl implements ClienteService {
     private Cliente alteraInformacoesCliente(Cliente cliente, ClienteDTO clienteDTO) {
 
         BeanUtils.copyProperties(clienteDTO, cliente);
-        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
-        cliente.setAgendamentos(Collections.emptyList());
-        cliente.setAtivo(true);
-        cliente.setTipoUsuario(clienteDTO.getTipoUsuario());
-    
+        cliente.setSenha(passwordEncoder.encode(clienteDTO.getSenha()));
+
         clienteRepository.save(cliente);
 
         return cliente;

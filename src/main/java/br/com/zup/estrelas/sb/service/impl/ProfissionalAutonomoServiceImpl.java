@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.AdicionaServicoDTO;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
@@ -21,19 +22,25 @@ import br.com.zup.estrelas.sb.service.ProfissionalAutonomoService;
 @Service
 public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoService {
 
-    private static final String FORMA_DE_PAGAMENTO_JA_EXISTE_NO_CADASTRO = "FORMA DE PAGAMENTO JÁ EXISTE NO CADASTRO!";
+    private static final String FORMA_DE_PAGAMENTO_JA_EXISTE_NO_CADASTRO =
+            "FORMA DE PAGAMENTO JÁ EXISTE NO CADASTRO!";
 
-    private static final String SERVIÇO_JA_EXISTE_NO_PERFIL_DO_PROFISSIONAL = "O SERVIÇO JÁ EXISTE NO PERFIL DO PROFISSIONAL AUTÔNOMO!";
+    private static final String SERVIÇO_JA_EXISTE_NO_PERFIL_DO_PROFISSIONAL =
+            "O SERVIÇO JÁ EXISTE NO PERFIL DO PROFISSIONAL AUTÔNOMO!";
 
-    private static final String SERVICO_JA_ESTA_COMO_INATIVO = "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!";
+    private static final String SERVICO_JA_ESTA_COMO_INATIVO =
+            "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!";
 
     private static final String SERVICO_INEXISTENTE = "SERVIÇO A SER ADICIONADO É INEXISTENTE!";
 
-    private static final String CPF_JA_CADASTRADO_NO_BANCO_DE_DADOS = "CPF JÁ CADASTRADO NO BANCO DE DADOS!";
+    private static final String CPF_JA_CADASTRADO_NO_BANCO_DE_DADOS =
+            "CPF JÁ CADASTRADO NO BANCO DE DADOS!";
 
-    private static final String PROFISSIONAL_NAO_ENCONTRADO = "O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.";
+    private static final String PROFISSIONAL_NAO_ENCONTRADO =
+            "O PROFISSIONAL NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.";
 
-    private static final String PROFISSIONAL_JA_EXISTE_NO_BANCO_DE_DADOS = "ESTE PROFISSIONAL JÁ EXISTE NO BANCO DE DADOS!";
+    private static final String PROFISSIONAL_JA_EXISTE_NO_BANCO_DE_DADOS =
+            "ESTE PROFISSIONAL JÁ EXISTE NO BANCO DE DADOS!";
 
     @Autowired
     ProfissionalAutonomoRepository profissionalAutonomoRepository;
@@ -44,11 +51,15 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     @Autowired
     FormaPagamentoRepository pagamentoRepository;
 
-    @Override
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-    public ProfissionalAutonomo buscaProfissionalAutonomo(Long idUsuario) throws RegrasDeNegocioException {
-        return profissionalAutonomoRepository.findById(idUsuario).orElseThrow(() -> new RegrasDeNegocioException(
-                "NÃO FOI POSSÍVEL ENCONTRAR O PROFISSIONAL PELO ID: " + idUsuario));
+    @Override
+    public ProfissionalAutonomo buscaProfissionalAutonomo(Long idUsuario)
+            throws RegrasDeNegocioException {
+        return profissionalAutonomoRepository.findById(idUsuario)
+                .orElseThrow(() -> new RegrasDeNegocioException(
+                        "NÃO FOI POSSÍVEL ENCONTRAR O PROFISSIONAL PELO ID: " + idUsuario));
     }
 
     @Override
@@ -57,7 +68,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     }
 
     @Override
-    public ProfissionalAutonomo adicionaProfissionalAutonomo (
+    public ProfissionalAutonomo adicionaProfissionalAutonomo(
             ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
         if (profissionalAutonomoRepository.existsByCpf(profissionalAutonomoDTO.getCpf())) {
             throw new RegrasDeNegocioException(PROFISSIONAL_JA_EXISTE_NO_BANCO_DE_DADOS);
@@ -89,8 +100,9 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
 
     @Override
     public ProfissionalAutonomo inativaProfissionalAutonomo(Long idUsuario,
-            InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO) throws RegrasDeNegocioException {
-        
+            InativaProfissionalAutonomoDTO inativaProfissionalAutonomoDTO)
+            throws RegrasDeNegocioException {
+
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
             throw new RegrasDeNegocioException(PROFISSIONAL_NAO_ENCONTRADO);
         }
@@ -114,7 +126,8 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
     }
 
     @Override
-    public ProfissionalAutonomo adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
+    public ProfissionalAutonomo adicionaFormaPagamento(Long idUsuario,
+            FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
 
         if (!profissionalAutonomoRepository.existsById(idUsuario)) {
             throw new RegrasDeNegocioException(PROFISSIONAL_NAO_ENCONTRADO);
@@ -128,6 +141,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         ProfissionalAutonomo profissionalAutonomo = new ProfissionalAutonomo();
 
         BeanUtils.copyProperties(profissionalAutonomoDTO, profissionalAutonomo);
+        profissionalAutonomo.setSenha(passwordEncoder.encode(profissionalAutonomoDTO.getSenha()));
         profissionalAutonomo.setAgendamentos(Collections.emptyList());
         profissionalAutonomo.setFormasPagamento(Collections.emptyList());
         profissionalAutonomo.setServicos(Collections.emptyList());
@@ -138,11 +152,13 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         return profissionalAutonomo;
     }
 
-    private ProfissionalAutonomo alteraInformacoesAutonomo(ProfissionalAutonomo profissionalAutonomo,
+    private ProfissionalAutonomo alteraInformacoesAutonomo(
+            ProfissionalAutonomo profissionalAutonomo,
             ProfissionalAutonomoDTO profissionalAutonomoDTO) {
 
         BeanUtils.copyProperties(profissionalAutonomoDTO, profissionalAutonomo);
-
+        profissionalAutonomo.setSenha(passwordEncoder.encode(profissionalAutonomoDTO.getSenha()));
+        
         profissionalAutonomoRepository.save(profissionalAutonomo);
 
         return profissionalAutonomo;
@@ -161,7 +177,8 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         return profissionalAutonomo;
     }
 
-    private ProfissionalAutonomo adicionaServico(Long idUsuario, AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
+    private ProfissionalAutonomo adicionaServico(Long idUsuario,
+            AdicionaServicoDTO adicionaServicoDTO) throws RegrasDeNegocioException {
 
         ProfissionalAutonomo autonomo = profissionalAutonomoRepository.findById(idUsuario).get();
 
@@ -170,8 +187,7 @@ public class ProfissionalAutonomoServiceImpl implements ProfissionalAutonomoServ
         List<Servico> servicos = autonomo.getServicos();
 
         if (!servico.isAtivo()) {
-            throw new RegrasDeNegocioException(
-                    SERVICO_JA_ESTA_COMO_INATIVO);
+            throw new RegrasDeNegocioException(SERVICO_JA_ESTA_COMO_INATIVO);
         }
 
         if (servicos.contains(servico)) {

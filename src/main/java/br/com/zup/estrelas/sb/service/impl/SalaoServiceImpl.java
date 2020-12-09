@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.FormaPagamentoDTO;
 import br.com.zup.estrelas.sb.dto.InativaSalaoDTO;
@@ -18,21 +19,28 @@ import br.com.zup.estrelas.sb.service.SalaoService;
 @Service
 public class SalaoServiceImpl implements SalaoService {
 
-    private static final String FORMA_DE_PAGAMENTO_JA_EXISTENTE_NO_CADASTRO = "ESSA FORMA DE PAGAMENTO JÁ EXISTENTE NO CADASTRO!";
+    private static final String FORMA_DE_PAGAMENTO_JA_EXISTENTE_NO_CADASTRO =
+            "ESSA FORMA DE PAGAMENTO JÁ EXISTENTE NO CADASTRO!";
 
-    private static final String SALAO_NAO_ENCONTRADO_PARA_SER_INATIVADO = "O SALÃO NÃO FOI ENCONTRADO PARA SER INATIVADO!";
+    private static final String SALAO_NAO_ENCONTRADO_PARA_SER_INATIVADO =
+            "O SALÃO NÃO FOI ENCONTRADO PARA SER INATIVADO!";
 
-    private static final String CNPJ_ALTERADO_JA_EXISTE_NO_BANCO_DE_DADOS = "CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!";
+    private static final String CNPJ_ALTERADO_JA_EXISTE_NO_BANCO_DE_DADOS =
+            "CNPJ ALTERADO JÁ EXISTE NO BANCO DE DADOS!";
 
     private static final String SALAO_JA_POSSUI_CADASTRO = "JÁ EXISTE UM CADASTRO PARA ESSE SALÃO.";
 
-    private static final String SALAO_NAO_ENCONTRADO = "O SALÃO NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.";
+    private static final String SALAO_NAO_ENCONTRADO =
+            "O SALÃO NÃO FOI ENCONTRADO! VERIFIQUE AS INFORMAÇÕES INSERIDAS.";
 
     @Autowired
     SalaoRepository salaoRepository;
 
     @Autowired
     FormaPagamentoRepository pagamentoRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public Salao buscaSalao(Long idUsuario) throws RegrasDeNegocioException {
@@ -71,7 +79,8 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     @Override
-    public Salao inativaSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) throws RegrasDeNegocioException {
+    public Salao inativaSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO)
+            throws RegrasDeNegocioException {
         if (!salaoRepository.existsById(idUsuario)) {
             throw new RegrasDeNegocioException(SALAO_NAO_ENCONTRADO_PARA_SER_INATIVADO);
         }
@@ -80,7 +89,8 @@ public class SalaoServiceImpl implements SalaoService {
     }
 
     @Override
-    public Salao adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
+    public Salao adicionaFormaPagamento(Long idUsuario, FormaPagamentoDTO formaPagamentoDTO)
+            throws RegrasDeNegocioException {
 
         if (!salaoRepository.existsById(idUsuario)) {
             throw new RegrasDeNegocioException(SALAO_NAO_ENCONTRADO);
@@ -94,7 +104,8 @@ public class SalaoServiceImpl implements SalaoService {
         Salao novoSalao = new Salao();
 
         BeanUtils.copyProperties(salaoDTO, novoSalao);
-        novoSalao.setFormaPagamento(Collections.emptyList());
+        novoSalao.setSenha(passwordEncoder.encode(salaoDTO.getSenha()));
+        novoSalao.setFormasPagamento(Collections.emptyList());
         novoSalao.setFuncionarios(Collections.emptyList());
         novoSalao.setAtivo(true);
 
@@ -106,6 +117,7 @@ public class SalaoServiceImpl implements SalaoService {
     private Salao alteraInformacoesSalao(Salao salao, SalaoDTO salaoDTO) {
 
         BeanUtils.copyProperties(salaoDTO, salao);
+        salao.setSenha(passwordEncoder.encode(salaoDTO.getSenha()));
 
         salaoRepository.save(salao);
 
@@ -115,7 +127,7 @@ public class SalaoServiceImpl implements SalaoService {
     private Salao finalizaInativacaoSalao(Long idUsuario, InativaSalaoDTO inativaSalaoDTO) {
 
         Salao salao = salaoRepository.findById(idUsuario).get();
-        
+
         salao.setAtivo(inativaSalaoDTO.isAtivo());
 
         salaoRepository.save(salao);
@@ -129,7 +141,7 @@ public class SalaoServiceImpl implements SalaoService {
         Salao salao = salaoRepository.findById(idUsuario).get();
         FormaPagamento formaPagamento =
                 pagamentoRepository.findByTipoPagamento(formaPagamentoDTO.getTipoPagamento());
-        List<FormaPagamento> formasPagamento = salao.getFormaPagamento();
+        List<FormaPagamento> formasPagamento = salao.getFormasPagamento();
 
         if (formasPagamento.contains(formaPagamento)) {
             throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_JA_EXISTENTE_NO_CADASTRO);

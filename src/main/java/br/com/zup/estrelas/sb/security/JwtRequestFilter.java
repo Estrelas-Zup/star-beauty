@@ -17,6 +17,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    private static final String O_TOKEN_NÃO_COMECA_COM_BEARER = "O TOKEN NÃO COMEÇA COM 'BEARER'!";
+
+    private static final String O_TOKEN_ESTA_EXPIRADO = "O TOKEN ESTÁ EXPIRADO!";
+
+    private static final String O_TOKEN_NÃO_ESTA_PRESENTE = "O TOKEN NÃO ESTÁ PRESENTE!";
+
     @Autowired
     private UsuarioDetailsServiceImpl usuarioDetailsService;
 
@@ -37,13 +43,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                // Token não está presente
+                throw new IllegalArgumentException(O_TOKEN_NÃO_ESTA_PRESENTE);
             } catch (ExpiredJwtException e) {
-                // Token expirado
+                throw new ExpiredJwtException(null, null, O_TOKEN_ESTA_EXPIRADO);
             }
 
         } else {
-            // Token não começa com Bearer
+            // throw new IllegalArgumentException(O_TOKEN_NÃO_COMECA_COM_BEARER);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

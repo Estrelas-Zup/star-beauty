@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.service.impl;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,9 @@ import br.com.zup.estrelas.sb.service.AgendamentoService;
 
 @Service
 public class AgendamentoServiceImpl implements AgendamentoService {
+
+    private static final String AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_EXPEDIENTE =
+            "HORÁRIO DE AGENDAMENTO DEVE SER MARCADO DENTRO DO HORÁRIO DE EXPEDIENTE!";
 
     private static final Long HORAS_MINIMAS_PARA_REAGENDAMENTO = 24L;
 
@@ -183,12 +187,15 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
         Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
 
-        Optional<Funcionario> funcionario;
-        Optional<ProfissionalAutonomo> autonomo;
+        Funcionario funcionario = null;
+        ProfissionalAutonomo autonomo = null;
 
         BeanUtils.copyProperties(agendamentoDTO, agendamento);
         agendamento.setCliente(cliente);
         agendamento.setServico(servico);
+
+        long duracaoEmMinutos = Long.parseLong(servico.getDuracao());
+        agendamento.setDataHoraFim(agendamentoDTO.getDataHora().plusMinutes(duracaoEmMinutos));
 
         if (agendamentoDTO.getIdFuncionario() != null
                 && agendamentoDTO.getIdProfissionalAutonomo() != null) {
@@ -197,20 +204,25 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
         } else if (agendamentoDTO.getIdFuncionario() != null) {
 
-            funcionario = funcionarioRepository.findById(agendamentoDTO.getIdFuncionario());
+            funcionario = funcionarioRepository.findById(agendamentoDTO.getIdFuncionario()).get();
 
-            agendamento.setFuncionario(funcionario.get());
+            agendamento.setFuncionario(funcionario);
 
         } else if (agendamentoDTO.getIdProfissionalAutonomo() != null) {
 
-            autonomo = autonomoRepository.findById(agendamentoDTO.getIdProfissionalAutonomo());
+            autonomo =
+                    autonomoRepository.findById(agendamentoDTO.getIdProfissionalAutonomo()).get();
 
-            agendamento.setAutonomo(autonomo.get());
+            agendamento.setAutonomo(autonomo);
 
         } else {
             throw new RegrasDeNegocioException(
                     NÃO_FOI_POSSÍVEL_CONCLUIR_O_AGENDAMENTO_POIS_FALTA_A_REFERENCIA_AO_PRESTADOR_DE_SERVIÇO);
         }
+
+        this.verificaHorarioExpedienteInicio(agendamentoDTO, funcionario, autonomo);
+
+        this.verificaHorarioExpedienteFim(agendamentoDTO, funcionario, autonomo);
 
         agendamentoRepository.save(agendamento);
 
@@ -289,4 +301,34 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         transacaoServiceImpl.criaTransacao(transacaoDTO);
     }
 
+    private void verificaHorarioExpedienteInicio(AgendamentoDTO agendamentoDTO,
+            Funcionario funcionario, ProfissionalAutonomo autonomo)
+            throws RegrasDeNegocioException {
+
+        int horasAgendamento = agendamentoDTO.getDataHora().getHour();
+        int minutosAgendamento = agendamentoDTO.getDataHora().getMinute();
+        LocalTime horaAgendamentoInicio = LocalTime.of(horasAgendamento, minutosAgendamento);
+
+        if (funcionario != null
+                && horaAgendamentoInicio.isBefore(funcionario.getHoraInicioExpediente())
+                || autonomo != null
+                        && horaAgendamentoInicio.isBefore(autonomo.getHoraInicioExpediente())) {
+            throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_EXPEDIENTE);
+        }
+    }
+
+    private void verificaHorarioExpedienteFim(AgendamentoDTO agendamentoDTO,
+            Funcionario funcionario, ProfissionalAutonomo autonomo)
+            throws RegrasDeNegocioException {
+
+        int horasAgendamentoFim = agendamentoDTO.getDataHoraFim().getHour();
+        int minutosAgendamentoFim = agendamentoDTO.getDataHoraFim().getMinute();
+        LocalTime horarioAgendamentoFim = LocalTime.of(horasAgendamentoFim, minutosAgendamentoFim);
+
+        if (funcionario != null && horarioAgendamentoFim.isAfter(funcionario.getHoraFimExpediente())
+                || autonomo != null
+                        && horarioAgendamentoFim.isAfter(autonomo.getHoraFimExpediente())) {
+            throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_EXPEDIENTE);
+        }
+    }
 }
