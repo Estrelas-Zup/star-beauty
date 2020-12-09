@@ -1,6 +1,7 @@
  package br.com.zup.estrelas.sb.controller;
 
 import java.util.List;
+import javax.annotation.security.DenyAll;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,6 @@ public class FormaPagamentoController {
     FormaPagamentoService formaPagamentoService;
 
     @ApiOperation(value = "Busca uma forma de pagamento")
-    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @GetMapping(path = "/{idFormaPagamento}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public FormaPagamento buscaFormaPagamento(@PathVariable Long idFormaPagamento) throws RegrasDeNegocioException {
         return formaPagamentoService.buscaFormaPagamento(idFormaPagamento);
@@ -45,6 +45,7 @@ public class FormaPagamentoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adiciona uma forma de pagamento")
+    @DenyAll
     @PostMapping
     public FormaPagamento adicionaFormaPagamento(
             @Valid @RequestBody FormaPagamentoDTO formaPagamentoDTO) throws RegrasDeNegocioException {
@@ -52,6 +53,7 @@ public class FormaPagamentoController {
     }
 
     @ApiOperation(value = "Altera uma forma de pagamento")
+    @DenyAll
     @PutMapping(path = "/{idFormaPagamento}")
     public FormaPagamento alteraFormaPagamento(@PathVariable Long idFormaPagamento,
             @Valid @RequestBody FormaPagamentoDTO alteraFormaPagamentoDTO) throws RegrasDeNegocioException {
@@ -60,6 +62,7 @@ public class FormaPagamentoController {
     }
 
     @ApiOperation(value = "Deleta uma forma de pagamento")
+    @DenyAll
     @DeleteMapping(path = "/{idFormaPagamento}")
     public MensagemDTO removeFormaPagamento(@PathVariable Long idFormaPagamento)
             throws RegrasDeNegocioException {
