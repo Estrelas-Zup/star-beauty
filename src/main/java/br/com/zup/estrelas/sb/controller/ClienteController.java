@@ -29,13 +29,14 @@ public class ClienteController {
     ClienteService clienteService;
 
     @ApiOperation(value = "Consulta um cliente")
+    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Cliente consultaCliente(@PathVariable Long idUsuario) throws RegrasDeNegocioException {
         return clienteService.consultaCliente(idUsuario);
     }
 
     @ApiOperation(value = "Lista todos os clientes")
-    @PreAuthorize("hasAuthority('cliente')")
+    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Cliente> listaClientes() {
         return clienteService.listaClientes();
@@ -43,6 +44,7 @@ public class ClienteController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Insere um cliente")
+    @PreAuthorize("hasAuthority('cliente')")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public Cliente insereCliente(@Valid @RequestBody ClienteDTO clienteDTO)
             throws RegrasDeNegocioException {
@@ -50,6 +52,7 @@ public class ClienteController {
     }
 
     @ApiOperation(value = "Altera informações de um cliente")
+    @PreAuthorize("hasAuthority('cliente')")
     @PutMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Cliente alteraCliente(@PathVariable Long idUsuario,
             @Valid @RequestBody ClienteDTO clienteDTO) throws RegrasDeNegocioException {
@@ -57,6 +60,7 @@ public class ClienteController {
     }
 
     @ApiOperation(value = "Inativa um cliente")
+    @PreAuthorize("hasAuthority('cliente')")
     @PutMapping(path = "/{idUsuario}/inativa")
     public Cliente inativaCliente(@PathVariable Long idUsuario,
             @Valid @RequestBody InativaClienteDTO inativaClienteDTO)
