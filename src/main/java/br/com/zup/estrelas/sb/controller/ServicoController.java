@@ -29,14 +29,12 @@ public class ServicoController {
     ServicoService servicoService;
 
     @ApiOperation(value = "Consulta serviço")
-    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo') or hasAuthority('cliente')")
     @GetMapping(path = "/{idServico}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Servico consultaServico(@PathVariable Long idServico) throws RegrasDeNegocioException {
         return servicoService.buscaServico(idServico);
     }
 
     @ApiOperation(value = "Lista todos os serviços")
-    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo') or hasAuthority('cliente')")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Servico> listarServicos() {
         return servicoService.listaServicos();

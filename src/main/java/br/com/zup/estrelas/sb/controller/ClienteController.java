@@ -29,7 +29,6 @@ public class ClienteController {
     ClienteService clienteService;
 
     @ApiOperation(value = "Consulta um cliente")
-    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @GetMapping(path = "/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Cliente consultaCliente(@PathVariable Long idUsuario) throws RegrasDeNegocioException {
         return clienteService.consultaCliente(idUsuario);

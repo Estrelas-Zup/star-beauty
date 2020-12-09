@@ -4,7 +4,6 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,6 @@ import br.com.zup.estrelas.sb.service.TransacaoService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
 @RequestMapping("/transacoes")
 public class TransacaoController {
 
