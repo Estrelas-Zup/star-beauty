@@ -20,7 +20,7 @@ public class AgendamentoServiceTests {
         
         Agendamento agendamento = new Agendamento();
         
-        Mockito.when(agendamentoRepository.findById(1L)).thenReturn(false);
+        //Mockito.when(agendamentoRepository.findById(1L)).thenReturn(false);
         
     }
 
