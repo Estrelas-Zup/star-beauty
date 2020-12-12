@@ -1,6 +1,7 @@
 package br.com.zup.estrelas.sb.dto;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -61,6 +62,28 @@ public class ProfissionalAutonomoDTO {
     private String email;
 
     private TipoUsuario tipoUsuario;
+
+    @NotNull(message = "O campo hora de início deve ser preenchido.")
+    private LocalTime horaInicioExpediente;
+
+    @NotNull(message = "O campo hora de término deve ser preenchido.")
+    private LocalTime horaFimExpediente;
+
+    public LocalTime getHoraInicioExpediente() {
+        return horaInicioExpediente;
+    }
+
+    public void setHoraInicioExpediente(LocalTime horaInicioExpediente) {
+        this.horaInicioExpediente = horaInicioExpediente;
+    }
+
+    public LocalTime getHoraFimExpediente() {
+        return horaFimExpediente;
+    }
+
+    public void setHoraFimExpediente(LocalTime horaFimExpediente) {
+        this.horaFimExpediente = horaFimExpediente;
+    }
 
     public String getLogin() {
         return login;

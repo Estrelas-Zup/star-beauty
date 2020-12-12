@@ -1,5 +1,6 @@
 package br.com.zup.estrelas.sb.dto;
 
+import java.time.LocalTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,6 +27,12 @@ public class FuncionarioDTO {
 
     @NotNull(message = "O campo id do salão precisa ser preenchido.")
     private Long idUsuario;
+
+    @NotNull(message = "O campo hora de início deve ser preenchido.")
+    private LocalTime horaInicioExpediente;
+
+    @NotNull(message = "O campo hora de término deve ser preenchido.")
+    private LocalTime horaFimExpediente;
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -67,6 +74,21 @@ public class FuncionarioDTO {
         this.horarioAlmoco = horarioAlmoco;
     }
 
+    public LocalTime getHoraInicioExpediente() {
+        return horaInicioExpediente;
+    }
+
+    public void setHoraInicioExpediente(LocalTime horaInicioExpediente) {
+        this.horaInicioExpediente = horaInicioExpediente;
+    }
+
+    public LocalTime getHoraFimExpediente() {
+        return horaFimExpediente;
+    }
+
+    public void setHoraFimExpediente(LocalTime horaFimExpediente) {
+        this.horaFimExpediente = horaFimExpediente;
+    }
 
 
 }

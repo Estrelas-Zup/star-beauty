@@ -1,15 +1,20 @@
 package br.com.zup.estrelas.sb.service;
 
 import java.time.LocalTime;
-import java.util.Optional;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Funcionario;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
 
+@RunWith(MockitoJUnitRunner.class)
 public class FuncionarioServiceTests {
     private static final String CADASTRO_REALIZADO_COM_SUCESSO = "CADASTRO REALIZADO COM SUCESSO!";
     private static final String FUNCIONARIO_JA_CADASTRADO = "FUNCIONÁRIO JÁ CADASTRADO";
@@ -24,28 +29,23 @@ public class FuncionarioServiceTests {
     @InjectMocks
     FuncionarioService funcionarioService;
 
-    public void deveInserirUmFuncionario() {
+    public void deveInserirUmFuncionario() throws RegrasDeNegocioException {
 
-        Funcionario funcionario = new Funcionario();
+        FuncionarioDTO funcionario = new FuncionarioDTO();
 
-        funcionario.setIdFuncionario(2L);
         funcionario.setNome("Dayana");
         funcionario.setCpf("34567865421");
         funcionario.setTelefone("982255600");
         funcionario.setHorarioAlmoco("12:00");
-
         funcionario.setHoraInicioExpediente(LocalTime.of(8, 00));
         funcionario.setHoraFimExpediente(LocalTime.of(18, 00));
-        funcionario.isAtivo();
 
         Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(false);
 
-        MensagemDTO mensagemRetornada = funcionarioService.insereFuncionario(funcionario);
-        MensagemDTO mensagemEsperada = new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
-
-        Assert.assertEquals("Funcionário deve cadastrado com sucesso", mensagemEsperada,
-                mensagemRetornada);
-
+        Funcionario funcionarioRetornado = funcionarioService.insereFuncionario(funcionario);
+        Funcionario funcionarioEsperado = funcionarioRepository.findById(2L).get(); 
+        
+        Assert.assertThat(funcionarioRetornado, samePropertyValuesAs(funcionarioEsperado));
     }
 
     @Test
