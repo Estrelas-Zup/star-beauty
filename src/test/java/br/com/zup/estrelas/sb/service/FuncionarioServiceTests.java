@@ -1,7 +1,6 @@
 package br.com.zup.estrelas.sb.service;
 
 import java.time.LocalTime;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -9,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
+import br.com.zup.estrelas.sb.dto.InativaFuncionarioDTO;
 import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
@@ -22,15 +21,69 @@ public class FuncionarioServiceTests {
             "FUNCIONÁRIO INATIVADO COM SUCESSO";
     private static final String FUNCIONARIO_INEXISTENTE = "FUNCIONARIO_INEXISTENTE";
 
-
     @Mock
     FuncionarioRepository funcionarioRepository;
 
     @InjectMocks
     FuncionarioService funcionarioService;
 
+    @Test
     public void deveInserirUmFuncionario() throws RegrasDeNegocioException {
 
+       FuncionarioDTO funcionario = this.criaFuncionarioDTO();
+
+        Mockito.when(funcionarioRepository.existsById(1L)).thenReturn(false);
+
+        Funcionario funcionarioRetornado = funcionarioService.insereFuncionario(funcionario);
+
+        Funcionario funcionarioEsperado = new Funcionario();
+        funcionarioEsperado = (Funcionario) Mockito.when(funcionarioRepository.findById(1L).get())
+                .thenReturn(funcionarioEsperado);
+
+       
+    }
+
+    @Test
+    public void naoDeveInserirUmFuncionario() throws RegrasDeNegocioException {
+
+        FuncionarioDTO funcionario = this.criaFuncionarioDTO();
+
+        Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(true);
+
+        Funcionario funcionarioRetornado = funcionarioService.insereFuncionario(funcionario);
+        Funcionario funcionarioEsperado = new Funcionario();
+
+       
+
+    }
+
+    @Test
+    public void deveInativarFuncionario() throws RegrasDeNegocioException {
+
+        InativaFuncionarioDTO funcionarioInativado = new InativaFuncionarioDTO();
+
+        Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(true);
+
+        Funcionario funcionarioRetornado = funcionarioService.inativaFuncionario(2L, funcionarioInativado);
+        Funcionario funcionarioEsperado = new Funcionario();
+
+       
+    }
+
+    @Test
+    public void naoDeveInativarFuncionario() throws RegrasDeNegocioException {
+
+        InativaFuncionarioDTO funcionarioInativado = new InativaFuncionarioDTO();
+
+        Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(false);
+
+        Funcionario funcionarioRetornado = funcionarioService.inativaFuncionario(2L, funcionarioInativado);
+        Funcionario funcionarioEsperado = new Funcionario();
+    }
+
+
+    private FuncionarioDTO criaFuncionarioDTO() {
+        
         FuncionarioDTO funcionario = new FuncionarioDTO();
 
         funcionario.setNome("Dayana");
@@ -39,68 +92,8 @@ public class FuncionarioServiceTests {
         funcionario.setHorarioAlmoco("12:00");
         funcionario.setHoraInicioExpediente(LocalTime.of(8, 00));
         funcionario.setHoraFimExpediente(LocalTime.of(18, 00));
-
-        Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(false);
-
-        Funcionario funcionarioRetornado = funcionarioService.insereFuncionario(funcionario);
-        Funcionario funcionarioEsperado = funcionarioRepository.findById(2L).get(); 
         
-        Assert.assertThat(funcionarioRetornado, samePropertyValuesAs(funcionarioEsperado));
+        return funcionario;
     }
-
-    @Test
-    public void naoDeveInserirUmFuncionario() {
-
-        Funcionario funcionario = new Funcionario();
-
-        funcionario.setIdFuncionario(2L);
-        funcionario.setNome("Dayana");
-        funcionario.setCpf("34567865421");
-        funcionario.setTelefone("982255600");
-        funcionario.setHorarioAlmoco("12:00");
-
-        funcionario.setHoraInicioExpediente(LocalTime.of(8, 00));
-        funcionario.setHoraFimExpediente(LocalTime.of(18, 00));
-        funcionario.isAtivo();
-
-        Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(true);
-
-        MensagemDTO mensagemRetornada = funcionarioService.insereFuncionario(funcionario);
-        MensagemDTO mensagemEsperada = new MensagemDTO(FUNCIONARIO_JA_CADASTRADO);
-
-        Assert.assertEquals("Não deve cadastrar um funcionário que já existe", mensagemEsperada,
-                mensagemRetornada);
-
-    }
-
-    @Test
-    public void deveInativarFuncionario() {
-
-        Funcionario funcionario = new Funcionario();
-
-        Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(true);
-
-        MensagemDTO mensagemRetornada = funcionarioService.inativaFuncionario(funcionario);
-        MensagemDTO mensagemEsperada = new MensagemDTO(FUNCIONARIO_INATIVADO_COM_SUCESSO);
-
-        Assert.assertEquals("Funcionário deve ser inativado com sucesso", mensagemEsperada,
-                mensagemRetornada);
-    }
-
-    @Test
-    public void naoDeveInativarFuncionario() {
-
-        Funcionario funcionario = new Funcionario();
-
-        Mockito.when(funcionarioRepository.existsById(2L)).thenReturn(false);
-
-        MensagemDTO mensagemRetornada = funcionarioService.inativaFuncionario(funcionario);
-        MensagemDTO mensagemEsperada = new MensagemDTO(FUNCIONARIO_INEXISTENTE);
-
-        Assert.assertEquals("Não deve inativar um funcionário inexistente", mensagemEsperada,
-                mensagemRetornada);
-    }
-
-
 
 }
