@@ -48,7 +48,7 @@ public class ClienteServiceTests {
     }
     
     @Test
-    public void naDeveInserirUmCliente() {
+    public void naoDeveInserirUmCliente() {
         
         Cliente cliente = new Cliente();
         
