@@ -14,7 +14,7 @@ public interface ProfissionalAutonomoService {
 
     public List<ProfissionalAutonomo> listaProfissionaisAutonomos();
 
-    public ProfissionalAutonomo adicionaProfissionalAutonomo(
+    public ProfissionalAutonomo insereProfissionalAutonomo(
             ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException;
 
     public ProfissionalAutonomo alteraProfissionalAutonomo(Long idUsuario,

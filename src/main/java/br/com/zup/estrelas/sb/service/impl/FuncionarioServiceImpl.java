@@ -27,10 +27,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private static final String FUNCIONARIO_INEXISTENTE = "FUNCIONÁRIO INEXISTENTE!";
     private static final String CPF_JÁ_EXISTE = "CPF JÁ EXISTE NO BANCO DE DADOS!";
     private static final String SERVICO_INEXISTENTE = "SERVIÇO INEXISTENTE!";
-    private static final String SERVICO_MARCADO_INATIVO = "O SERVICO ESTÁ MARCADO COMO INATIVO, ENTRE EM CONTATO COM SUPORTE!";
     private static final String NAO_FOI_POSSIVEL_ACHAR_FUNCIONARIO_PELO_ID = "NÃO FOI POSSÍVEL ACHAR O FUNIONÁRIO PELO ID  ";
-    private static final String SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO = "SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONÁRIO!";
-    
+    private static final String SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO =
+            "SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONÁRIO!";
+
     @Autowired
     FuncionarioRepository funcionarioRepository;
 
@@ -171,10 +171,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         Servico servico = servicoRepository.findById(adicionaServicoDTO.getIdServico()).get();
 
         List<Servico> servicos = funcionario.getServicos();
-
-        if (!servico.isAtivo()) {
-            throw new RegrasDeNegocioException(SERVICO_MARCADO_INATIVO);
-        }
 
         if (servicos.contains(servico)) {
             throw new RegrasDeNegocioException(SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO);

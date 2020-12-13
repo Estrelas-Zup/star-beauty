@@ -29,9 +29,6 @@ public class Servico {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_servico", nullable = false)
     private TipoServico tipoServico;
-    
-    @Column(nullable = false)
-    private boolean ativo;
 
     public Long getIdServico() {
         return idServico;
@@ -73,12 +70,50 @@ public class Servico {
         this.tipoServico = tipoServico;
     }
 
-    public boolean isAtivo() {
-        return ativo;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((duracao == null) ? 0 : duracao.hashCode());
+        result = prime * result + ((idServico == null) ? 0 : idServico.hashCode());
+        result = prime * result + ((nomeServico == null) ? 0 : nomeServico.hashCode());
+        result = prime * result + ((tipoServico == null) ? 0 : tipoServico.hashCode());
+        result = prime * result + ((valorServico == null) ? 0 : valorServico.hashCode());
+        return result;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Servico other = (Servico) obj;
+        if (duracao == null) {
+            if (other.duracao != null)
+                return false;
+        } else if (!duracao.equals(other.duracao))
+            return false;
+        if (idServico == null) {
+            if (other.idServico != null)
+                return false;
+        } else if (!idServico.equals(other.idServico))
+            return false;
+        if (nomeServico == null) {
+            if (other.nomeServico != null)
+                return false;
+        } else if (!nomeServico.equals(other.nomeServico))
+            return false;
+        if (tipoServico != other.tipoServico)
+            return false;
+        if (valorServico == null) {
+            if (other.valorServico != null)
+                return false;
+        } else if (!valorServico.equals(other.valorServico))
+            return false;
+        return true;
     }
 
 }
