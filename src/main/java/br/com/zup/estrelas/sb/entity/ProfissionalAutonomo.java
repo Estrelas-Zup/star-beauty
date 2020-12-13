@@ -90,4 +90,74 @@ public class ProfissionalAutonomo extends Usuario {
         this.formasPagamento = formasPagamento;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((agendamentos == null) ? 0 : agendamentos.hashCode());
+        result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+        result = prime * result + ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
+        result = prime * result + ((formasPagamento == null) ? 0 : formasPagamento.hashCode());
+        result = prime * result + ((horaFimExpediente == null) ? 0 : horaFimExpediente.hashCode());
+        result = prime * result
+                + ((horaInicioExpediente == null) ? 0 : horaInicioExpediente.hashCode());
+        result = prime * result + ((servicos == null) ? 0 : servicos.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProfissionalAutonomo other = (ProfissionalAutonomo) obj;
+        if (agendamentos == null) {
+            if (other.agendamentos != null)
+                return false;
+        } else if (!agendamentos.equals(other.agendamentos))
+            return false;
+        if (cpf == null) {
+            if (other.cpf != null)
+                return false;
+        } else if (!cpf.equals(other.cpf))
+            return false;
+        if (dataNascimento == null) {
+            if (other.dataNascimento != null)
+                return false;
+        } else if (!dataNascimento.equals(other.dataNascimento))
+            return false;
+        if (formasPagamento == null) {
+            if (other.formasPagamento != null)
+                return false;
+        } else if (!formasPagamento.equals(other.formasPagamento))
+            return false;
+        if (horaFimExpediente == null) {
+            if (other.horaFimExpediente != null)
+                return false;
+        } else if (!horaFimExpediente.equals(other.horaFimExpediente))
+            return false;
+        if (horaInicioExpediente == null) {
+            if (other.horaInicioExpediente != null)
+                return false;
+        } else if (!horaInicioExpediente.equals(other.horaInicioExpediente))
+            return false;
+        if (servicos == null) {
+            if (other.servicos != null)
+                return false;
+        } else if (!servicos.equals(other.servicos))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfissionalAutonomo [cpf=" + cpf + ", dataNascimento=" + dataNascimento
+                + ", horaInicioExpediente=" + horaInicioExpediente + ", horaFimExpediente="
+                + horaFimExpediente + ", servicos=" + servicos + ", agendamentos=" + agendamentos
+                + ", formasPagamento=" + formasPagamento + "]";
+    }
+
 }
