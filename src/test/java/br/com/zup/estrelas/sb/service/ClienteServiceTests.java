@@ -1,76 +1,158 @@
 package br.com.zup.estrelas.sb.service;
 
+import java.util.Optional;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.BeanUtils;
+import br.com.zup.estrelas.sb.dto.ClienteDTO;
+import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
+import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
+import br.com.zup.estrelas.sb.entity.Funcionario;
+import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.ClienteRepository;
+import br.com.zup.estrelas.sb.service.impl.ClienteServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClienteServiceTests {
-    private static final String CADASTRO_REALIZADO_COM_SUCESSO = "CADASTRO REALIZADO COM SUCESSO.";
-    private static final String CLIENTE_JA_CADASTRADO = "CLIENTE JA CADASTRADO.";
-    
+    private static final String CLIENTE_INEXISTENTE = "CLIENTE INEXISTENTE.";
+    private static final String CLIENTE_INATIVADO_COM_SUCESSO = "CLIENTE INATIVADO COM SUCESSO.";
+
     @Mock
     ClienteRepository clienteRepository;
-    
+
     @InjectMocks
-    ClienteService clienteService;
-    
+    ClienteServiceImpl clienteServiceImpl;
+
     @Test
-    public void deveInserirUmCliente() {
-        
-        Cliente cliente = new Cliente();
-        
-        cliente.setIdUsuario(1L);
-        cliente.setLogin("dayana@mail.com");
-        cliente.setSenha("blablabla");
-        cliente.setNome("Dayana");
-        cliente.setEndereco("Rua dos Abacates, 23");
-        cliente.setCep("08764789");
-        cliente.setEstado("SP");
-        cliente.setCidade("São Pualo");
-        cliente.setBairro("Jardim das flores");
-        cliente.setTelefone("98677-0987");
-        cliente.setEmail("dayana@mail.com");
-        cliente.isAtivo();
+    public void deveInserirUmCliente() throws RegrasDeNegocioException {
+
+        ClienteDTO clienteDTO = this.ClienteDTOFactory();
 
         Mockito.when(clienteRepository.existsById(1L)).thenReturn(false);
-        
-       // MensagemDTO mensagemRetornada = clienteService.insereCliente(cliente);
-        //MensagemDTO mensagemEsperada = new MensagemDTO(CADASTRO_REALIZADO_COM_SUCESSO);
-        
-       // Assert.assertEquals("Cliente deve ser cadastrado com sucesso",mensagemEsperada, mensagemRetornada);
-        
+
+        Cliente clienteRetornado = clienteServiceImpl.insereCliente(clienteDTO);
+        Cliente clienteEsperado = new Cliente();
+
+        BeanUtils.copyProperties(clienteDTO, clienteEsperado);
+        clienteEsperado.setIdUsuario(1L);
+        clienteEsperado.setAtivo(true);
+
+        Assert.assertEquals(clienteRetornado, clienteEsperado);
+
     }
-    
+
     @Test
-    public void naoDeveInserirUmCliente() {
-        
-        Cliente cliente = new Cliente();
-        
-        cliente.setIdUsuario(1L);
-        cliente.setLogin("dayana@mail.com");
-        cliente.setSenha("blablabla");
-        cliente.setNome("Dayana");
-        cliente.setEndereco("Rua dos Abacates, 23");
-        cliente.setCep("08764789");
-        cliente.setEstado("SP");
-        cliente.setCidade("São Pualo");
-        cliente.setBairro("Jardim das flores");
-        cliente.setTelefone("98677-0987");
-        cliente.setEmail("dayana@mail.com");
-        cliente.isAtivo();
+    public void naoDeveInserirUmCliente() throws RegrasDeNegocioException {
+
+        ClienteDTO clienteDTO = this.ClienteDTOFactory();
 
         Mockito.when(clienteRepository.existsById(1L)).thenReturn(true);
-        
-//        MensagemDTO mensagemRetornada = clienteService.insereCliente(cliente);
-//        MensagemDTO mensagemEsperada = new MensagemDTO(CLIENTE_JA_CADASTRADO);
-//        
-//        Assert.assertEquals("Não deve cadastrar um cliente que já existe",mensagemEsperada, mensagemRetornada);
-//        
+
+        Cliente clienteRetornado = clienteServiceImpl.insereCliente(clienteDTO);
+        Cliente clienteEsperado = new Cliente();
+
+        BeanUtils.copyProperties(clienteDTO, clienteEsperado);
+        clienteEsperado.setIdUsuario(1L);
+        clienteEsperado.setAtivo(true);
+
+        Assert.assertEquals(clienteRetornado, clienteEsperado);
     }
+
+    @Test
+    public void deveAlterarClienteComSucesso() {
+
+        ClienteDTO clienteDTO = this.ClienteDTOFactory();
+        Optional<Cliente> cliente = Optional.of(this.ClienteDTOFactory());
+
+        Mockito.when(clienteRepository.existsById(1L)).thenReturn(true);
+        Mockito.when(clienteRepository.findById(1L)).thenReturn(cliente);
+
+        Cliente clienteRetornado = clienteServiceImpl.alteraCliente(1L, clienteDTO);
+        Cliente clienteEsperado = new Cliente();
+
+        BeanUtils.copyProperties(clienteDTO, clienteEsperado);
+        clienteEsperado.setAtivo(true);
+        clienteRetornado.setIdUsuario(1L);
+
+        Assert.assertEquals(clienteRetornado, clienteEsperado);
+
+    }
+
+    @Test
+    public void naoDeveAlterarFuncionarioComSucesso() {
+
+        ClienteDTO clienteDTO = this.ClienteDTOFactory();
+
+        Mockito.when(clienteRepository.existsById(1L)).thenReturn(false);
+
+        String erroEsperado = CLIENTE_INEXISTENTE;
+        String erroRetornado = null;
+
+        try {
+            clienteServiceImpl.alteraCliente(1L, clienteDTO);
+        } catch (RegrasDeNegocioException e) {
+            erroRetornado = e.getMensagemErro();
+        }
+
+        Assert.assertEquals(erroEsperado, erroRetornado);
+    }
+
+    @Test
+    public void inativaClienteComSucesso() throws RegrasDeNegocioException {
+
+        Mockito.when(clienteRepository.existsById(1L)).thenReturn(true);
+
+        MensagemDTO mensagemRecebida = clienteServiceImpl.inativacliente(1L, clienteDTO);
+        MensagemDTO mensagemEsperada = new MensagemDTO(CLIENTE_INATIVADO_COM_SUCESSO);
+
+        Assert.assertEquals(mensagemRecebida, mensagemEsperada);
+
+    }
+
+    @Test
+    public void naoDeveInativarFuncionarioComSucesso() {
+
+        Mockito.when(clienteRepository.existsById(1L)).thenReturn(false);
+
+        String erroEsperado = CLIENTE_INEXISTENTE;
+        String erroRetornado = null;
+
+        try {
+            clienteServiceImpl.inativacliente(1L, clienteDTO);
+
+        } catch (RegrasDeNegocioException e) {
+
+            erroRetornado = e.getMensagemErro();
+        }
+
+        Assert.assertEquals(erroRetornado, erroEsperado);
+
+    }
+
+    private ClienteDTO ClienteDTOFactory() {
+
+        ClienteDTO clienteDTO = new ClienteDTO();
+
+        // clienteDTO.setIdUsuario(1L); -> Aqui fica uma dúvida de como colocar
+        clienteDTO.setLogin("dayana@mail.com");
+        clienteDTO.setSenha("blablabla");
+        clienteDTO.setNome("Dayana");
+        clienteDTO.setEndereco("Rua dos Abacates, 23");
+        clienteDTO.setCep("08764789");
+        clienteDTO.setEstado("SP");
+        clienteDTO.setCidade("São Pualo");
+        clienteDTO.setBairro("Jardim das flores");
+        clienteDTO.setTelefone("98677-0987");
+        clienteDTO.setEmail("dayana@mail.com");
+        // clienteDTO.isAtivo();
+
+        return clienteDTO;
+    }
+
 }
