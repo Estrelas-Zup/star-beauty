@@ -4,6 +4,7 @@ import static java.util.Objects.nonNull;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.ObjectError;
@@ -26,7 +27,8 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({BadCredentialsException.class, DisabledException.class,
-            IllegalArgumentException.class, ExpiredJwtException.class})
+            IllegalArgumentException.class, ExpiredJwtException.class, 
+            AccessDeniedException.class})
     public @ResponseBody ErrorDTO handleSecurityErrors(Exception e) {
         return new ErrorDTO(e.getMessage());
     }
