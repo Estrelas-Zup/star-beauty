@@ -23,7 +23,7 @@ public class SalaoDTO {
     private String endereco;
 
     @NotBlank(message = "O CEP não pode ser nulo")
-    @Size(min = 9, message = "O CEP deve conter no máximo 9 caracteres.")
+    @Size(min = 9, message = "O CEP deve conter no mínimo 9 caracteres.")
     private String cep;
 
     @NotBlank(message = "O Estado não pode ser nulo")

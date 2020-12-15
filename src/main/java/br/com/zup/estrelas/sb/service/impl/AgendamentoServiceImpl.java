@@ -116,6 +116,9 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         boolean verificaDisponibilidadeAutonomo =
                 agendamentoRepository.existsByAutonomoIdUsuarioAndDataHora(
                         agendamentoDTO.getIdProfissionalAutonomo(), agendamentoDTO.getDataHora());
+        
+        boolean verifica = 
+                agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHoraBetween(agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora(), agendamentoDTO.getDataHoraFim());
 
         if (verificaDisponibilidadeFuncionario || verificaDisponibilidadeAutonomo) {
             throw new RegrasDeNegocioException(HORÁRIO_DE_AGENDAMENTO_INDISPONÍVEL);
