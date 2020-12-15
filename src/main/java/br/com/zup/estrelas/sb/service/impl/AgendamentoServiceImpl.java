@@ -109,27 +109,22 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                     NÃO_É_POSSÍVEL_CRIAR_UM_AGENDAMENTO_PARA_UM_DIA_PASSADO);
         }
 
-        boolean verificaDisponibilidadeFuncionario =
-                agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHora(
-                        agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora());
+        if (agendamentoDTO.getDataHora().isAfter(agendamentoDTO.getDataHoraFim())) {
+            throw new RegrasDeNegocioException(A_DATA_HORA_TERMINO_POSTERIOR_A_DATA_HORA_INICÍO);
+        }
 
-        boolean verificaDisponibilidadeAutonomo =
-                agendamentoRepository.existsByAutonomoIdUsuarioAndDataHora(
-                        agendamentoDTO.getIdProfissionalAutonomo(), agendamentoDTO.getDataHora());
-        
-        boolean verifica = 
-                agendamentoRepository.existsByFuncionarioIdFuncionarioAndDataHoraBetween(agendamentoDTO.getIdFuncionario(), agendamentoDTO.getDataHora(), agendamentoDTO.getDataHoraFim());
+        boolean verificaDisponibilidadeFuncionario =
+                agendamentoRepository.existsByFuncionarioAgenda(agendamentoDTO.getIdFuncionario(),
+                        agendamentoDTO.getDataHora(), agendamentoDTO.getDataHoraFim());
+
+        boolean verificaDisponibilidadeAutonomo = agendamentoRepository.existsByAutonomoAgenda(
+                agendamentoDTO.getIdProfissionalAutonomo(), agendamentoDTO.getDataHora(),
+                agendamentoDTO.getDataHoraFim());
 
         if (verificaDisponibilidadeFuncionario || verificaDisponibilidadeAutonomo) {
             throw new RegrasDeNegocioException(HORÁRIO_DE_AGENDAMENTO_INDISPONÍVEL);
         }
 
-        if (agendamentoDTO.getDataHora().isAfter(agendamentoDTO.getDataHoraFim())) {
-            throw new RegrasDeNegocioException(A_DATA_HORA_TERMINO_POSTERIOR_A_DATA_HORA_INICÍO);
-        }
-
-        // verificar a disponibilidade na agenda para o tempo de execução do servico, se não
-        // inflinge outro agendamento!
 
         return this.criaAgendamdentoComSucesso(agendamentoDTO);
     }
