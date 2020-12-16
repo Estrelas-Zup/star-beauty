@@ -28,6 +28,7 @@ public class Cliente extends Usuario {
         this.cpf = cpf;
     }
 
+
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
@@ -42,6 +43,12 @@ public class Cliente extends Usuario {
 
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente [cpf=" + cpf + ", dataNascimento=" + dataNascimento + ", agendamentos="
+                + agendamentos + "]";
     }
 
 }

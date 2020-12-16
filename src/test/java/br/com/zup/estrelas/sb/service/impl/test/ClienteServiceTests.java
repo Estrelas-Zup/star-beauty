@@ -1,19 +1,21 @@
-package br.com.zup.estrelas.sb.service;
+package br.com.zup.estrelas.sb.service.impl.test;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Optional;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
-import br.com.zup.estrelas.sb.dto.FuncionarioDTO;
 import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
-import br.com.zup.estrelas.sb.entity.Funcionario;
+import br.com.zup.estrelas.sb.enums.TipoUsuario;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.ClienteRepository;
 import br.com.zup.estrelas.sb.service.impl.ClienteServiceImpl;
@@ -25,6 +27,9 @@ public class ClienteServiceTests {
 
     @Mock
     ClienteRepository clienteRepository;
+    
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @InjectMocks
     ClienteServiceImpl clienteServiceImpl;
@@ -34,16 +39,19 @@ public class ClienteServiceTests {
 
         ClienteDTO clienteDTO = this.ClienteDTOFactory();
 
-        Mockito.when(clienteRepository.existsById(1L)).thenReturn(false);
+        Mockito.when(clienteRepository.existsByCpf(clienteDTO.getCpf())).thenReturn(false);
 
         Cliente clienteRetornado = clienteServiceImpl.insereCliente(clienteDTO);
         Cliente clienteEsperado = new Cliente();
 
         BeanUtils.copyProperties(clienteDTO, clienteEsperado);
-        clienteEsperado.setIdUsuario(1L);
         clienteEsperado.setAtivo(true);
+        clienteEsperado.setAgendamentos(Collections.emptyList());
+        
+        System.out.println(clienteRetornado.getSenha());
+        System.out.println(clienteEsperado.getSenha());
 
-        Assert.assertEquals(clienteRetornado, clienteEsperado);
+        Assert.assertEquals(clienteEsperado, clienteRetornado);
 
     }
 
@@ -65,10 +73,10 @@ public class ClienteServiceTests {
     }
 
     @Test
-    public void deveAlterarClienteComSucesso() {
+    public void deveAlterarClienteComSucesso() throws RegrasDeNegocioException {
 
         ClienteDTO clienteDTO = this.ClienteDTOFactory();
-        Optional<Cliente> cliente = Optional.of(this.ClienteDTOFactory());
+        Optional<Cliente> cliente = Optional.of(this.clienteFactory());
 
         Mockito.when(clienteRepository.existsById(1L)).thenReturn(true);
         Mockito.when(clienteRepository.findById(1L)).thenReturn(cliente);
@@ -139,7 +147,6 @@ public class ClienteServiceTests {
 
         ClienteDTO clienteDTO = new ClienteDTO();
 
-        // clienteDTO.setIdUsuario(1L); -> Aqui fica uma dúvida de como colocar
         clienteDTO.setLogin("dayana@mail.com");
         clienteDTO.setSenha("blablabla");
         clienteDTO.setNome("Dayana");
@@ -150,9 +157,36 @@ public class ClienteServiceTests {
         clienteDTO.setBairro("Jardim das flores");
         clienteDTO.setTelefone("98677-0987");
         clienteDTO.setEmail("dayana@mail.com");
-        // clienteDTO.isAtivo();
+        clienteDTO.setTipoUsuario(TipoUsuario.CLIENTE);
+        clienteDTO.setCpf("684.129.000-30");
+        clienteDTO.setDataNascimento(LocalDate.of(1987, 04, 02));
 
         return clienteDTO;
+    }
+    
+    private Cliente clienteFactory() {
+        
+        Cliente cliente = new Cliente();
+        
+        cliente.setIdUsuario(1L); 
+        cliente.setLogin("dayana@mail.com");
+        cliente.setSenha("blablabla");
+        cliente.setNome("Dayana");
+        cliente.setEndereco("Rua dos Abacates, 23");
+        cliente.setCep("08764789");
+        cliente.setEstado("SP");
+        cliente.setCidade("São Pualo");
+        cliente.setBairro("Jardim das flores");
+        cliente.setTelefone("98677-0987");
+        cliente.setEmail("dayana@mail.com");
+        cliente.isAtivo();
+        cliente.setTipoUsuario(TipoUsuario.CLIENTE);
+        cliente.setCpf("995.396.170-06");
+        cliente.setDataNascimento(LocalDate.of(1987, 04, 02));
+        cliente.setAgendamentos(Collections.emptyList());
+        
+        return cliente;
+        
     }
 
 }

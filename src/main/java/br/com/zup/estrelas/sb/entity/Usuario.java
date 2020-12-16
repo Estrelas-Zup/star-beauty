@@ -161,4 +161,12 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
+    @Override
+    public String toString() {
+        return "Usuario [idUsuario=" + idUsuario + ", login=" + login + ", senha=" + senha
+                + ", nome=" + nome + ", endereco=" + endereco + ", cep=" + cep + ", estado="
+                + estado + ", cidade=" + cidade + ", bairro=" + bairro + ", telefone=" + telefone
+                + ", email=" + email + ", ativo=" + ativo + ", tipoUsuario=" + tipoUsuario + "]";
+    }
+
 }
