@@ -77,7 +77,6 @@ public class SalaoServiceImplTests {
 
         String erroEsperado = SALAO_JA_POSSUI_CADASTRO;
         String erroRetornado = null;
-
         try {
             salaoServiceImpl.adicionaSalao(salaoDTO);
         } catch (RegrasDeNegocioException e) {
