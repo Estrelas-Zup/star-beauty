@@ -11,16 +11,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import br.com.zup.estrelas.sb.entity.Agendamento;
 import br.com.zup.estrelas.sb.entity.Cliente;
+import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.entity.Funcionario;
 import br.com.zup.estrelas.sb.entity.ProfissionalAutonomo;
 import br.com.zup.estrelas.sb.entity.Salao;
+import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
+import br.com.zup.estrelas.sb.enums.TipoServico;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 import br.com.zup.estrelas.sb.repository.AgendamentoRepository;
 import br.com.zup.estrelas.sb.repository.ClienteRepository;
+import br.com.zup.estrelas.sb.repository.FormaPagamentoRepository;
 import br.com.zup.estrelas.sb.repository.FuncionarioRepository;
 import br.com.zup.estrelas.sb.repository.ProfissionalAutonomoRepository;
 import br.com.zup.estrelas.sb.repository.SalaoRepository;
+import br.com.zup.estrelas.sb.repository.ServicoRepository;
 
 @Component
 public class DatabaseSeeder {
@@ -41,6 +46,12 @@ public class DatabaseSeeder {
     AgendamentoRepository agendamentoRepository;
 
     @Autowired
+    FormaPagamentoRepository formaPagamentoRepository;
+
+    @Autowired
+    ServicoRepository servicoRepository;
+
+    @Autowired
     PasswordEncoder encoder;
 
     @EventListener
@@ -51,6 +62,8 @@ public class DatabaseSeeder {
         this.seedSalao();
         this.seedProfissionalAutonomo();
         this.seedAgendamento();
+        this.seedFormaPagamento();
+        this.seedServico();
     }
 
     public void seedClientes() {
@@ -170,5 +183,28 @@ public class DatabaseSeeder {
 
     }
 
+    public void seedFormaPagamento() {
+
+        FormaPagamento novaFormaPagamento = new FormaPagamento();
+
+        novaFormaPagamento.setTipoPagamento(TipoPagamento.DINHEIRO);
+
+        formaPagamentoRepository.save(novaFormaPagamento);
+
+    }
+
+    public void seedServico() {
+
+        Servico novoServico = new Servico();
+
+        novoServico.setAtivo(true);
+        novoServico.setDuracao("2 horas");
+        novoServico.setNomeServico("Depilação");
+        novoServico.setTipoServico(TipoServico.DEPILACAO);
+        novoServico.setValorServico(80.00);
+
+        servicoRepository.save(novoServico);
+
+    }
 
 }
