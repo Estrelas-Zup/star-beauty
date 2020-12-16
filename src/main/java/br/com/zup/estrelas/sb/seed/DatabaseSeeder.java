@@ -3,7 +3,8 @@ package br.com.zup.estrelas.sb.seed;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
+import java.util.List;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -29,6 +30,15 @@ import br.com.zup.estrelas.sb.repository.ServicoRepository;
 
 @Component
 public class DatabaseSeeder {
+
+    private Cliente cliente;
+    private List<Funcionario> funcionarios;
+    private Salao salao;
+    private ProfissionalAutonomo profissionalAutonomo;
+    private List<Agendamento> agendamentos;
+    private List<FormaPagamento> formasPagamento;
+    private List<Servico> servicos;
+    private Servico servico;
 
     @Autowired
     ClienteRepository clienteRepository;
@@ -71,7 +81,7 @@ public class DatabaseSeeder {
         Cliente novoCliente = new Cliente();
 
         novoCliente.setNome("Dayana");
-        novoCliente.setAgendamentos(Collections.emptyList());
+        novoCliente.setAgendamentos(agendamentos);
         novoCliente.setAtivo(true);
         novoCliente.setBairro("Jardim Europa");
         novoCliente.setCep("9876664");
@@ -86,11 +96,13 @@ public class DatabaseSeeder {
         novoCliente.setTelefone("987659876");
         novoCliente.setTipoUsuario(TipoUsuario.CLIENTE);
 
+        BeanUtils.copyProperties(novoCliente, cliente);
+
         clienteRepository.save(novoCliente);
 
     }
 
-    public Salao seedSalao() {
+    public void seedSalao() {
 
         Salao novoSalao = new Salao();
 
@@ -102,8 +114,8 @@ public class DatabaseSeeder {
         novoSalao.setEmail("salao@mail.com");
         novoSalao.setEndereco("Avenida Dos Abacatees, 1250");
         novoSalao.setEstado("SP");
-        novoSalao.setFormasPagamento(Collections.emptyList());
-        novoSalao.setFuncionarios(Collections.emptyList()); // preciso passar um funcionário?
+        novoSalao.setFormasPagamento(formasPagamento);
+        novoSalao.setFuncionarios(funcionarios);
         novoSalao.setLogin("salao@mail.com");
         novoSalao.setNome("Beleza Natural");
         novoSalao.setNomeFantasia("Star Beauty");
@@ -111,25 +123,28 @@ public class DatabaseSeeder {
         novoSalao.setTelefone("987647374");
         novoSalao.setTipoUsuario(TipoUsuario.SALAO);
 
+        BeanUtils.copyProperties(novoSalao, salao);
+
         salaoRepository.save(novoSalao);
 
-        return novoSalao;
     }
 
     public void seedFuncionarios() {
 
         Funcionario novoFuncionario = new Funcionario();
 
-        novoFuncionario.setAgendamentos(Collections.emptyList());
+        novoFuncionario.setAgendamentos(agendamentos);
         novoFuncionario.setAtivo(true);
         novoFuncionario.setCpf("35122671818");
         novoFuncionario.setHoraInicioExpediente(LocalTime.of(8, 00));
         novoFuncionario.setHoraFimExpediente(LocalTime.of(18, 00));
         novoFuncionario.setHorarioAlmoco("12h às 13h");
         novoFuncionario.setNome("Dayana");
-        novoFuncionario.setSalao(this.seedSalao()); // preciso realmente mandar um salão aqui
-        novoFuncionario.setServicos(Collections.emptyList());
+        novoFuncionario.setSalao(salao);
+        novoFuncionario.setServicos(servicos);
         novoFuncionario.setTelefone("9876354788");
+
+        funcionarios.add(novoFuncionario);
 
         funcionarioRepository.save(novoFuncionario);
 
@@ -139,7 +154,7 @@ public class DatabaseSeeder {
 
         ProfissionalAutonomo novoAutonomo = new ProfissionalAutonomo();
 
-        novoAutonomo.setAgendamentos(Collections.emptyList());
+        novoAutonomo.setAgendamentos(agendamentos);
         novoAutonomo.setAtivo(true);
         novoAutonomo.setBairro("Vila Nova Conceição");
         novoAutonomo.setCep("09876776");
@@ -154,10 +169,12 @@ public class DatabaseSeeder {
         novoAutonomo.setLogin("profissa@mail.com");
         novoAutonomo.setNome("Fabiana");
         novoAutonomo.setSenha(encoder.encode("iupi98574"));
-        novoAutonomo.setServicos(Collections.emptyList());
+        novoAutonomo.setServicos(servicos);
         novoAutonomo.setTelefone("987469857");
         novoAutonomo.setTipoUsuario(TipoUsuario.AUTONOMO);
-        novoAutonomo.setFormasPagamento(Collections.emptyList());
+        novoAutonomo.setFormasPagamento(formasPagamento);
+
+        BeanUtils.copyProperties(novoAutonomo, profissionalAutonomo);
 
         profissionalAutonomoRepository.save(novoAutonomo);
 
@@ -167,17 +184,19 @@ public class DatabaseSeeder {
 
         Agendamento novoAgendamento = new Agendamento();
 
-        novoAgendamento.setAutonomo(null);
+        novoAgendamento.setAutonomo(profissionalAutonomo);
         novoAgendamento.setCancelado(false);
-        novoAgendamento.setCliente(null);
+        novoAgendamento.setCliente(cliente);
         novoAgendamento.setDataHora(LocalDateTime.of(2020, 12, 14, 14, 00));
         novoAgendamento.setDataHoraFim(LocalDateTime.of(2020, 12, 14, 15, 00));
         novoAgendamento.setFuncionario(null);
         novoAgendamento.setNomeCliente("Elias");
         novoAgendamento.setNomeServico("Corte");
         novoAgendamento.setRealizado(true);
-        novoAgendamento.setServico(null);
+        novoAgendamento.setServico(servico);
         novoAgendamento.setTipoPagamento(TipoPagamento.DINHEIRO);
+
+        agendamentos.add(novoAgendamento);
 
         agendamentoRepository.save(novoAgendamento);
 
@@ -188,6 +207,8 @@ public class DatabaseSeeder {
         FormaPagamento novaFormaPagamento = new FormaPagamento();
 
         novaFormaPagamento.setTipoPagamento(TipoPagamento.DINHEIRO);
+
+        formasPagamento.add(novaFormaPagamento);
 
         formaPagamentoRepository.save(novaFormaPagamento);
 
@@ -202,6 +223,10 @@ public class DatabaseSeeder {
         novoServico.setNomeServico("Depilação");
         novoServico.setTipoServico(TipoServico.DEPILACAO);
         novoServico.setValorServico(80.00);
+
+        servicos.add(novoServico);
+
+        BeanUtils.copyProperties(novoServico, servico);
 
         servicoRepository.save(novoServico);
 
