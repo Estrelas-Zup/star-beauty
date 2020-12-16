@@ -45,10 +45,41 @@ public class Cliente extends Usuario {
         this.agendamentos = agendamentos;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente [cpf=" + cpf + ", dataNascimento=" + dataNascimento + ", agendamentos="
-                + agendamentos + "]";
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((agendamentos == null) ? 0 : agendamentos.hashCode());
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (agendamentos == null) {
+			if (other.agendamentos != null)
+				return false;
+		} else if (!agendamentos.equals(other.agendamentos))
+			return false;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
+		if (dataNascimento == null) {
+			if (other.dataNascimento != null)
+				return false;
+		} else if (!dataNascimento.equals(other.dataNascimento))
+			return false;
+		return true;
+	}
 
 }

@@ -3,6 +3,7 @@ package br.com.zup.estrelas.sb.service.impl.test;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
-import br.com.zup.estrelas.sb.dto.MensagemDTO;
+import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
@@ -22,171 +24,198 @@ import br.com.zup.estrelas.sb.service.impl.ClienteServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClienteServiceTests {
-    private static final String CLIENTE_INEXISTENTE = "CLIENTE INEXISTENTE.";
-    private static final String CLIENTE_INATIVADO_COM_SUCESSO = "CLIENTE INATIVADO COM SUCESSO.";
 
-    @Mock
-    ClienteRepository clienteRepository;
-    
-    @Mock
-    PasswordEncoder passwordEncoder;
+	private static final String CPF_JA_EXISTE = "A ALTERAÇÃO NÃO É POSSÍVEL, POIS JÁ EXISTE OUTRO CLIENTE COM O CPF INFORMADO!";
+	private static final String CLIENTE_INEXISTENTE = "CLIENTE INEXISTENTE!";
+	private static final String CLIENTE_JA_CADASTRADO = "CLIENTE JÁ CADASTRADO!";
 
-    @InjectMocks
-    ClienteServiceImpl clienteServiceImpl;
+	@Mock
+	ClienteRepository clienteRepository;
 
-    @Test
-    public void deveInserirUmCliente() throws RegrasDeNegocioException {
+	@Mock
+	PasswordEncoder passwordEncoder;
 
-        ClienteDTO clienteDTO = this.ClienteDTOFactory();
+	@InjectMocks
+	ClienteServiceImpl clienteServiceImpl;
 
-        Mockito.when(clienteRepository.existsByCpf(clienteDTO.getCpf())).thenReturn(false);
+	@Test
+	public void insereDeveInserirUmCliente() throws RegrasDeNegocioException {
 
-        Cliente clienteRetornado = clienteServiceImpl.insereCliente(clienteDTO);
-        Cliente clienteEsperado = new Cliente();
+		ClienteDTO clienteDTO = this.ClienteDTOFactory();
 
-        BeanUtils.copyProperties(clienteDTO, clienteEsperado);
-        clienteEsperado.setAtivo(true);
-        clienteEsperado.setAgendamentos(Collections.emptyList());
-        
-        System.out.println(clienteRetornado.getSenha());
-        System.out.println(clienteEsperado.getSenha());
+		Mockito.when(clienteRepository.existsByCpf(clienteDTO.getCpf())).thenReturn(false);
 
-        Assert.assertEquals(clienteEsperado, clienteRetornado);
+		Cliente clienteRetornado = clienteServiceImpl.insereCliente(clienteDTO);
+		Cliente clienteEsperado = new Cliente();
 
-    }
+		BeanUtils.copyProperties(clienteDTO, clienteEsperado);
+		clienteEsperado.setAtivo(true);
+		clienteEsperado.setAgendamentos(Collections.emptyList());
 
-    @Test
-    public void naoDeveInserirUmCliente() throws RegrasDeNegocioException {
+		Assert.assertEquals(clienteEsperado, clienteRetornado);
 
-        ClienteDTO clienteDTO = this.ClienteDTOFactory();
+	}
 
-        Mockito.when(clienteRepository.existsById(1L)).thenReturn(true);
+	@Test
+	public void insereNaoDeveInserirUmCliente() {
 
-        Cliente clienteRetornado = clienteServiceImpl.insereCliente(clienteDTO);
-        Cliente clienteEsperado = new Cliente();
+		ClienteDTO clienteDTO = this.ClienteDTOFactory();
 
-        BeanUtils.copyProperties(clienteDTO, clienteEsperado);
-        clienteEsperado.setIdUsuario(1L);
-        clienteEsperado.setAtivo(true);
+		Mockito.when(clienteRepository.existsByCpf(clienteDTO.getCpf())).thenReturn(true);
 
-        Assert.assertEquals(clienteRetornado, clienteEsperado);
-    }
+		String erroEsperado = CLIENTE_JA_CADASTRADO;
+		String erroRetornado = null;
 
-    @Test
-    public void deveAlterarClienteComSucesso() throws RegrasDeNegocioException {
+		try {
+			clienteServiceImpl.insereCliente(clienteDTO);
+		} catch (RegrasDeNegocioException e) {
+			erroRetornado = e.getMensagemErro();
+		}
 
-        ClienteDTO clienteDTO = this.ClienteDTOFactory();
-        Optional<Cliente> cliente = Optional.of(this.clienteFactory());
+		Assert.assertEquals(erroEsperado, erroRetornado);
+	}
 
-        Mockito.when(clienteRepository.existsById(1L)).thenReturn(true);
-        Mockito.when(clienteRepository.findById(1L)).thenReturn(cliente);
+	@Test
+	public void alteraDeveAlterarClienteComSucesso() throws RegrasDeNegocioException {
 
-        Cliente clienteRetornado = clienteServiceImpl.alteraCliente(1L, clienteDTO);
-        Cliente clienteEsperado = new Cliente();
+		ClienteDTO clienteDTO = this.ClienteDTOFactory();
+		Optional<Cliente> cliente = Optional.of(this.clienteFactory());
 
-        BeanUtils.copyProperties(clienteDTO, clienteEsperado);
-        clienteEsperado.setAtivo(true);
-        clienteRetornado.setIdUsuario(1L);
+		Mockito.when(clienteRepository.findById(1L)).thenReturn(cliente);
 
-        Assert.assertEquals(clienteRetornado, clienteEsperado);
+		Cliente clienteRetornado = clienteServiceImpl.alteraCliente(1L, clienteDTO);
+		Cliente clienteEsperado = new Cliente();
 
-    }
+		BeanUtils.copyProperties(cliente.get(), clienteEsperado);
 
-    @Test
-    public void naoDeveAlterarFuncionarioComSucesso() {
+		Assert.assertEquals(clienteRetornado, clienteEsperado);
 
-        ClienteDTO clienteDTO = this.ClienteDTOFactory();
+	}
 
-        Mockito.when(clienteRepository.existsById(1L)).thenReturn(false);
+	@Test
+	public void alteraNaoDeveAlterarFuncionarioComSucessoCasoNaoExista() {
 
-        String erroEsperado = CLIENTE_INEXISTENTE;
-        String erroRetornado = null;
+		ClienteDTO clienteDTO = this.ClienteDTOFactory();
 
-        try {
-            clienteServiceImpl.alteraCliente(1L, clienteDTO);
-        } catch (RegrasDeNegocioException e) {
-            erroRetornado = e.getMensagemErro();
-        }
+		String erroEsperado = CLIENTE_INEXISTENTE;
+		String erroRetornado = null;
 
-        Assert.assertEquals(erroEsperado, erroRetornado);
-    }
+		try {
+			clienteServiceImpl.alteraCliente(1L, clienteDTO);
+		} catch (RegrasDeNegocioException e) {
+			erroRetornado = e.getMensagemErro();
+		}
+		
+		Assert.assertEquals(erroEsperado, erroRetornado);
+	}
 
-    @Test
-    public void inativaClienteComSucesso() throws RegrasDeNegocioException {
+	@Test
+	public void alteraNaoDeveAlterarClienteComSucessoCasoCpfSejaIgual() {
 
-        Mockito.when(clienteRepository.existsById(1L)).thenReturn(true);
+		ClienteDTO clienteDTO = this.ClienteDTOFactory();
 
-        MensagemDTO mensagemRecebida = clienteServiceImpl.inativacliente(1L, clienteDTO);
-        MensagemDTO mensagemEsperada = new MensagemDTO(CLIENTE_INATIVADO_COM_SUCESSO);
+		Optional<Cliente> cliente = Optional.of(this.clienteFactory());
 
-        Assert.assertEquals(mensagemRecebida, mensagemEsperada);
+		Mockito.when(clienteRepository.findById(1L)).thenReturn(cliente);
 
-    }
+		Assert.assertFalse(clienteDTO.getCpf().equals(cliente.get().getCpf()));
 
-    @Test
-    public void naoDeveInativarFuncionarioComSucesso() {
+		Mockito.when(clienteRepository.existsByCpf(clienteDTO.getCpf())).thenReturn(true);
 
-        Mockito.when(clienteRepository.existsById(1L)).thenReturn(false);
+		String erroEsperado = CPF_JA_EXISTE;
+		String erroRetornado = null;
 
-        String erroEsperado = CLIENTE_INEXISTENTE;
-        String erroRetornado = null;
+		try {
+			clienteServiceImpl.alteraCliente(1L, clienteDTO);
+		} catch (RegrasDeNegocioException e) {
+			erroRetornado = e.getMensagemErro();
+		}
 
-        try {
-            clienteServiceImpl.inativacliente(1L, clienteDTO);
+		Assert.assertEquals(erroEsperado, erroRetornado);
 
-        } catch (RegrasDeNegocioException e) {
+	}
 
-            erroRetornado = e.getMensagemErro();
-        }
+	@Test
+	public void inativaDeveInativarClienteComSucesso() throws RegrasDeNegocioException {
 
-        Assert.assertEquals(erroRetornado, erroEsperado);
+		InativaClienteDTO inativaClienteDTO = new InativaClienteDTO();
+		inativaClienteDTO.setAtivo(false);
 
-    }
+		Optional<Cliente> cliente = Optional.of(this.clienteFactory());
 
-    private ClienteDTO ClienteDTOFactory() {
+		Mockito.when(clienteRepository.findById(1L)).thenReturn(cliente);
+		Cliente clienteRetornado = clienteServiceImpl.inativaCliente(1L, inativaClienteDTO);
+		Cliente clienteEsperado = new Cliente();
 
-        ClienteDTO clienteDTO = new ClienteDTO();
+		BeanUtils.copyProperties(cliente.get(), clienteEsperado);
+		clienteEsperado.setAtivo(inativaClienteDTO.isAtivo());
 
-        clienteDTO.setLogin("dayana@mail.com");
-        clienteDTO.setSenha("blablabla");
-        clienteDTO.setNome("Dayana");
-        clienteDTO.setEndereco("Rua dos Abacates, 23");
-        clienteDTO.setCep("08764789");
-        clienteDTO.setEstado("SP");
-        clienteDTO.setCidade("São Pualo");
-        clienteDTO.setBairro("Jardim das flores");
-        clienteDTO.setTelefone("98677-0987");
-        clienteDTO.setEmail("dayana@mail.com");
-        clienteDTO.setTipoUsuario(TipoUsuario.CLIENTE);
-        clienteDTO.setCpf("684.129.000-30");
-        clienteDTO.setDataNascimento(LocalDate.of(1987, 04, 02));
+		Assert.assertEquals(clienteEsperado, clienteRetornado);
 
-        return clienteDTO;
-    }
-    
-    private Cliente clienteFactory() {
-        
-        Cliente cliente = new Cliente();
-        
-        cliente.setIdUsuario(1L); 
-        cliente.setLogin("dayana@mail.com");
-        cliente.setSenha("blablabla");
-        cliente.setNome("Dayana");
-        cliente.setEndereco("Rua dos Abacates, 23");
-        cliente.setCep("08764789");
-        cliente.setEstado("SP");
-        cliente.setCidade("São Pualo");
-        cliente.setBairro("Jardim das flores");
-        cliente.setTelefone("98677-0987");
-        cliente.setEmail("dayana@mail.com");
-        cliente.isAtivo();
-        cliente.setTipoUsuario(TipoUsuario.CLIENTE);
-        cliente.setCpf("995.396.170-06");
-        cliente.setDataNascimento(LocalDate.of(1987, 04, 02));
-        cliente.setAgendamentos(Collections.emptyList());
-        
-        return cliente;
-        
-    }
+	}
+
+	@Test
+	public void inativaNaoDeveInativarClienteComSucessoCasoNaoExista() {
+
+		InativaClienteDTO inativaClienteDTO = new InativaClienteDTO();
+		inativaClienteDTO.setAtivo(false);
+
+		String erroEsperado = CLIENTE_INEXISTENTE;
+		String erroRetornado = null;
+		
+		try {
+			clienteServiceImpl.inativaCliente(1L, inativaClienteDTO);
+		} catch (RegrasDeNegocioException e) {
+			erroRetornado = e.getMensagemErro();
+		}
+
+		Assert.assertEquals(erroEsperado, erroRetornado);
+	}
+
+	private ClienteDTO ClienteDTOFactory() {
+
+		ClienteDTO clienteDTO = new ClienteDTO();
+
+		clienteDTO.setLogin("dayana@mail.com");
+		clienteDTO.setSenha(passwordEncoder.encode("blablabla"));
+		clienteDTO.setNome("Dayana");
+		clienteDTO.setEndereco("Rua dos Abacates, 23");
+		clienteDTO.setCep("08764789");
+		clienteDTO.setEstado("SP");
+		clienteDTO.setCidade("São Pualo");
+		clienteDTO.setBairro("Jardim das flores");
+		clienteDTO.setTelefone("98677-0987");
+		clienteDTO.setEmail("dayana@mail.com");
+		clienteDTO.setTipoUsuario(TipoUsuario.CLIENTE);
+		clienteDTO.setCpf("684.129.000-30");
+		clienteDTO.setDataNascimento(LocalDate.of(1987, 04, 02));
+
+		return clienteDTO;
+	}
+
+	private Cliente clienteFactory() {
+
+		Cliente cliente = new Cliente();
+
+		cliente.setIdUsuario(1L);
+		cliente.setLogin("dayana@mail.com");
+		cliente.setSenha("blablabla");
+		cliente.setNome("Dayana");
+		cliente.setEndereco("Rua dos Abacates, 23");
+		cliente.setCep("08764789");
+		cliente.setEstado("SP");
+		cliente.setCidade("São Pualo");
+		cliente.setBairro("Jardim das flores");
+		cliente.setTelefone("98677-0987");
+		cliente.setEmail("dayana@mail.com");
+		cliente.isAtivo();
+		cliente.setTipoUsuario(TipoUsuario.CLIENTE);
+		cliente.setCpf("995.396.170-06");
+		cliente.setDataNascimento(LocalDate.of(1987, 04, 02));
+		cliente.setAgendamentos(Collections.emptyList());
+
+		return cliente;
+
+	}
 
 }

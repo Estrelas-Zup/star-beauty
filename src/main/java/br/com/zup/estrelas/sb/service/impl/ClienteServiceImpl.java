@@ -17,7 +17,7 @@ import br.com.zup.estrelas.sb.service.ClienteService;
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
-    private static final String ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE =
+    private static final String CPF_JA_EXISTE =
             "A ALTERAÇÃO NÃO É POSSÍVEL, POIS JÁ EXISTE OUTRO CLIENTE COM O CPF INFORMADO!";
     private static final String CLIENTE_INEXISTENTE = "CLIENTE INEXISTENTE!";
     private static final String CLIENTE_JA_CADASTRADO = "CLIENTE JÁ CADASTRADO!";
@@ -63,7 +63,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         if (!clienteDTO.getCpf().equals(cliente.getCpf())
                 && clienteRepository.existsByCpf(clienteDTO.getCpf())) {
-            throw new RegrasDeNegocioException(ALTERACAO_IMPOSSIVEL_CPF_JA_EXISTE);
+            throw new RegrasDeNegocioException(CPF_JA_EXISTE);
         }
 
         return this.alteraInformacoesCliente(cliente, clienteDTO);
