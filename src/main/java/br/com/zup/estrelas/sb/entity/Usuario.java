@@ -145,6 +145,97 @@ public class Usuario {
         this.email = email;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (ativo ? 1231 : 1237);
+        result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
+        result = prime * result + ((cep == null) ? 0 : cep.hashCode());
+        result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
+        result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+        result = prime * result + ((idUsuario == null) ? 0 : idUsuario.hashCode());
+        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+        result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
+        result = prime * result + ((tipoUsuario == null) ? 0 : tipoUsuario.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Usuario other = (Usuario) obj;
+        if (ativo != other.ativo)
+            return false;
+        if (bairro == null) {
+            if (other.bairro != null)
+                return false;
+        } else if (!bairro.equals(other.bairro))
+            return false;
+        if (cep == null) {
+            if (other.cep != null)
+                return false;
+        } else if (!cep.equals(other.cep))
+            return false;
+        if (cidade == null) {
+            if (other.cidade != null)
+                return false;
+        } else if (!cidade.equals(other.cidade))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (endereco == null) {
+            if (other.endereco != null)
+                return false;
+        } else if (!endereco.equals(other.endereco))
+            return false;
+        if (estado == null) {
+            if (other.estado != null)
+                return false;
+        } else if (!estado.equals(other.estado))
+            return false;
+        if (idUsuario == null) {
+            if (other.idUsuario != null)
+                return false;
+        } else if (!idUsuario.equals(other.idUsuario))
+            return false;
+        if (login == null) {
+            if (other.login != null)
+                return false;
+        } else if (!login.equals(other.login))
+            return false;
+        if (nome == null) {
+            if (other.nome != null)
+                return false;
+        } else if (!nome.equals(other.nome))
+            return false;
+        if (senha == null) {
+            if (other.senha != null)
+                return false;
+        } else if (!senha.equals(other.senha))
+            return false;
+        if (telefone == null) {
+            if (other.telefone != null)
+                return false;
+        } else if (!telefone.equals(other.telefone))
+            return false;
+        if (tipoUsuario != other.tipoUsuario)
+            return false;
+        return true;
+    }
+
     public boolean isAtivo() {
         return ativo;
     }
@@ -160,5 +251,7 @@ public class Usuario {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+    
+    
 
 }
