@@ -148,6 +148,8 @@ public class SalaoServiceImpl implements SalaoService {
         }
 
         formasPagamento.add(formaPagamento);
+        
+        salao.setFormasPagamento(formasPagamento);
 
         salaoRepository.save(salao);
 

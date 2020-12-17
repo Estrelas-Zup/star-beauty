@@ -20,7 +20,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     private static final String FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO =
             "FORMA DE PAGAMENTO REMOVIDA COM SUCESSO!";
     private static final String FORMA_DE_PAGAMENTO_JA_EXISTENTE =
-            "FORMA_DE_PAGAMENTO_JÁ _EXISTENTE!";
+            "FORMA DE PAGAMENTO JÁ EXISTENTE!";
     private static final String FORMA_DE_PAGAMENTO_NAO_ENCONTRADA_PELO_ID =
             "FORMA DE PAGAMENTO NÃO ENCONTRADA PELO ID ";
 
@@ -66,7 +66,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
             throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_JA_EXISTENTE);
         }
 
-        return this.midificaFormaPagamento(idFormaPagamento, alteraFormaPagamentoDTO);
+        return this.modificaFormaPagamento(idFormaPagamento, alteraFormaPagamentoDTO);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
 
         formaPagamentoRepository.deleteById(idFormaPagamento);
 
-        throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
+        return new MensagemDTO (FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
     }
 
     private FormaPagamento insereFormaPagamento(FormaPagamentoDTO formaPagamentoDTO) {
@@ -92,7 +92,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
         return formaPagamento;
     }
 
-    private FormaPagamento midificaFormaPagamento(Long idFormaPagamento,
+    private FormaPagamento modificaFormaPagamento(Long idFormaPagamento,
             FormaPagamentoDTO alteraFormaPagamentoDTO) {
 
         FormaPagamento formaPagamento = formaPagamentoRepository.findById(idFormaPagamento).get();
