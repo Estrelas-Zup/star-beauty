@@ -28,8 +28,11 @@ import br.com.zup.estrelas.sb.service.AgendamentoService;
 @Service
 public class AgendamentoServiceImpl implements AgendamentoService {
 
-    private static final String AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_EXPEDIENTE =
-            "HORÁRIO DE AGENDAMENTO DEVE SER MARCADO DENTRO DO HORÁRIO DE EXPEDIENTE!";
+    private static final String AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_INICIO =
+            "HORÁRIO DE AGENDAMENTO DEVE SER MARCADO DENTRO DO HORÁRIO DE EXPEDIENTE INICIAL!";
+
+    private static final String AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_FIM =
+            "HORÁRIO DE AGENDAMENTO DEVE SER MARCADO DENTRO DO HORÁRIO DE EXPEDIENTE FINAL!";
 
     private static final Long HORAS_MINIMAS_PARA_REAGENDAMENTO = 24L;
 
@@ -267,7 +270,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         TransacaoDTO transacaoDTO = new TransacaoDTO();
 
         transacaoDTO.setIdAgendamento(idAgendamento);
-        transacaoDTO.setNomeCliente(agendamento.getNomeCliente());
+        transacaoDTO.setNomeCliente(agendamento.getCliente().getNome());
         transacaoDTO.setValor(agendamento.getServico().getValorServico());
         transacaoDTO.setTipoPagamento(agendamento.getTipoPagamento());
 
@@ -311,7 +314,8 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                 && horaAgendamentoInicio.isBefore(funcionario.getHoraInicioExpediente())
                 || autonomo != null
                         && horaAgendamentoInicio.isBefore(autonomo.getHoraInicioExpediente())) {
-            throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_EXPEDIENTE);
+            throw new RegrasDeNegocioException(
+                    AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_INICIO);
         }
     }
 
@@ -326,7 +330,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         if (funcionario != null && horarioAgendamentoFim.isAfter(funcionario.getHoraFimExpediente())
                 || autonomo != null
                         && horarioAgendamentoFim.isAfter(autonomo.getHoraFimExpediente())) {
-            throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_EXPEDIENTE);
+            throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_FIM);
         }
     }
 }
