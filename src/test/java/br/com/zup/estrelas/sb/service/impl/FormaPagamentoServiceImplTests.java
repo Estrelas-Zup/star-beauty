@@ -115,6 +115,8 @@ public class FormaPagamentoServiceImplTests {
         Optional<FormaPagamento> formaPagamento = Optional.of(this.formaPagamentoFactory());
         
         Mockito.when(formaPagamentoRepository.existsById(1L)).thenReturn(true);
+
+        Mockito.when(formaPagamentoRepository.findById(1L)).thenReturn(formaPagamento);
         
         Assert.assertTrue(alteraFormaPagamentoDTO.getTipoPagamento().equals(formaPagamento.get().getTipoPagamento()));
         
