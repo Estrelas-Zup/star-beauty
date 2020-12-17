@@ -78,7 +78,7 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
 
         formaPagamentoRepository.deleteById(idFormaPagamento);
 
-        throw new RegrasDeNegocioException(FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
+        return new MensagemDTO (FORMA_DE_PAGAMENTO_REMOVIDA_COM_SUCESSO);
     }
 
     private FormaPagamento insereFormaPagamento(FormaPagamentoDTO formaPagamentoDTO) {
