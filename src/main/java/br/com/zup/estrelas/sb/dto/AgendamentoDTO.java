@@ -24,12 +24,6 @@ public class AgendamentoDTO {
     @NumberFormat(style = Style.NUMBER)
     private Long IdServico;
 
-    @NotNull(message = "O campo nome do cliente precisa ser preenchido.")
-    private String nomeCliente;
-
-    @NotNull(message = "O campo nome do serviço precisa ser preenchido.")
-    private String nomeServico;
-
     @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
     @FutureOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHora;
@@ -71,22 +65,6 @@ public class AgendamentoDTO {
 
     public void setIdServico(Long idServico) {
         IdServico = idServico;
-    }
-
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
-    }
-
-    public String getNomeServico() {
-        return nomeServico;
-    }
-
-    public void setNomeServico(String nomeServico) {
-        this.nomeServico = nomeServico;
     }
 
     public LocalDateTime getDataHora() {

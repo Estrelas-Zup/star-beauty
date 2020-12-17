@@ -43,12 +43,6 @@ public class Agendamento {
     @JoinColumn(name = "id_servico", foreignKey = @ForeignKey(name = "agendamentos_servico_fk"))
     private Servico servico;
 
-    @Column(name = "nome_cliente", nullable = false)
-    private String nomeCliente;
-
-    @Column(name = "nome_servico", nullable = false)
-    private String nomeServico;
-
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
 
@@ -92,22 +86,6 @@ public class Agendamento {
 
     public void setServico(Servico servico) {
         this.servico = servico;
-    }
-
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
-    }
-
-    public String getNomeServico() {
-        return nomeServico;
-    }
-
-    public void setNomeServico(String nomeServico) {
-        this.nomeServico = nomeServico;
     }
 
     public LocalDateTime getDataHora() {
