@@ -25,6 +25,34 @@ public class FormaPagamento {
         return idFormaPagamento;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((idFormaPagamento == null) ? 0 : idFormaPagamento.hashCode());
+        result = prime * result + ((tipoPagamento == null) ? 0 : tipoPagamento.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        FormaPagamento other = (FormaPagamento) obj;
+        if (idFormaPagamento == null) {
+            if (other.idFormaPagamento != null)
+                return false;
+        } else if (!idFormaPagamento.equals(other.idFormaPagamento))
+            return false;
+        if (tipoPagamento != other.tipoPagamento)
+            return false;
+        return true;
+    }
+
     public void setIdFormaPagamento(Long idFormaPagamento) {
         this.idFormaPagamento = idFormaPagamento;
     }
@@ -36,5 +64,7 @@ public class FormaPagamento {
     public void setTipoPagamento(TipoPagamento tipoPagamento) {
         this.tipoPagamento = tipoPagamento;
     }
+    
+    
 
 }
