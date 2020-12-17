@@ -49,7 +49,6 @@ public class LoginController {
                     .authenticate(new UsernamePasswordAuthenticationToken(login, senha));
         } catch (DisabledException e) {
             throw new DisabledException(USUARIO_DESABILITADO);
-
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException(CREDENCIAL_INVALIDA);
         }

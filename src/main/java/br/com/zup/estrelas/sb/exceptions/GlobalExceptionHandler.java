@@ -1,11 +1,12 @@
 package br.com.zup.estrelas.sb.exceptions;
 
 import static java.util.Objects.nonNull;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,22 +14,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import br.com.zup.estrelas.sb.dto.ErrorDTO;
+import io.jsonwebtoken.ExpiredJwtException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(RegrasDeNegocioException.class)
-    public ResponseEntity<CustomErrorMessage> handleGenericException(RegrasDeNegocioException e) {
-        CustomErrorMessage error =
-                new CustomErrorMessage("UNPROCESSABLE_ENTITY", e.getMensagemErro());
-        error.setTimestamp(LocalDateTime.now());
-        error.setStatus((HttpStatus.UNPROCESSABLE_ENTITY.value()));
-        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    public @ResponseBody ErrorDTO handleGenericException(RegrasDeNegocioException e) {
+        return new ErrorDTO(e.getMensagemErro());
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({BadCredentialsException.class, DisabledException.class,
+            IllegalArgumentException.class, ExpiredJwtException.class, 
+            AccessDeniedException.class})
+    public @ResponseBody ErrorDTO handleSecurityErrors(Exception e) {
+        return new ErrorDTO(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-
     public @ResponseBody List<ErrorDTO> handleValidationError(MethodArgumentNotValidException e) {
 
         List<ErrorDTO> errosDeValidacao = new ArrayList<>();
@@ -36,9 +42,7 @@ public class GlobalExceptionHandler {
         for (ObjectError erro : e.getBindingResult().getAllErrors()) {
 
             if (nonNull(erro.getCodes())) {
-
                 String mensagemASerExibida = erro.getDefaultMessage();
-
                 errosDeValidacao.add(new ErrorDTO(mensagemASerExibida.toString()));
             }
         }
@@ -48,12 +52,8 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-
     public @ResponseBody ErrorDTO handleGenericException(Exception e) {
-
-        ErrorDTO erro = new ErrorDTO(e.getLocalizedMessage());
-
-        return erro;
+        return new ErrorDTO(e.getLocalizedMessage());
     }
 
 }

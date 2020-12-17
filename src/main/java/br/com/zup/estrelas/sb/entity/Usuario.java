@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import br.com.zup.estrelas.sb.enums.TipoUsuario;
 
 @Entity
@@ -24,6 +26,7 @@ public class Usuario {
     private String login;
 
     @Column(nullable = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String senha;
 
     @Column(nullable = false)
