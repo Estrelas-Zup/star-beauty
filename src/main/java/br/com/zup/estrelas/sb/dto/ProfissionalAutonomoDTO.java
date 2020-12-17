@@ -69,12 +69,6 @@ public class ProfissionalAutonomoDTO {
 
     private TipoUsuario tipoUsuario;
 
-    @NotNull(message = "O campo hora de início deve ser preenchido.")
-    private LocalTime horaInicioExpediente;
-
-    @NotNull(message = "O campo hora de término deve ser preenchido.")
-    private LocalTime horaFimExpediente;
-
     public LocalTime getHoraInicioExpediente() {
         return horaInicioExpediente;
     }
@@ -193,22 +187,6 @@ public class ProfissionalAutonomoDTO {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public LocalTime getHoraInicioExpediente() {
-        return horaInicioExpediente;
-    }
-
-    public void setHoraInicioExpediente(LocalTime horaInicioExpediente) {
-        this.horaInicioExpediente = horaInicioExpediente;
-    }
-
-    public LocalTime getHoraFimExpediente() {
-        return horaFimExpediente;
-    }
-
-    public void setHoraFimExpediente(LocalTime horaFimExpediente) {
-        this.horaFimExpediente = horaFimExpediente;
     }
 
 }

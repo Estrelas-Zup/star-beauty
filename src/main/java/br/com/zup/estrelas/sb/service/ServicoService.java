@@ -17,7 +17,7 @@ public interface ServicoService {
     public Servico alteraServico(Long idServico, ServicoDTO servicoDTO)
             throws RegrasDeNegocioException;
 
-    public Servico removeServico(Long idServico)
+    public MensagemDTO removeServico(Long idServico)
             throws RegrasDeNegocioException;
 
 }

@@ -59,14 +59,9 @@ public class ServicoController {
 
     @ApiOperation(value = "Remove serviço")
     @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
-<<<<<<< HEAD
     @DeleteMapping(path = "/{idServico}/delete")
-    public Servico removeServico(@PathVariable Long idServico)
+    public MensagemDTO removeServico(@PathVariable Long idServico)
             throws RegrasDeNegocioException {
-=======
-    @DeleteMapping(path = "/{idServico}/inativa")
-    public MensagemDTO removeServico(@PathVariable Long idServico) throws RegrasDeNegocioException {
->>>>>>> 20d21aa... testes unitarios servico/autonomo
         return servicoService.removeServico(idServico);
     }
 

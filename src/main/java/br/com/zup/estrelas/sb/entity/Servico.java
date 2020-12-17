@@ -30,8 +30,11 @@ public class Servico {
     @Column(name = "tipo_servico", nullable = false)
     private TipoServico tipoServico;
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
+=======
+>>>>>>> 20d21aae01cefe805c8a055e87ed2e5567d3aac1
 
 >>>>>>> 20d21aa... testes unitarios servico/autonomo
     public Long getIdServico() {
@@ -75,7 +78,10 @@ public class Servico {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 20d21aae01cefe805c8a055e87ed2e5567d3aac1
     @Override
     public int hashCode() {
         final int prime = 31;
