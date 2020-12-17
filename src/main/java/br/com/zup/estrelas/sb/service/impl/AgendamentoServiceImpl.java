@@ -310,10 +310,13 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         int minutosAgendamento = agendamentoDTO.getDataHora().getMinute();
         LocalTime horaAgendamentoInicio = LocalTime.of(horasAgendamento, minutosAgendamento);
 
-        if (funcionario != null
-                && horaAgendamentoInicio.isBefore(funcionario.getHoraInicioExpediente())
-                || autonomo != null
-                        && horaAgendamentoInicio.isBefore(autonomo.getHoraInicioExpediente())) {
+        boolean verificaFuncionario = funcionario != null 
+                && horaAgendamentoInicio.isBefore(funcionario.getHoraInicioExpediente());
+        
+        boolean verificaAutonomo = autonomo != null
+                && horaAgendamentoInicio.isBefore(autonomo.getHoraInicioExpediente());
+        
+        if (verificaFuncionario || verificaAutonomo) {
             throw new RegrasDeNegocioException(
                     AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_INICIO);
         }
@@ -327,9 +330,13 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         int minutosAgendamentoFim = agendamentoDTO.getDataHoraFim().getMinute();
         LocalTime horarioAgendamentoFim = LocalTime.of(horasAgendamentoFim, minutosAgendamentoFim);
 
-        if (funcionario != null && horarioAgendamentoFim.isAfter(funcionario.getHoraFimExpediente())
-                || autonomo != null
-                        && horarioAgendamentoFim.isAfter(autonomo.getHoraFimExpediente())) {
+        boolean verificaFuncionario = funcionario != null 
+                && horarioAgendamentoFim.isAfter(funcionario.getHoraFimExpediente());
+        
+        boolean verificaAutonomo = autonomo != null
+                && horarioAgendamentoFim.isAfter(autonomo.getHoraFimExpediente());
+        
+        if (verificaFuncionario || verificaAutonomo) {
             throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_FIM);
         }
     }
