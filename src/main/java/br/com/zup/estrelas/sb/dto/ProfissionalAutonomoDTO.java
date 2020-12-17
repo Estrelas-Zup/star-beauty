@@ -60,14 +60,14 @@ public class ProfissionalAutonomoDTO {
     @NotBlank(message = "O campo email precisa ser preenchido.")
     @Email(message = "O e-mail informado precisa ser válido.")
     private String email;
-
-    private TipoUsuario tipoUsuario;
-
-    @NotNull(message = "O campo hora de início deve ser preenchido.")
+    
+    @NotBlank(message = "O campo inicio do expediente precisa ser preenchido.")
     private LocalTime horaInicioExpediente;
 
-    @NotNull(message = "O campo hora de término deve ser preenchido.")
+    @NotBlank(message = "O campo fim do expediente precisa ser preenchido.")
     private LocalTime horaFimExpediente;
+
+    private TipoUsuario tipoUsuario;
 
     public LocalTime getHoraInicioExpediente() {
         return horaInicioExpediente;
@@ -188,7 +188,5 @@ public class ProfissionalAutonomoDTO {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-
-
 
 }

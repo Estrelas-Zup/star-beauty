@@ -48,9 +48,9 @@ public class ProfissionalAutonomoController {
     @ApiOperation(value = "Adiciona profissional autônomo")
     @PreAuthorize("hasAuthority('autonomo')")
     @PostMapping
-    public ProfissionalAutonomo adicionaProfissionaisAutonomos(
+    public ProfissionalAutonomo insereProfissionaisAutonomos(
             @Valid @RequestBody ProfissionalAutonomoDTO profissionalAutonomoDTO) throws RegrasDeNegocioException {
-        return profissionalAutonomoService.adicionaProfissionalAutonomo(profissionalAutonomoDTO);
+        return profissionalAutonomoService.insereProfissionalAutonomo(profissionalAutonomoDTO);
     }
 
     @ApiOperation(value = "Altera profissional autônomo")
