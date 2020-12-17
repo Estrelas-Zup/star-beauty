@@ -195,25 +195,15 @@ public class SalaoServiceImplTests {
         
         FormaPagamentoDTO formaPagamentoDTO = new FormaPagamentoDTO();
         formaPagamentoDTO.setTipoPagamento(TipoPagamento.DINHEIRO);
-        
-        Optional<FormaPagamento> formaPagamento = Optional.of(this.formaPagamentoFactory());
-        
+                
         Optional<Salao> salao = Optional.of(this.salaoFactory());
         
         Mockito.when(salaoRepository.existsById(1L)).thenReturn(true);
-        
-        Mockito.when(formaPagamentoRepository.existsById(1L)).thenReturn(true);
-        
+                
         Mockito.when(salaoRepository.findById(1L)).thenReturn(salao);
-
-        Mockito.when(formaPagamentoRepository.findById(1L)).thenReturn(formaPagamento);
-        
-        Mockito.when(formasPagamento.add(formaPagamento.get())).thenReturn(true);
-
-        Mockito.when(formasPagamento.contains(formaPagamento.get())).thenReturn(false);
-        
+                        
         salao.get().setFormasPagamento(formasPagamento);
-        
+                
         Salao salaoRetornado = salaoServiceImpl.adicionaFormaPagamento(1L, formaPagamentoDTO);
         Salao salaoEsperado = new Salao();
         
@@ -287,16 +277,6 @@ public class SalaoServiceImplTests {
 
         return salao;
 
-    }
-    
-    private FormaPagamento formaPagamentoFactory() {
-        
-        FormaPagamento formaPagamento = new FormaPagamento();
-        
-        formaPagamento.setIdFormaPagamento(1L);
-        formaPagamento.setTipoPagamento(TipoPagamento.DINHEIRO);
-        
-        return formaPagamento;
     }
 
 }
