@@ -17,7 +17,7 @@ public interface ServicoService {
     public Servico alteraServico(Long idServico, ServicoDTO servicoDTO)
             throws RegrasDeNegocioException;
 
-    public Servico inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO)
+    public Servico removeServico(Long idServico)
             throws RegrasDeNegocioException;
 
 }

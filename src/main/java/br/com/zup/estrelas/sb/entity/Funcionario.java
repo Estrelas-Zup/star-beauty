@@ -144,5 +144,98 @@ public class Funcionario {
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
     }
+    
+    @Override
+    public String toString() {
+        return "Funcionario [idFuncionario=" + idFuncionario + ", nome=" + nome + ", cpf=" + cpf
+                + ", telefone=" + telefone + ", horarioAlmoco=" + horarioAlmoco
+                + ", horaInicioExpediente=" + horaInicioExpediente + ", horaFimExpediente="
+                + horaFimExpediente + ", ativo=" + ativo + ", salao=" + salao + ", servicos="
+                + servicos + ", agendamentos=" + agendamentos + "]";
+    }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((agendamentos == null) ? 0 : agendamentos.hashCode());
+        result = prime * result + (ativo ? 1231 : 1237);
+        result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+        result = prime * result + ((horaFimExpediente == null) ? 0 : horaFimExpediente.hashCode());
+        result = prime * result
+                + ((horaInicioExpediente == null) ? 0 : horaInicioExpediente.hashCode());
+        result = prime * result + ((horarioAlmoco == null) ? 0 : horarioAlmoco.hashCode());
+        result = prime * result + ((idFuncionario == null) ? 0 : idFuncionario.hashCode());
+        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        result = prime * result + ((salao == null) ? 0 : salao.hashCode());
+        result = prime * result + ((servicos == null) ? 0 : servicos.hashCode());
+        result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Funcionario other = (Funcionario) obj;
+        if (agendamentos == null) {
+            if (other.agendamentos != null)
+                return false;
+        } else if (!agendamentos.equals(other.agendamentos))
+            return false;
+        if (ativo != other.ativo)
+            return false;
+        if (cpf == null) {
+            if (other.cpf != null)
+                return false;
+        } else if (!cpf.equals(other.cpf))
+            return false;
+        if (horaFimExpediente == null) {
+            if (other.horaFimExpediente != null)
+                return false;
+        } else if (!horaFimExpediente.equals(other.horaFimExpediente))
+            return false;
+        if (horaInicioExpediente == null) {
+            if (other.horaInicioExpediente != null)
+                return false;
+        } else if (!horaInicioExpediente.equals(other.horaInicioExpediente))
+            return false;
+        if (horarioAlmoco == null) {
+            if (other.horarioAlmoco != null)
+                return false;
+        } else if (!horarioAlmoco.equals(other.horarioAlmoco))
+            return false;
+        if (idFuncionario == null) {
+            if (other.idFuncionario != null)
+                return false;
+        } else if (!idFuncionario.equals(other.idFuncionario))
+            return false;
+        if (nome == null) {
+            if (other.nome != null)
+                return false;
+        } else if (!nome.equals(other.nome))
+            return false;
+        if (salao == null) {
+            if (other.salao != null)
+                return false;
+        } else if (!salao.equals(other.salao))
+            return false;
+        if (servicos == null) {
+            if (other.servicos != null)
+                return false;
+        } else if (!servicos.equals(other.servicos))
+            return false;
+        if (telefone == null) {
+            if (other.telefone != null)
+                return false;
+        } else if (!telefone.equals(other.telefone))
+            return false;
+        return true;
+    }
+
+    
 }

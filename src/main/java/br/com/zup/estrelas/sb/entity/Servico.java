@@ -30,9 +30,6 @@ public class Servico {
     @Column(name = "tipo_servico", nullable = false)
     private TipoServico tipoServico;
     
-    @Column(nullable = false)
-    private boolean ativo;
-
     public Long getIdServico() {
         return idServico;
     }
@@ -71,14 +68,6 @@ public class Servico {
 
     public void setTipoServico(TipoServico tipoServico) {
         this.tipoServico = tipoServico;
-    }
-
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
     }
 
 }

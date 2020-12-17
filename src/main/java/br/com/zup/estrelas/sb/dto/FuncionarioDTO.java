@@ -25,22 +25,14 @@ public class FuncionarioDTO {
     @NotBlank(message = "O campo horário de almoço precisa ser preenchido.")
     private String horarioAlmoco;
 
-    @NotNull(message = "O campo id do salão precisa ser preenchido.")
-    private Long idUsuario;
-
     @NotNull(message = "O campo hora de início deve ser preenchido.")
     private LocalTime horaInicioExpediente;
 
     @NotNull(message = "O campo hora de término deve ser preenchido.")
     private LocalTime horaFimExpediente;
 
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    @NotNull(message = "O campo id do salão deve ser preenchido.")
+    private Long idSalao;
 
     public String getNome() {
         return nome;
@@ -90,5 +82,11 @@ public class FuncionarioDTO {
         this.horaFimExpediente = horaFimExpediente;
     }
 
+    public Long getIdSalao() {
+        return idSalao;
+    }
 
+    public void setIdSalao(Long idSalao) {
+        this.idSalao = idSalao;
+    }
 }
