@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,17 +61,22 @@ public class DatabaseSeeder {
 
     @Autowired
     PasswordEncoder encoder;
+    
+    @Value("${seed.database}")
+    boolean deveRodarOSeed;
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        this.seedServico();
-        this.seedFormaPagamento();
-        this.seedCliente();
-        this.seedSalao();
-        this.seedFuncionario();
-        this.seedProfissionalAutonomo();
-        this.seedAgendamentoSalao();
-        this.seedAgendamentoProfissional();
+        if (deveRodarOSeed) {
+            this.seedServico();
+            this.seedFormaPagamento();
+            this.seedCliente();
+            this.seedSalao();
+            this.seedFuncionario();
+            this.seedProfissionalAutonomo();
+            this.seedAgendamentoSalao();
+            this.seedAgendamentoProfissional();
+        }
     }
     
     public void seedServico() {
