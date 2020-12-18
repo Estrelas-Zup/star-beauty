@@ -23,5 +23,5 @@ public interface AgendamentoRepository extends CrudRepository<Agendamento, Long>
     boolean existsByAutonomoAgenda(
             Long idAutonomo, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim);
     
-    List<Agendamento> findAllByClienteId(Long clienteId);
+    List<Agendamento> findAllByClienteIdUsuario(Long clienteId);
 }
