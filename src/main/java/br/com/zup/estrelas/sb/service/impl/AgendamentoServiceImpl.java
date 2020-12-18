@@ -115,9 +115,16 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                     NÃO_É_POSSÍVEL_CRIAR_UM_AGENDAMENTO_PARA_UM_DIA_PASSADO);
         }
 
+        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
+
+        long duracaoEmMinutos = Long.parseLong(servico.getDuracao());
+        agendamentoDTO.setDataHoraFim(agendamentoDTO.getDataHora().plusMinutes(duracaoEmMinutos));
+
         if (agendamentoDTO.getDataHora().isAfter(agendamentoDTO.getDataHoraFim())) {
             throw new RegrasDeNegocioException(A_DATA_HORA_TERMINO_POSTERIOR_A_DATA_HORA_INICÍO);
         }
+
+
 
         boolean verificaDisponibilidadeFuncionario =
                 agendamentoRepository.existsByFuncionarioAgenda(agendamentoDTO.getIdFuncionario(),
@@ -132,7 +139,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         }
 
 
-        return this.criaAgendamdentoComSucesso(agendamentoDTO);
+        return this.criaAgendamdentoComSucesso(servico, agendamentoDTO);
     }
 
     @Override
@@ -184,12 +191,11 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         return new MensagemDTO(AGENDAMENTO_CANCELADO_E_EXCLUÍDO_COM_SUCESSO);
     }
 
-    private Agendamento criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO)
+    private Agendamento criaAgendamdentoComSucesso(Servico servico, AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException {
 
         Agendamento agendamento = new Agendamento();
         Cliente cliente = clienteServiceImpl.buscaClienteAutenticado();
-        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
 
         Funcionario funcionario = null;
         ProfissionalAutonomo autonomo = null;
@@ -198,8 +204,6 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         agendamento.setCliente(cliente);
         agendamento.setServico(servico);
 
-        long duracaoEmMinutos = Long.parseLong(servico.getDuracao());
-        agendamento.setDataHoraFim(agendamentoDTO.getDataHora().plusMinutes(duracaoEmMinutos));
 
         if (agendamentoDTO.getIdFuncionario() != null
                 && agendamentoDTO.getIdProfissionalAutonomo() != null) {

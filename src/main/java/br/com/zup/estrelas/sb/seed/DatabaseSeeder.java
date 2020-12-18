@@ -78,7 +78,7 @@ public class DatabaseSeeder {
         servico = new Servico();
 
         servico.setAtivo(true);
-        servico.setDuracao("2 horas");
+        servico.setDuracao("120");
         servico.setNomeServico("Depilação");
         servico.setTipoServico(TipoServico.DEPILACAO);
         servico.setValorServico(80.00);
