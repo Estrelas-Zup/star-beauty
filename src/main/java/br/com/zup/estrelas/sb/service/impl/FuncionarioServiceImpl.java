@@ -28,8 +28,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private static final String CPF_JÁ_EXISTE = "CPF JÁ EXISTE NO BANCO DE DADOS!";
     private static final String SERVICO_INEXISTENTE = "SERVIÇO INEXISTENTE!";
     private static final String NAO_FOI_POSSIVEL_ACHAR_FUNCIONARIO_PELO_ID = "NÃO FOI POSSÍVEL ACHAR O FUNIONÁRIO PELO ID  ";
-    private static final String SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO = "SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONÁRIO!";
-    
+    private static final String SERVIÇO_JÁ_EXISTENTE_NO_PERFIL_DO_FUNCIONARIO =
+            "SERVIÇO JÁ EXISTENTE NO PERFIL DO FUNCIONÁRIO!";
+
     @Autowired
     FuncionarioRepository funcionarioRepository;
 
