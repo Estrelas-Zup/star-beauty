@@ -33,7 +33,6 @@ public class AgendamentoController {
     AgendamentoService agendamentoService;
 
     @ApiOperation(value = "Busca um agendamento")
-    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @GetMapping(path = "/{idAgendamento}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Agendamento buscaAgendamento(@PathVariable Long idAgendamento)
             throws RegrasDeNegocioException {
@@ -41,7 +40,6 @@ public class AgendamentoController {
     }
 
     @ApiOperation(value = "Lista todos os agendamentos")
-    @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Agendamento> listaAgendamento() {
         return agendamentoService.listaAgendamento();

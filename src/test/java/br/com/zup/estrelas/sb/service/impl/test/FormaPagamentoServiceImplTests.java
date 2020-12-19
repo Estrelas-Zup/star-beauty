@@ -1,4 +1,4 @@
-package br.com.zup.estrelas.sb.service.impl;
+package br.com.zup.estrelas.sb.service.impl.test;
 
 import java.util.Optional;
 import org.junit.Assert;
@@ -15,6 +15,7 @@ import br.com.zup.estrelas.sb.entity.FormaPagamento;
 import br.com.zup.estrelas.sb.enums.TipoPagamento;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.FormaPagamentoRepository;
+import br.com.zup.estrelas.sb.service.impl.FormaPagamentoServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FormaPagamentoServiceImplTests {

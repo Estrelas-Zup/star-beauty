@@ -3,8 +3,7 @@ package br.com.zup.estrelas.sb.seed;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import org.springframework.beans.BeanUtils;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -84,7 +83,6 @@ public class DatabaseSeeder {
 
         servico = new Servico();
 
-        servico.setAtivo(true);
         servico.setDuracao("120");
         servico.setNomeServico("Depilação");
         servico.setTipoServico(TipoServico.DEPILACAO);

@@ -1,4 +1,4 @@
-package br.com.zup.estrelas.sb.service.impl;
+package br.com.zup.estrelas.sb.service.impl.test;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +22,7 @@ import br.com.zup.estrelas.sb.enums.TipoUsuario;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.FormaPagamentoRepository;
 import br.com.zup.estrelas.sb.repository.SalaoRepository;
+import br.com.zup.estrelas.sb.service.impl.SalaoServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SalaoServiceImplTests {
