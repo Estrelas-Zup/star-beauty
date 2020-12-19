@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(RegrasDeNegocioException.class)
     public @ResponseBody ErrorDTO handleGenericException(RegrasDeNegocioException e) {
+        e.printStackTrace();
         return new ErrorDTO(e.getMensagemErro());
     }
 
@@ -53,6 +54,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public @ResponseBody ErrorDTO handleGenericException(Exception e) {
+        e.printStackTrace() ;
         return new ErrorDTO(e.getLocalizedMessage());
     }
 

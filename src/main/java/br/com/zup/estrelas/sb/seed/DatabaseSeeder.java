@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,17 +62,22 @@ public class DatabaseSeeder {
 
     @Autowired
     PasswordEncoder encoder;
+    
+    @Value("${seed.database}")
+    boolean deveRodarOSeed;
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        this.seedServico();
-        this.seedFormaPagamento();
-        this.seedCliente();
-        this.seedSalao();
-        this.seedFuncionario();
-        this.seedProfissionalAutonomo();
-        this.seedAgendamentoSalao();
-        this.seedAgendamentoProfissional();
+        if (deveRodarOSeed) {
+            this.seedServico();
+            this.seedFormaPagamento();
+            this.seedCliente();
+            this.seedSalao();
+            this.seedFuncionario();
+            this.seedProfissionalAutonomo();
+            this.seedAgendamentoSalao();
+            this.seedAgendamentoProfissional();
+        }
     }
     
     public void seedServico() {
@@ -79,7 +85,7 @@ public class DatabaseSeeder {
         servico = new Servico();
 
         servico.setAtivo(true);
-        servico.setDuracao("2 horas");
+        servico.setDuracao("120");
         servico.setNomeServico("Depilação");
         servico.setTipoServico(TipoServico.DEPILACAO);
         servico.setValorServico(80.00);

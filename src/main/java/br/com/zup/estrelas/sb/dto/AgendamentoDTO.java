@@ -16,7 +16,6 @@ public class AgendamentoDTO {
     @NumberFormat(style = Style.NUMBER)
     private Long idProfissionalAutonomo;
 
-    @NotNull(message = "O campo nome precisa ser preenchido.")
     @NumberFormat(style = Style.NUMBER)
     private Long idCliente;
 
@@ -24,11 +23,10 @@ public class AgendamentoDTO {
     @NumberFormat(style = Style.NUMBER)
     private Long IdServico;
 
-    @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
+    @NotNull(message = "A data e hora do agendamento precisa ser preenchido.")
     @FutureOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHora;
 
-    @NotNull(message = "O data e hora do agendamento precisa ser preenchido.")
     @FutureOrPresent(message = "A data do agendamento não pode ser anterior a hoje.")
     private LocalDateTime dataHoraFim;
 

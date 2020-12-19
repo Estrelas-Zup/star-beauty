@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.zup.estrelas.sb.dto.ClienteDTO;
@@ -12,6 +13,7 @@ import br.com.zup.estrelas.sb.dto.InativaClienteDTO;
 import br.com.zup.estrelas.sb.entity.Cliente;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.repository.ClienteRepository;
+import br.com.zup.estrelas.sb.security.UsuarioDetails;
 import br.com.zup.estrelas.sb.service.ClienteService;
 
 @Service
@@ -116,5 +118,16 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.save(cliente);
 
         return cliente;
+    }
+    
+    
+    public Cliente buscaClienteAutenticado() throws RegrasDeNegocioException {
+
+        UsuarioDetails usuarioLogado = (UsuarioDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        return clienteRepository.findById(usuarioLogado.getUsuario().getIdUsuario())
+                .orElseThrow(() -> new RegrasDeNegocioException("USUÁRIO NÃO ENCONTRADO"));
+
     }
 }

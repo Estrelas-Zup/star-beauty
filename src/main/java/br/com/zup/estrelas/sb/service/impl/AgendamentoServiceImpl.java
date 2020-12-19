@@ -91,6 +91,9 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     @Autowired
     TransacaoServiceImpl transacaoServiceImpl;
 
+    @Autowired
+    ClienteServiceImpl clienteServiceImpl;
+
     @Override
     public Agendamento buscaAgendamento(Long idAgendamento) throws RegrasDeNegocioException {
         return agendamentoRepository.findById(idAgendamento)
@@ -112,9 +115,16 @@ public class AgendamentoServiceImpl implements AgendamentoService {
                     NÃO_É_POSSÍVEL_CRIAR_UM_AGENDAMENTO_PARA_UM_DIA_PASSADO);
         }
 
+        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
+
+        long duracaoEmMinutos = Long.parseLong(servico.getDuracao());
+        agendamentoDTO.setDataHoraFim(agendamentoDTO.getDataHora().plusMinutes(duracaoEmMinutos));
+
         if (agendamentoDTO.getDataHora().isAfter(agendamentoDTO.getDataHoraFim())) {
             throw new RegrasDeNegocioException(A_DATA_HORA_TERMINO_POSTERIOR_A_DATA_HORA_INICÍO);
         }
+
+
 
         boolean verificaDisponibilidadeFuncionario =
                 agendamentoRepository.existsByFuncionarioAgenda(agendamentoDTO.getIdFuncionario(),
@@ -129,7 +139,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         }
 
 
-        return this.criaAgendamdentoComSucesso(agendamentoDTO);
+        return this.criaAgendamdentoComSucesso(servico, agendamentoDTO);
     }
 
     @Override
@@ -181,12 +191,11 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         return new MensagemDTO(AGENDAMENTO_CANCELADO_E_EXCLUÍDO_COM_SUCESSO);
     }
 
-    private Agendamento criaAgendamdentoComSucesso(AgendamentoDTO agendamentoDTO)
+    private Agendamento criaAgendamdentoComSucesso(Servico servico, AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException {
 
         Agendamento agendamento = new Agendamento();
-        Cliente cliente = clienteRepository.findById(agendamentoDTO.getIdCliente()).get();
-        Servico servico = servicoRepository.findById(agendamentoDTO.getIdServico()).get();
+        Cliente cliente = clienteServiceImpl.buscaClienteAutenticado();
 
         Funcionario funcionario = null;
         ProfissionalAutonomo autonomo = null;
@@ -195,8 +204,6 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         agendamento.setCliente(cliente);
         agendamento.setServico(servico);
 
-        long duracaoEmMinutos = Long.parseLong(servico.getDuracao());
-        agendamento.setDataHoraFim(agendamentoDTO.getDataHora().plusMinutes(duracaoEmMinutos));
 
         if (agendamentoDTO.getIdFuncionario() != null
                 && agendamentoDTO.getIdProfissionalAutonomo() != null) {
@@ -310,12 +317,12 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         int minutosAgendamento = agendamentoDTO.getDataHora().getMinute();
         LocalTime horaAgendamentoInicio = LocalTime.of(horasAgendamento, minutosAgendamento);
 
-        boolean verificaFuncionario = funcionario != null 
+        boolean verificaFuncionario = funcionario != null
                 && horaAgendamentoInicio.isBefore(funcionario.getHoraInicioExpediente());
-        
+
         boolean verificaAutonomo = autonomo != null
                 && horaAgendamentoInicio.isBefore(autonomo.getHoraInicioExpediente());
-        
+
         if (verificaFuncionario || verificaAutonomo) {
             throw new RegrasDeNegocioException(
                     AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_INICIO);
@@ -330,12 +337,12 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         int minutosAgendamentoFim = agendamentoDTO.getDataHoraFim().getMinute();
         LocalTime horarioAgendamentoFim = LocalTime.of(horasAgendamentoFim, minutosAgendamentoFim);
 
-        boolean verificaFuncionario = funcionario != null 
+        boolean verificaFuncionario = funcionario != null
                 && horarioAgendamentoFim.isAfter(funcionario.getHoraFimExpediente());
-        
-        boolean verificaAutonomo = autonomo != null
-                && horarioAgendamentoFim.isAfter(autonomo.getHoraFimExpediente());
-        
+
+        boolean verificaAutonomo =
+                autonomo != null && horarioAgendamentoFim.isAfter(autonomo.getHoraFimExpediente());
+
         if (verificaFuncionario || verificaAutonomo) {
             throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_FIM);
         }

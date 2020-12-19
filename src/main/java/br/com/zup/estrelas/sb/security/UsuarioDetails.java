@@ -57,4 +57,8 @@ public class UsuarioDetails implements UserDetails {
         return usuario.isAtivo();
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
 }
