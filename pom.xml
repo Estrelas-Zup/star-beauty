@@ -87,6 +87,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
@@ -102,6 +103,8 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+=======
+>>>>>>> 8b20c26f171afc09530ad746c503d0d465b910ce
 	</dependencies>
 
 

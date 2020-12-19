@@ -1,11 +1,10 @@
 package br.com.zup.estrelas.sb.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.com.zup.estrelas.sb.dto.InativaServicoDTO;
+import br.com.zup.estrelas.sb.dto.MensagemDTO;
 import br.com.zup.estrelas.sb.dto.ServicoDTO;
 import br.com.zup.estrelas.sb.entity.Servico;
 import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
@@ -15,10 +14,11 @@ import br.com.zup.estrelas.sb.service.ServicoService;
 @Service
 public class ServicoServiceImpl implements ServicoService {
 
+    private static final String SERVIÇO_EXCLUÍDO_COM_SUCESSO = "SERVIÇO EXCLUÍDO COM SUCESSO!";
     private static final String SERVICO_NÃO_ENCONTRADO_PELO_ID = "SERVIÇO NÃO ENCONTRADO PELO ID: ";
     private static final String SERVICO_JA_CADASTRADO =
             "O CADASTRO NÃO OCORREU, POIS O SERVIÇO JÁ ESTÁ CADASTRADO!";
-    private static final String SERVICO_INEXISTENTE = "TRANSAÇÃO INEXISTENTE!";
+    private static final String SERVICO_INEXISTENTE = "SERVIÇO INEXISTENTE!";
 
     @Autowired
     ServicoRepository servicoRepository;
@@ -56,16 +56,13 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public Servico inativaServico(Long idServico, InativaServicoDTO inativaServicoDTO)
-            throws RegrasDeNegocioException {
+    public MensagemDTO removeServico(Long idServico) throws RegrasDeNegocioException {
 
-        Optional<Servico> servicoConsultado = servicoRepository.findById(idServico);
-
-        if (servicoConsultado.isEmpty()) {
+        if (!servicoRepository.existsById(idServico)) {
             throw new RegrasDeNegocioException(SERVICO_INEXISTENTE);
         }
 
-        return inativaServicoComSucesso(servicoConsultado, inativaServicoDTO);
+        return inativaServicoComSucesso(idServico);
     }
 
     private Servico alteraInformacoesServico(Long idServico, ServicoDTO servicoDTO) {
@@ -84,23 +81,17 @@ public class ServicoServiceImpl implements ServicoService {
         Servico servico = new Servico();
 
         BeanUtils.copyProperties(servicoDTO, servico);
-        servico.setAtivo(true);
 
         servicoRepository.save(servico);
 
         return servico;
     }
 
-    private Servico inativaServicoComSucesso(Optional<Servico> servicoConsultado,
-            InativaServicoDTO inativaServicoDTO) {
+    private MensagemDTO inativaServicoComSucesso(Long idServico) {
 
-        Servico servico = servicoConsultado.get();
+        servicoRepository.deleteById(idServico);
 
-        servico.setAtivo(inativaServicoDTO.isAtivo());
-
-        servicoRepository.save(servico);
-
-        return servico;
+        return new MensagemDTO(SERVIÇO_EXCLUÍDO_COM_SUCESSO);
     }
 
 }

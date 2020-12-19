@@ -59,10 +59,10 @@ public class ServicoController {
         return servicoService.alteraServico(idServico, servicoDTO);
     }
 
-    @ApiOperation(value = "Inativa serviço")
+    @ApiOperation(value = "Remove serviço")
     @PreAuthorize("hasAuthority('salao') or hasAuthority('autonomo')")
     @DeleteMapping(path = "/{idServico}/delete")
-    public Servico removeServico(@PathVariable Long idServico)
+    public MensagemDTO removeServico(@PathVariable Long idServico)
             throws RegrasDeNegocioException {
         return servicoService.removeServico(idServico);
     }

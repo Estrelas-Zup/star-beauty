@@ -9,4 +9,6 @@ public interface ServicoRepository extends CrudRepository<Servico, Long> {
 
     boolean existsByNomeServico(String nomeServico);
 
+    Servico findByNomeServico(String nomeServico);
+
 }
