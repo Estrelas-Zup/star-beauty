@@ -1,0 +1,1330 @@
+{
+	"info": {
+		"_postman_id": "4448cd7b-e104-49d0-8167-3511ed8b974f",
+		"name": "Star-Beauty Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "buscaCliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/clientes/:idCliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								":idCliente"
+							],
+							"variable": [
+								{
+									"key": "idCliente",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaClientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereCliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"Grazy@mail.com\",\r\n    \"senha\": \"katsu!@#$\",\r\n    \"nome\": \"Grazi\",\r\n    \"endereco\": \"Avenida Bernardo Sayão, 587\",\r\n    \"cep\": \"77825-000\",\r\n    \"estado\": \"Tocantins\",\r\n    \"cidade\": \"Araguaína\",\r\n    \"bairro\": \"Residencial Belchior\",\r\n    \"telefone\": \"17989632548\",\r\n    \"email\": \"Grazi.lima@mail.com\",\r\n    \"cpf\": \"32853943070\",\r\n    \"dataNascimento\": \"1988-08-11\",\r\n    \"tipoUsuario\": \"CLIENTE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraCliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"Cris@mail.com\",\r\n    \"senha\": \"pots!@#$\",\r\n    \"nome\": \"Cristiano\",\r\n    \"endereco\": \"Rua José Goulart Pereira, 422\",\r\n    \"cep\": \"79640-050\",\r\n    \"estado\": \"Mato Grosso Do Sul\",\r\n    \"cidade\": \"Três Lagoas\",\r\n    \"bairro\": \"Interlagos\",\r\n    \"telefone\": \"19983792017\",\r\n    \"email\": \"Cris.lima@mail.com\",\r\n    \"cpf\": \"47381574004\",\r\n    \"dataNascimento\": \"1979-04-01\",\r\n    \"tipoUsuario\": \"CLIENTE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/:idCliente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								":idCliente"
+							],
+							"variable": [
+								{
+									"key": "idCliente",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inativaCliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clientes/:idCliente/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clientes",
+								":idCliente",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idCliente",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Salao",
+			"item": [
+				{
+					"name": "buscaSalao",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes/:idSalao",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaSalao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/saloes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereSalao",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"login\": \"CristianoSantos@mail.com\",\r\n\"senha\": \"5fsfdf44564d\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"Rua Iluminismo, 021\",\r\n\"cep\": \"68907-250\",\r\n\"estado\": \"Amapá\",\r\n\"cidade\": \"Macapá\",\r\n\"bairro\": \"Renascer\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"CristianoSantos@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"96.692.896/0001-96\",\r\n\"nomeFantasia\": \"STAR-BEAUTY-CRIS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraSalao",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"login\": \"CristianoSantos@mail.com\",\r\n\"senha\": \"5fsfdf44564d\",\r\n\"nome\": \"SALAO\",\r\n\"endereco\": \"Rua Iluminismo, 512\",\r\n\"cep\": \"68907-250\",\r\n\"estado\": \"Amapá\",\r\n\"cidade\": \"Macapá\",\r\n\"bairro\": \"Renascer\",\r\n\"telefone\": \"19983792017\",\r\n\"email\": \"CristianoSantos@mail.com\",\r\n\"tipoUsuario\": \"SALAO\",\r\n\"cnpj\": \"96.692.896/0001-96\",\r\n\"nomeFantasia\": \"STAR-BEAUTY-DATE-TIME\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes/:idSalao",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inativaSalao",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes/:idSalao/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaFormasPagamento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoPagamento\": \"DINHEIRO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/saloes/:idSalao/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"saloes",
+								":idSalao",
+								"pagamentos"
+							],
+							"variable": [
+								{
+									"key": "idSalao",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Autonomo",
+			"item": [
+				{
+					"name": "buscaAutonomo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/autonomos/:idAutonomo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaAutonomo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/autonomos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereAutonomo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"Lima.Elias@mail.com\",\r\n    \"senha\": \"854684ddgsfdu\",\r\n    \"nome\": \"Elias\",\r\n    \"endereco\": \"Avenida Fernando Paolieri, 462\",\r\n    \"cep\": \"13056-015\",\r\n    \"estado\": \"São Paulo\",\r\n    \"cidade\": \"Campinas\",\r\n    \"bairro\": \"Campo Grande\",\r\n    \"telefone\": \"11986478521\",\r\n    \"email\": \"Lima.Elias@mail.com\",\r\n    \"cpf\": \"901.718.830-80\",\r\n    \"dataNascimento\": \"1998-10-12\",\r\n    \"tipoUsuario\": \"AUTONOMO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/autonomos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraAutonomo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"Lima.Elias@mail.com\",\r\n    \"senha\": \"854684ddgsfdu\",\r\n    \"nome\": \"Elias\",\r\n    \"endereco\": \"Avenida Fernando Paolieri, 462\",\r\n    \"cep\": \"13056-015\",\r\n    \"estado\": \"São Paulo\",\r\n    \"cidade\": \"Campinas\",\r\n    \"bairro\": \"Campo Grande\",\r\n    \"telefone\": \"19983792017\",\r\n    \"email\": \"Lima.Elias@mail.com\",\r\n    \"cpf\": \"901.718.830-80\",\r\n    \"dataNascimento\": \"1998-10-12\",\r\n    \"tipoUsuario\": \"AUTONOMO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/autonomos/:idAutonomo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inativaAutonomo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/autonomos/:idAutonomo/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaServicoAutonomo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idServico\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/autonomos/:idAutonomo/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo",
+								"servicos"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaPagamentoAutonomo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoPagamento\": \"PIX\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/autonomos/:idAutonomo/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autonomos",
+								":idAutonomo",
+								"pagamentos"
+							],
+							"variable": [
+								{
+									"key": "idAutonomo",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Funcionario",
+			"item": [
+				{
+					"name": "buscaFuncionario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaFuncionario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/funcionarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereFuncionario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"nome\": \"José\",\r\n\"telefone\": \"35999258793\",\r\n\"cpf\": \"823.172.450-84\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idUsuario\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/funcionarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraFuncionario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"nome\": \"José\",\r\n\"telefone\": \"31998654789\",\r\n\"cpf\": \"823.172.450-84\",\r\n\"horarioAlmoco\": \"12h às 13h\",\r\n\"idUsuario\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adicionaServicoFuncionario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idServico\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario",
+								"servicos"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inativaFuncionario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/funcionarios/:idFuncionario/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"funcionarios",
+								":idFuncionario",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idFuncionario",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Agendamento",
+			"item": [
+				{
+					"name": "buscaAgendamento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaAgendamento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/agendamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereAgendamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idFuncionario\": \"3\",\r\n    \"idProfissionalAltonomo\": \"\",\r\n    \"idCliente\": \"1\",\r\n    \"idServico\": \"4\",\r\n    \"nomeCliente\": \"Elias\",\r\n    \"nomeServico\": \"Depilação\",\r\n    \"dataHora\": \"2020-02-12T15:00:00\",\r\n    \"dataHoraFim\": \"2020-02-12T16:00:00\",\r\n    \"formaPagamento\": \"DINHEIRO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/agendamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraAgendamento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalizaAgendamento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelaAgendamento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/agendamentos/:idAgendamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agendamentos",
+								":idAgendamento"
+							],
+							"variable": [
+								{
+									"key": "idAgendamento",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Servico",
+			"item": [
+				{
+					"name": "buscaServico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/servicos/:idServico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos",
+								":idServico"
+							],
+							"variable": [
+								{
+									"key": "idServico",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaServico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereServico",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeServico\": \"Massagem\",\r\n    \"duracao\": \"60\",\r\n    \"valorServico\": \"400\",\r\n    \"tipoServico\": \"OUTROS\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/servicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraServico",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeServico\": \"Massagem\",\r\n    \"duracao\": \"60\",\r\n    \"valorServico\": \"400\",\r\n    \"tipoServico\": \"ESTETICA\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/servicos/:idServico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos",
+								":idServico"
+							],
+							"variable": [
+								{
+									"key": "idServico",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inativaSalão",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ativo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/servicos/:idServico/inativa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicos",
+								":idServico",
+								"inativa"
+							],
+							"variable": [
+								{
+									"key": "idServico",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Transacao",
+			"item": [
+				{
+					"name": "buscaTransacao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transacoes/:idTransacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes",
+								":idTransacoes"
+							],
+							"variable": [
+								{
+									"key": "idTransacoes",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaTransacao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insereTransacao",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraTransacao",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idAgendamento\": \"\",\r\n    \"valor\": \"\",\r\n    \"formaPagamento\": \"\",\r\n    \"nomeCliente\": \"\",\r\n    \"nomeSalao\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transacoes/:idTransacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes",
+								":idTransacoes"
+							],
+							"variable": [
+								{
+									"key": "idTransacoes",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeTransacao",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transacoes/:idTransacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transacoes",
+								":idTransacoes"
+							],
+							"variable": [
+								{
+									"key": "idTransacoes",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "FormaPagamento",
+			"item": [
+				{
+					"name": "buscaPagamento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pagamentos/:idFormaPagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos",
+								":idFormaPagamento"
+							],
+							"variable": [
+								{
+									"key": "idFormaPagamento",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaPagamento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inserePagamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoPagamento\": \"CARTAO_CREDITO_MASTERCARD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/pagamentos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alteraPagamento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pagamentos/:idFormaPagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos",
+								":idFormaPagamento"
+							],
+							"variable": [
+								{
+									"key": "idFormaPagamento",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removePagamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pagamentos/:idFormaPagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamentos",
+								":idFormaPagamento"
+							],
+							"variable": [
+								{
+									"key": "idFormaPagamento",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
