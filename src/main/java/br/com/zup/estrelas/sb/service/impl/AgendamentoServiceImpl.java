@@ -107,6 +107,14 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
+    public List<Agendamento> listaAgendamentosPorId() throws RegrasDeNegocioException {
+
+        Cliente cliente = clienteServiceImpl.buscaClienteAutenticado();
+
+        return agendamentoRepository.findAllByClienteIdUsuario(cliente.getIdUsuario());
+    }
+
+    @Override
     public Agendamento criaAgendamento(AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException {
 
@@ -346,5 +354,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         if (verificaFuncionario || verificaAutonomo) {
             throw new RegrasDeNegocioException(AGENDAMENTO_DEVE_SER_MARCADO_DENTRO_DO_HORARIO_FIM);
         }
+
     }
+
 }

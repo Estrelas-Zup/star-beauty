@@ -25,7 +25,7 @@ import br.com.zup.estrelas.sb.service.AgendamentoService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@CrossOrigin 
+@CrossOrigin
 @RequestMapping("/agendamentos")
 public class AgendamentoController {
 
@@ -43,6 +43,12 @@ public class AgendamentoController {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Agendamento> listaAgendamento() {
         return agendamentoService.listaAgendamento();
+    }
+
+    @ApiOperation(value = "Lista agendamentos de um usuario")
+    @GetMapping(path = "/meus-agendamentos", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<Agendamento> listaAgendamentosPorId() throws RegrasDeNegocioException {
+        return agendamentoService.listaAgendamentosPorId();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -78,4 +84,5 @@ public class AgendamentoController {
             throws RegrasDeNegocioException {
         return agendamentoService.deletaAgendamento(idAgendamento);
     }
+
 }

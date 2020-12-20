@@ -12,6 +12,8 @@ public interface AgendamentoService {
     public Agendamento buscaAgendamento(Long idAgendamento) throws RegrasDeNegocioException;
 
     public List<Agendamento> listaAgendamento();
+    
+    public List<Agendamento> listaAgendamentosPorId() throws RegrasDeNegocioException;
 
     public Agendamento criaAgendamento(AgendamentoDTO agendamentoDTO)
             throws RegrasDeNegocioException;
