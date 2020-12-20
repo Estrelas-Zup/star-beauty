@@ -10,6 +10,9 @@ A aplicação consiste em uma plataforma de gerenciamento e delivery de serviço
 ## Documentação 
 [Swagger](https://star-beauty.herokuapp.com/swagger-ui.html#)
 
+## UML
+![](https://github.com/Estrelas-Zup/star-beauty/blob/main/Diagrama%20De%20Classes%20Sal%C3%A3o%20(1).png)
+
 # Tecnologias utilizadas
 ## Back end
 - Java
