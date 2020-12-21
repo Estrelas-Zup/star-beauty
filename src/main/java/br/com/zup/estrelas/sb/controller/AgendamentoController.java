@@ -24,8 +24,8 @@ import br.com.zup.estrelas.sb.exceptions.RegrasDeNegocioException;
 import br.com.zup.estrelas.sb.service.AgendamentoService;
 import io.swagger.annotations.ApiOperation;
 
-@RestController
 @CrossOrigin
+@RestController
 @RequestMapping("/agendamentos")
 public class AgendamentoController {
 
